@@ -17,7 +17,7 @@ public class WorldPixel extends EnvironmentObject{
 		m_id = id;
 		m_diggable = false;
 		m_empty = false;
-		m_climbable = false;
+		m_climbable = true;
 		m_entry = false;
 		m_exit = false;
 		Type type = Type.valueOf(value);
@@ -28,15 +28,15 @@ public class WorldPixel extends EnvironmentObject{
 				break;
 			case empty:
 				m_empty = true;
-				break;
-			case climb : 
-				m_climbable = true;
+				m_climbable = false;
 				break;
 			case entry : 
 				m_entry = true;
+				m_climbable = false;
 				break;
 			case exit : 
 				m_exit = true;
+				m_climbable = false;
 				break;
 			default : 
 				break;
