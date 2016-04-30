@@ -12,7 +12,5 @@
 hs_err_pid*
 
 #hidden files
-.classpath
-.project
 .settings/
 .lock
