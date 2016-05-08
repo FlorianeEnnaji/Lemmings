@@ -6,6 +6,10 @@ public class Environment {
 	int height = 0;
 	int width = 0;
 	
+	Color m_lightBrown = new Color(205,133,63);
+	Color m_yellow = new Color(255,218,57);
+	Color m_brown = new Color(153,102,51);
+	
 	EnvironmentObject[][] m_world;
 	
 	public Environment(){
@@ -27,9 +31,15 @@ public class Environment {
 		    {
 		        int color = image.getRGB(xPixel, yPixel);
 		        if (color==Color.BLACK.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("ground", id);
-		        } else {
 		            m_world[xPixel][yPixel] = new WorldPixel("empty", id);
+		        } else if (color==m_lightBrown.getRGB()) {
+		            m_world[xPixel][yPixel] = new WorldPixel("dig", id);
+		        } else if (color==m_yellow.getRGB()) {
+		            m_world[xPixel][yPixel] = new WorldPixel("entry", id);
+		        } else if (color==Color.WHITE.getRGB()) {
+		            m_world[xPixel][yPixel] = new WorldPixel("exit", id);
+		        } else if (color==m_brown.getRGB()) {
+		            m_world[xPixel][yPixel] = new WorldPixel("ground", id);
 		        }
 		        id++;
 		    }
