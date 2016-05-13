@@ -1,3 +1,4 @@
+package fr.utbm.vi51.lemmings.model;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 

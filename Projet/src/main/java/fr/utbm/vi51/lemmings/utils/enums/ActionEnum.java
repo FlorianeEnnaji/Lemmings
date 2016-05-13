@@ -1,5 +1,6 @@
+package fr.utbm.vi51.lemmings.utils.enums;
 
-public enum Actions {
+public enum ActionEnum {
 	
 	//Action Enumeration
 	WALK_EAST("walk","east",-1),
@@ -19,13 +20,13 @@ public enum Actions {
 	private final int reward;
 	
 	//Constructors
-	Actions(String name, String dir, int rew){
+	ActionEnum(String name, String dir, int rew){
 		this.actionName=name;
 		this.direction=dir;
 		this.reward=rew;
 	}
 	
-	Actions(String name,int rew){
+	ActionEnum(String name,int rew){
 		this.actionName=name;
 		this.direction="";
 		this.reward=rew;
