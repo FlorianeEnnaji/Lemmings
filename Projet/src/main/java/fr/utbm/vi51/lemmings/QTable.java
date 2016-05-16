@@ -1,4 +1,7 @@
+package fr.utbm.vi51.lemmings;
 import java.util.ArrayList;
+
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 
 public class QTable {
 	
@@ -11,7 +14,7 @@ public class QTable {
 	}
 	
 	public void AddState(int[] s){
-		int[] tmp= new int[Actions.values().length];
+		int[] tmp= new int[ActionEnum.values().length];
 		this.state.add(s);
 		this.coef.add(tmp);		
 	}
@@ -28,7 +31,7 @@ public class QTable {
 		}
 	}
 
-	public void UpdateCoef(int[] s, Actions a){
+	public void UpdateCoef(int[] s, ActionEnum a){
 		int[] tmp=this.coef.get(this.state.indexOf(s));
 		if (!this.StateAlreadyVisit(s)){
 			this.AddState(s);

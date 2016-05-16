@@ -1,8 +1,11 @@
+package fr.utbm.vi51.lemmings;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import fr.utbm.vi51.lemmings.model.Environment;
 
 public class Game {
 

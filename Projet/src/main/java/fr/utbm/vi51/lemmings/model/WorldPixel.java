@@ -1,5 +1,4 @@
-
-
+package fr.utbm.vi51.lemmings.model;
 public class WorldPixel extends EnvironmentObject{
 	
 	private int m_id;
