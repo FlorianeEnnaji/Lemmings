@@ -58,6 +58,7 @@ public class WorldPixel extends EnvironmentObject{
 	public boolean isEmpty() {
 		return m_empty;
 	}
+	
 	public void setEmpty(){
 		this.m_climbable = false;
 		this.m_diggable = false;
