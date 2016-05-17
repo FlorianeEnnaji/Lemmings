@@ -33,6 +33,11 @@ public class Environment {
 			for (int xPixel = 0; xPixel < width; xPixel++)
 		    {
 		        int color = image.getRGB(xPixel, yPixel);
+		        /* int alpha = (color >> 24) & 0xFF;
+		        int red =   (color >> 16) & 0xFF;
+		        int green = (color >>  8) & 0xFF;
+		        int blue =  (color      ) & 0xFF;
+		        System.out.println(alpha + " " + red + " " + green + " " + blue); */
 		        if (color==Color.BLACK.getRGB()) {
 		            m_world[xPixel][yPixel] = new WorldPixel("empty", id);
 		        } else if (color==m_lightBrown.getRGB()) {
@@ -55,16 +60,16 @@ public class Environment {
 			System.out.print(i);
 			for (int j = 0; j < width; j++)
 		    {
-				WorldPixel pixel = (WorldPixel) m_world[i][j];
+				WorldPixel pixel = (WorldPixel) m_world[j][i];
 				
 				if (pixel.isEmpty()) {
-					System.out.print(" O");
+					System.out.print(" #");
 				} else if (pixel.isDiggable()) {
-					System.out.print(" ..");
+					System.out.print(" .");
 				} else if (pixel.isEntry()) {
 					System.out.print(" X");
 				} else if (pixel.isExit()){
-					System.out.print(" []");
+					System.out.print(" O");
 				} else {
 					System.out.print(" _");
 				}

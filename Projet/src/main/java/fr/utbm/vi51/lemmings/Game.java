@@ -11,7 +11,7 @@ public class Game {
 
 	public static void main(String[] args) throws IOException {
 		try{
-			File file = new File("./src/img/sample.bmp");
+			File file = new File("./src/img/sample2.bmp");
 			BufferedImage image = ImageIO.read(file);
 			Environment env = new Environment(image);
 		}
