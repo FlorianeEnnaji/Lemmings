@@ -1,21 +1,29 @@
 package fr.utbm.vi51.lemmings.model;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.util.List;
+
+import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class Environment {
 
-	int height = 0;
-	int width = 0;
+	/** Matrix of pixels */
+	private EnvironmentObject[][] m_world;
 	
-	Color m_lightBrown = new Color(205,133,63);
-	Color m_yellow = new Color(255,218,57);
-	Color m_brown = new Color(153,102,51);
+	/** Height and width of the world */
+	private int m_height = 0;
+	private int m_width = 0;
 	
-	EnvironmentObject[][] m_world;
+	/** Color of pixels of the world */
+	private Color m_lightBrown = new Color(205,133,63);
+	private Color m_yellow = new Color(255,218,57);
+	private Color m_brown = new Color(153,102,51);
 	
+	/** Constructors */
 	public Environment(){
-		m_world = new EnvironmentObject[width][height];
-		
+		m_world = new EnvironmentObject[m_width][m_height];	
 	}
 	
 	public Environment(BufferedImage image){
@@ -23,14 +31,16 @@ public class Environment {
 		printEnvironment();
 	}
 	
+	/** World initializing */
 	private void initializeWorld (BufferedImage image){
 		int id = 0;
-		width = image.getWidth();
-		height = image.getHeight();
-		m_world = new EnvironmentObject[width][height];
-		for (int yPixel = 0; yPixel < height; yPixel++)
+		m_width = image.getWidth();
+		m_height = image.getHeight();
+		m_world = new EnvironmentObject[m_width][m_height];
+		
+		for (int yPixel = 0; yPixel < m_height; yPixel++)
 		{
-			for (int xPixel = 0; xPixel < width; xPixel++)
+			for (int xPixel = 0; xPixel < m_width; xPixel++)
 		    {
 		        int color = image.getRGB(xPixel, yPixel);
 		        /* int alpha = (color >> 24) & 0xFF;
@@ -55,10 +65,10 @@ public class Environment {
 	}
 	
 	public void printEnvironment(){
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < m_height; i++)
 		{
 			System.out.print(i);
-			for (int j = 0; j < width; j++)
+			for (int j = 0; j < m_width; j++)
 		    {
 				WorldPixel pixel = (WorldPixel) m_world[j][i];
 				
@@ -75,6 +85,60 @@ public class Environment {
 				}
 		    }
 			System.out.println();
+		}
+	}
+	
+	public int getWidth() {
+		return this.m_width;
+	}
+	
+	public int getHeight() {
+		return this.m_height;
+	}
+	
+	/** Return the position of the body */
+	private Point getPosition(Body body) {
+		for(int x=0; x< m_width; x++) {
+			for(int y=0; y< m_height; y++) {
+				if (m_world[x][y] == body) {
+					return new Point(x,y);
+				}
+			}
+		}
+		return null;
+	}
+	
+	/** Return the perception of the body */
+	public List<PerceivableObject> perceive(LemmingBody body) {
+		List<PerceivableObject> list = new LinkedList<PerceivableObject>();
+		Point position = getPosition(body);
+		if (position!=null) {
+			/* Get all objects present in perception field */
+			int upDist = 1;
+			int downDist = 4;
+			int leftDist = 1;
+			int rightDist = 1;
+			
+			// 4 directions
+			MoveDirection[] directions = MoveDirection.values();
+
+			int x, y;
+			PerceivableObject perception;
+			// TODO
+		}
+
+		return list;
+	}
+
+	public void move(Body body, MoveDirection direction) {
+		Point position = getPosition(body);
+		if (position != null) {
+			int x = position.x + direction.getXMove();
+			int y = position.y + direction.getYMove();
+
+			if ((x!=position.x || y!=position.y) && x>=0 && x<this.m_width && y>=0 && y<this.m_height) {
+				// TODO
+			}
 		}
 	}
 	

@@ -1,5 +1,5 @@
 package fr.utbm.vi51.lemmings.model;
-public class WorldPixel extends EnvironmentObject{
+public class WorldPixel implements EnvironmentObject{
 	
 	private int m_id;
 	private boolean m_diggable;
