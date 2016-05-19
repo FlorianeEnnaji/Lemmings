@@ -10,7 +10,7 @@ import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 public class Environment {
 
 	/** Matrix of pixels */
-	private EnvironmentObject[][] m_world;
+	private WorldPixel[][] m_world;
 	
 	/** Height and width of the world */
 	private int m_height = 0;
@@ -23,7 +23,7 @@ public class Environment {
 	
 	/** Constructors */
 	public Environment(){
-		m_world = new EnvironmentObject[m_width][m_height];	
+		m_world = new WorldPixel[m_width][m_height];	
 	}
 	
 	public Environment(BufferedImage image){
@@ -36,7 +36,7 @@ public class Environment {
 		int id = 0;
 		m_width = image.getWidth();
 		m_height = image.getHeight();
-		m_world = new EnvironmentObject[m_width][m_height];
+		m_world = new WorldPixel[m_width][m_height];
 		
 		for (int yPixel = 0; yPixel < m_height; yPixel++)
 		{
@@ -96,48 +96,44 @@ public class Environment {
 		return this.m_height;
 	}
 	
-	/** Return the position of the body */
-	private Point getPosition(Body body) {
-		for(int x=0; x< m_width; x++) {
-			for(int y=0; y< m_height; y++) {
-				if (m_world[x][y] == body) {
-					return new Point(x,y);
-				}
-			}
-		}
-		return null;
-	}
-	
+		
 	/** Return the perception of the body */
-	public List<PerceivableObject> perceive(LemmingBody body) {
+	public List<PerceivableObject> getPerception(LemmingBody body) {
 		List<PerceivableObject> list = new LinkedList<PerceivableObject>();
-		Point position = getPosition(body);
+		Point position = body.getPosition();
 		if (position!=null) {
 			/* Get all objects present in perception field */
-			int upDist = 1;
-			int downDist = 4;
-			int leftDist = 1;
-			int rightDist = 1;
-			
-			// 4 directions
-			MoveDirection[] directions = MoveDirection.values();
-
-			int x, y;
 			PerceivableObject perception;
-			// TODO
+			for (int i = position.x-1;i <= position.x + 1; i++){
+				if (i >= 0 && i < m_width){
+					for (int j = position.y-1;j <= position.y + 1; j++){
+						if (j >= 0 && j < m_height){
+							WorldPixel pixel = m_world[i][j];
+							perception = new PerceivableObject(new Point(i, j), 
+									pixel.isDiggable(), pixel.isEmpty(), 
+									pixel.isClimbable(), pixel.isEntry(), 
+									pixel.isExit());
+							list.add(perception);
+						}
+					}	
+				}	
+			}
 		}
 
 		return list;
 	}
 
 	public void move(Body body, MoveDirection direction) {
-		Point position = getPosition(body);
+		Point position = body.getPosition();
+		body.setDirection(direction);
+		
 		if (position != null) {
-			int x = position.x + direction.getXMove();
-			int y = position.y + direction.getYMove();
+			Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 
-			if ((x!=position.x || y!=position.y) && x>=0 && x<this.m_width && y>=0 && y<this.m_height) {
-				// TODO
+			if ((pos.x != position.x || pos.y != position.y) 
+					&& pos.x >= 0 && pos.x < this.m_width 
+					&& pos.y >= 0 && pos.y < this.m_height) {
+				body.setPosition(new Point(pos.x, pos.y));
 			}
 		}
 	}
