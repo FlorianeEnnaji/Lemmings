@@ -98,7 +98,7 @@ public class Environment {
 	
 		
 	/** Return the perception of the body */
-	public List<PerceivableObject> getPerception(LemmingBody body) {
+	public List<PerceivableObject> getPerception(Body body) {
 		List<PerceivableObject> list = new LinkedList<PerceivableObject>();
 		Point position = body.getPosition();
 		if (position!=null) {

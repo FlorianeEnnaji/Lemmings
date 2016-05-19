@@ -6,8 +6,8 @@ import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class LemmingBody extends Body {
 
-	public LemmingBody(MoveDirection dir, Point position) {
-		super(dir, position);
+	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
+		super(environment, direction, position);
 		// TODO Auto-generated constructor stub
 	}
 
