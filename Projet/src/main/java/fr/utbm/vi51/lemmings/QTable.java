@@ -31,12 +31,12 @@ public class QTable {
 		}
 	}
 
-	public void UpdateCoef(int[] s, ActionEnum a){
+	public void UpdateCoef(int[] s, ActionEnum a, int reward){
 		int[] tmp=this.coef.get(this.state.indexOf(s));
 		if (!this.StateAlreadyVisit(s)){
 			this.AddState(s);
 		}
-		tmp[a.ordinal()]=tmp[a.ordinal()]+a.getYourReward();
+		tmp[a.ordinal()]=(tmp[a.ordinal()]+ reward)/2;
 		this.coef.set(this.state.indexOf(s), tmp);
 	}
 }
