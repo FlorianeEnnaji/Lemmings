@@ -4,7 +4,6 @@ public enum ActionEnum {
 	
 	//Action Enumeration
 	WALK_EAST("walk",MoveDirection.right,-1),
-	WALK_SOUTH("walk",MoveDirection.down,-1),
 	WALK_WEST("walk",MoveDirection.left,-2),
 	DIG_EAST("dig",MoveDirection.right,-2),
 	DIG_SOUTH("dig",MoveDirection.down,-2),

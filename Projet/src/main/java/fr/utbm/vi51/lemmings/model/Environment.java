@@ -119,7 +119,6 @@ public class Environment {
 				}	
 			}
 		}
-
 		return list;
 	}
 
@@ -136,6 +135,18 @@ public class Environment {
 				body.setPosition(new Point(pos.x, pos.y));
 			}
 		}
+	}
+	
+	public void dig (MoveDirection direction){
+		//TODO
+	}
+	
+	public void climb (){
+		//TODO
+	}
+	
+	public void jump (){
+		//TODO
 	}
 	
 }
