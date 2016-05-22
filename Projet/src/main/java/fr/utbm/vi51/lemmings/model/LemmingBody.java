@@ -64,4 +64,8 @@ public class LemmingBody extends Body {
 		e.jump();
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

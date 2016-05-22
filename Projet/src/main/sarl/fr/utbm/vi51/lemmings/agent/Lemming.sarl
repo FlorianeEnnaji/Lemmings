@@ -1,3 +1,5 @@
+package fr.utbm.vi51.lemmings.^agent
+
 agent Lemming {
 	
 }

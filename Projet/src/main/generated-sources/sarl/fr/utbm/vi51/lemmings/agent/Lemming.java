@@ -1,3 +1,5 @@
+package fr.utbm.vi51.lemmings.agent;
+
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
