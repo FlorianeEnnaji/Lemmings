@@ -11,8 +11,8 @@ public class ActionInfluence extends Influence {
 	private static final long serialVersionUID = 1L;
 	private final ActionEnum action;
 
-	protected ActionInfluence(ActionEnum act, UUID influencedObject) {
-		super(influencedObject);
+	public ActionInfluence(ActionEnum act) {
+		super(null);
 		// TODO Auto-generated constructor stub
 		this.action=act;
 	}
