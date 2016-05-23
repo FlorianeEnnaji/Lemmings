@@ -10,7 +10,8 @@ public enum ActionEnum {
 	DIG_WEST("dig",MoveDirection.left,-3),
 	CLIMB("climb",MoveDirection.up,-3),
 	JUMP("jump",MoveDirection.down,-4),
-	KILL_HIMSELF("kill",-10);
+	KILL_HIMSELF("kill",-10),
+	NOTHING("nothing",0);
 
 	//Att
 	private final String actionName;
