@@ -123,7 +123,7 @@ public class Environment {
 	}
 
 	public void move(Body body, MoveDirection direction) {
-		//TODO change to ensure that lemmings can reach the given direction and manage the death 
+		//TODO change to ensure that lemmings can reach the given direction and manage the death and the end (the lemming is arrived)
 		Point position = body.getPosition();
 		body.setDirection(direction);
 		
