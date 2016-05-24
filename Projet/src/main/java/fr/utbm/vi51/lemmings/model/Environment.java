@@ -123,6 +123,7 @@ public class Environment {
 	}
 
 	public void move(Body body, MoveDirection direction) {
+		//TODO change to ensure that lemmings can reach the given direction and manage the death 
 		Point position = body.getPosition();
 		body.setDirection(direction);
 		
@@ -138,15 +139,15 @@ public class Environment {
 	}
 	
 	public void dig (MoveDirection direction){
-		//TODO
+		//TODO the function that remove the block in the chosen direction
 	}
 	
-	public void climb (){
-		//TODO
+	public void climb (Body body){
+		//TODO the function that allow lemmings to climb a cliff 
 	}
 	
-	public void jump (){
-		//TODO
+	public void jump (Body body){
+		//TODO the function that allow lemmings to fall from a high cliff
 	}
 	
 }

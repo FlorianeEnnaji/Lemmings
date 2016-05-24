@@ -56,12 +56,12 @@ public class LemmingBody extends Body {
 	
 	public void climb (){
 		Environment e = getEnvironment();
-		e.climb();
+		e.climb(this);
 	}
 	
 	public void jump (){
 		Environment e = getEnvironment();
-		e.jump();
+		e.jump(this);
 	}
 
 	public static long getSerialversionuid() {
