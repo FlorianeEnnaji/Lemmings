@@ -142,12 +142,67 @@ public class Environment {
 		//TODO the function that remove the block in the chosen direction
 	}
 	
+	/*
+	 * Function that moves the lemming
+	 * if he can climb the pixel in his direction,
+	 * or if he is climbing, carry on or land safely
+	 */
 	public void climb (Body body){
-		//TODO the function that allow lemmings to climb a cliff 
+		Point position = body.getPosition();
+		MoveDirection direction = body.getDirection();
+		Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		
+		if (position != null & climbablePosition != null) {
+			if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
+				//Start of the climbing
+				body.setPosition(new Point(position.x, position.y + MoveDirection.up.getYMove()));
+				body.setIsClimbing(true);
+			} else if (body.isClimbing()) {
+				if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
+					m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
+					//Mid steps of climbing
+					body.setPosition(new Point(position.x, position.y + MoveDirection.up.getYMove()));
+				} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
+					//Top of the climbing
+					body.setPosition(climbablePosition);
+					body.setIsClimbing(false);
+				}
+			}
+		}
+		//TODO : take care of climbing and being blocked by a pixel
 	}
 	
+	/*
+	 * Function that moves the lemming
+	 * if he can jump in his direction
+	 * or if he is jumping, carry on or land safely
+	 */
 	public void jump (Body body){
-		//TODO the function that allow lemmings to fall from a high cliff
+		Point position = body.getPosition();
+		MoveDirection direction = body.getDirection();
+		Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		
+		if (position != null & jumpablePosition != null) {
+			if (!body.isJumping() && 
+				m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
+				m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
+				//Start of the jump
+				body.setPosition(new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove()));
+				body.setIsJumping(true);
+			} else if (body.isJumping()) {
+				if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
+					//Mid steps of jump
+					body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
+				} else if (!m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
+					//End of the jump
+					body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
+					body.setIsJumping(false);
+				} else if (position.y+MoveDirection.down.getYMove() >= m_height) {
+					//TODO : Destroy Lemming and its body
+				}
+			}
+		}
+		
 	}
 	
 }

@@ -10,11 +10,15 @@ public abstract class Body extends DynamicObject {
 	private final Environment m_environment;
 	private MoveDirection m_direction;
 	private Point m_position;
+	private boolean m_isClimbing;
+	private boolean m_isJumping;
 	
 	public Body (Environment environment, MoveDirection dir, Point position){
 		this.m_environment = environment;
 		this.m_direction = dir;
 		this.m_position = position;
+		this.m_isClimbing = false;
+		this.m_isJumping = false;
 	}
 	
 	public Environment getEnvironment(){
@@ -44,5 +48,21 @@ public abstract class Body extends DynamicObject {
 	public List<PerceivableObject> getPerception() {
 		Environment e = getEnvironment();
 		return e.getPerception(this);
+	}
+	
+	public boolean isJumping() {
+		return this.m_isJumping;
+	}
+	
+	public void setIsJumping(boolean jump) {
+		this.m_isJumping = jump;
+	}
+	
+	public boolean isClimbing() {
+		return this.m_isClimbing;
+	}
+	
+	public void setIsClimbing(boolean climb) {
+		this.m_isClimbing = climb;
 	}
 }
