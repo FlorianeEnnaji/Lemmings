@@ -12,8 +12,8 @@
 hs_err_pid*
 
 #hidden files
-.settings/
-.lock
-.metadata
-.sarlbin
-.java._trace
+*.settings/
+*.lock
+*.metadata
+*.sarlbin
+*.java._trace
