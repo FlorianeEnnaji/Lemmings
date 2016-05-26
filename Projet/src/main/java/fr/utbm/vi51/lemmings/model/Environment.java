@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.utbm.vi51.lemmings.QTable;
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class Environment {
@@ -20,6 +22,8 @@ public class Environment {
 	private Color m_lightBrown = new Color(205,133,63);
 	private Color m_yellow = new Color(255,218,57);
 	private Color m_brown = new Color(153,102,51);
+	
+	private QTable m_qtable = new QTable();
 	
 	/** Constructors */
 	public Environment(){
@@ -125,21 +129,28 @@ public class Environment {
 	public void move(Body body, MoveDirection direction) {
 		Point position = body.getPosition();
 		body.setDirection(direction);
+		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		ActionEnum action = ActionEnum.WALK_EAST;
+		
+		if (direction.getXMove() < 0) {
+			action = ActionEnum.WALK_WEST;
+		}
 		
 		if (position != null) {
-			Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-
-			if ((pos.x != position.x || pos.y != position.y) && isInWorldDimensions(pos)) {
+			if (isInWorldDimensions(pos)) {
 				if (m_world[pos.x][pos.y].isEmpty()) {
 					if (!m_world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+						//Lemming can walk in his direction
 						if (body.isFalling()) {
 							body.setIsFalling(false);
 							if(body.getFallingHeight() > 4) {
-								//TODO : Destroy Lemming and its body
+								//Kill Lemming and its body
+								m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 								return;
 							}
 						}
 						body.setPosition(new Point(pos.x, pos.y));
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					} else {
 						//Lemming is falling
 						if (!body.isFalling()) {
@@ -147,13 +158,21 @@ public class Environment {
 						} else if (body.getFallingHeight() < 5 && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))){
 							body.setFallingHeight(body.getFallingHeight() + 1);
 						} else {
-							//TODO : Destroy Lemming and its body
+							//Destroy Lemming and its body
+							m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+							return;
 						}
 						body.setPosition(new Point(pos.x, pos.y+MoveDirection.down.getYMove()));
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					}
 				} else if (m_world[pos.x][pos.y].isExit()) {
-					//TODO : Destroy Lemming and its body and count it saved
+					//Lemming has arrived to exit!
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 			}
 		}
 	}
@@ -167,16 +186,29 @@ public class Environment {
 		Point position = body.getPosition();
 		Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		Point finalPosition = position;
+		ActionEnum action = ActionEnum.DIG_SOUTH;
+		
+		if(direction.getXMove() < 0) {
+			action = ActionEnum.DIG_WEST;
+		} else if(direction.getXMove() > 0) {
+			action = ActionEnum.DIG_EAST;
+		}
 		
 		if (position != null & diggablePosition != null) {
 			if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 				//Digging
 				m_world[diggablePosition.x][diggablePosition.y].setEmpty();
 				finalPosition = diggablePosition;
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				return;
 			}
 			
 			if (isInWorldDimensions(finalPosition)) {
 				body.setPosition(finalPosition);
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 			
 		}
@@ -192,6 +224,7 @@ public class Environment {
 		MoveDirection direction = body.getDirection();
 		Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		Point finalPosition = position;
+		ActionEnum action = ActionEnum.CLIMB;
 		
 		if (position != null & climbablePosition != null) {
 			if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
@@ -200,7 +233,8 @@ public class Environment {
 				body.setIsClimbing(true);
 			} else if (body.isClimbing()) {
 				if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
-					//TODO : Destroy Lemming and its body
+					//Kill Lemming and its body
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 					return;
 				} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
 					m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
@@ -210,11 +244,20 @@ public class Environment {
 					//Top of the climbing
 					finalPosition = climbablePosition;
 					body.setIsClimbing(false);
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
 				}
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				return;
 			}
 			
 			if (isInWorldDimensions(finalPosition)) {
 				body.setPosition(finalPosition);
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
@@ -229,6 +272,7 @@ public class Environment {
 		MoveDirection direction = body.getDirection();
 		Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		Point finalPosition = position;
+		ActionEnum action = ActionEnum.JUMP;
 		
 		if (position != null & jumpablePosition != null) {
 			if (!body.isJumping() && 
@@ -239,7 +283,8 @@ public class Environment {
 				body.setIsJumping(true);
 			} else if (body.isJumping()) {
 				if (position.y+MoveDirection.down.getYMove() >= m_height) {
-					//TODO : Destroy Lemming and its body
+					//Killing Lemming and its body
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 					return;
 				} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
 					//Mid steps of jump
@@ -248,11 +293,20 @@ public class Environment {
 					//End of the jump
 					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
 					body.setIsJumping(false);
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
 				}
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				return;
 			}
 			
 			if (isInWorldDimensions(finalPosition)) {
 				body.setPosition(finalPosition);
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+			} else {
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 		
