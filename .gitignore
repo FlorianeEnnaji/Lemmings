@@ -17,3 +17,4 @@ hs_err_pid*
 *.metadata
 *.sarlbin
 *.java._trace
+*.DS_Store
