@@ -14,6 +14,7 @@ public class Game {
 			File file = new File("./src/img/sample2.bmp");
 			BufferedImage image = ImageIO.read(file);
 			Environment env = new Environment(image);
+			env.createLemming();
 		}
 		catch (Exception e) {
 			System.out.println("Wrong file path");

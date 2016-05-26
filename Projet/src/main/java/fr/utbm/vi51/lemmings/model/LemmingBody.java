@@ -14,7 +14,7 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		setPerception(null);
+		//setPerception(null);
 		
 	}
 

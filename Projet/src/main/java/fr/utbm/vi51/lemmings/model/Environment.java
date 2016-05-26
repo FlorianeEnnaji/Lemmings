@@ -23,6 +23,10 @@ public class Environment {
 	private Color m_yellow = new Color(255,218,57);
 	private Color m_brown = new Color(153,102,51);
 	
+	/** Entry and Exit **/
+	private Point entry;
+	
+	/** Qtable **/
 	private QTable m_qtable = new QTable();
 	
 	/** Constructors */
@@ -100,6 +104,14 @@ public class Environment {
 		return this.m_height;
 	}
 	
+	/**Create the body */
+	public void createLemming() {
+		createBody();
+	}
+	
+	private void createBody(){
+		LemmingBody body = new LemmingBody(this, null, entry);		
+	}
 		
 	/** Return the perception of the body */
 	public List<PerceivableObject> getPerception(Body body) {
