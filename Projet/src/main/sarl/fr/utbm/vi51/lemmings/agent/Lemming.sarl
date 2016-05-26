@@ -16,7 +16,12 @@ agent Lemming  {
 			occurrence.parameters.get(0) as UUID,
 			occurrence.parameters.get(1) as UUID)
 		setSkill(PhysicEnvironment, physicSkill)
-		
+				
+	}
+	
+	on PerceptionEvent{
+		var b = new BehaviourOutput(ActionEnum.CLIMB)
+		emitInfluence(b)
 	}
 	
 	def emitInfluence(output : BehaviourOutput, influence : Influence*){

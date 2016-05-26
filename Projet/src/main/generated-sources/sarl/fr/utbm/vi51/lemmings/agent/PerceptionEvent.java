@@ -1,5 +1,6 @@
 package fr.utbm.vi51.lemmings.agent;
 
+import fr.utbm.vi51.lemmings.model.Body;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.core.Event;
@@ -10,11 +11,11 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.3")
 @SuppressWarnings("all")
 public class PerceptionEvent extends Event {
-  public final PerceivableObject body;
+  public final Body body;
   
   public final List<PerceivableObject> perceptions;
   
-  public PerceptionEvent(final List<PerceivableObject> p, final PerceivableObject b) {
+  public PerceptionEvent(final List<PerceivableObject> p, final Body b) {
     this.perceptions = p;
     this.body = b;
   }
@@ -67,5 +68,5 @@ public class PerceptionEvent extends Event {
   }
   
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
-  private final static long serialVersionUID = 3189619065L;
+  private final static long serialVersionUID = 756069401L;
 }

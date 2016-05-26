@@ -1,6 +1,7 @@
 package fr.utbm.vi51.lemmings.agent;
 
 import fr.utbm.info.vi51.framework.agent.StandardPhysicEnvironment;
+import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
 import fr.utbm.vi51.lemmings.model.BehaviourOutput;
 import fr.utbm.vi51.lemmings.model.Influence;
@@ -33,6 +34,12 @@ public class Lemming extends Agent {
       ((UUID) _get), 
       ((UUID) _get_1));
     this.<StandardPhysicEnvironment>setSkill(PhysicEnvironment.class, physicSkill);
+  }
+  
+  @Percept
+  public void _handle_PerceptionEvent_1(final PerceptionEvent occurrence) {
+    BehaviourOutput b = new BehaviourOutput(ActionEnum.CLIMB);
+    this.emitInfluence(b);
   }
   
   protected void emitInfluence(final BehaviourOutput output, final Influence... influence) {

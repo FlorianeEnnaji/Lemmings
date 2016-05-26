@@ -1,9 +1,9 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
 
+import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class LemmingBody extends Body {
@@ -55,13 +55,14 @@ public class LemmingBody extends Body {
 	
 	public void dig (MoveDirection dir){
 		Environment e = getEnvironment();
-		e.dig(dir);
+		e.dig(this, dir);
 		move(dir);		
 	}
 	
 	public void climb (){
-		Environment e = getEnvironment();
-		e.climb(this);
+		/*Environment e = getEnvironment();
+		e.climb(this);*/
+		System.out.println("lol2");
 	}
 	
 	public void jump (){
@@ -76,12 +77,14 @@ public class LemmingBody extends Body {
 	public List<PerceivableObject> getPerception() {
 		Environment e = getEnvironment();
 		List<PerceivableObject> percept=e.getPerception(this);
-		setPerception(percept);
+		setPerception(percept);		
+		System.out.println("lol1");
 		return perception;
 	}
 
 	public void setPerception(List<PerceivableObject> perception) {
 		assert(perception!=null);
+		new PerceptionEvent(perception,this);
 		this.perception = perception;
 	}
 	
