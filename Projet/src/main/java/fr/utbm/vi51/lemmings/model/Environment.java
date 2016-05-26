@@ -138,8 +138,23 @@ public class Environment {
 		}
 	}
 	
-	public void dig (MoveDirection direction){
-		//TODO the function that remove the block in the chosen direction
+	/*
+	 * Function that moves the lemming and change diggable pixel
+	 * if he can dig the pixel in his direction,
+	 * or if he is digging, carry on or moves in his direction
+	 */
+	public void dig (Body body){
+		Point position = body.getPosition();
+		MoveDirection direction = body.getDirection();
+		Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		
+		if (position != null & diggablePosition != null) {
+			if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+				//Digging
+				m_world[diggablePosition.x][diggablePosition.y].setEmpty();
+				body.setPosition(diggablePosition);
+			}
+		}
 	}
 	
 	/*
@@ -158,8 +173,8 @@ public class Environment {
 				body.setPosition(new Point(position.x, position.y + MoveDirection.up.getYMove()));
 				body.setIsClimbing(true);
 			} else if (body.isClimbing()) {
-				if (m_world[position.x][position.y+MoveDirection.up.getYMove()]) {
-					
+				if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
+					//TODO : Destroy Lemming and its body
 				} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
 					m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
 					//Mid steps of climbing
@@ -171,7 +186,6 @@ public class Environment {
 				}
 			}
 		}
-		//TODO : take care of climbing and being blocked by a pixel
 	}
 	
 	/*
