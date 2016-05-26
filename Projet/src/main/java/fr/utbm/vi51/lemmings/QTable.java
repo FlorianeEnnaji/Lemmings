@@ -1,29 +1,34 @@
 package fr.utbm.vi51.lemmings;
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 
 public class QTable {
 	
-	private ArrayList<int[]> state;
-	private ArrayList<int[]> coef;
+	private ArrayList<List<PerceivableObject>> state;
+	private ArrayList<float[]> coef;
 	
 	public QTable(){
 		this.state=new ArrayList<>();
 		this.coef=new ArrayList<>();
 	}
 	
-	public void AddState(int[] s){
-		int[] tmp= new int[ActionEnum.values().length];
+	public void AddState(List<PerceivableObject> s){
+		float[] tmp= new float[ActionEnum.values().length-3];
+		for (int i = 0; i < tmp.length; i++){
+			tmp[i] = -5;
+		}
 		this.state.add(s);
 		this.coef.add(tmp);		
 	}
 	
-	public boolean StateAlreadyVisit(int[] s){
+	public boolean StateAlreadyVisit(List<PerceivableObject> s){
 		return this.state.contains(s);
 	}
 	
-	public int[] getCoef(int[] s ){
+	public float[] getCoef(List<PerceivableObject> s){
 		if (this.StateAlreadyVisit(s)){
 			return this.coef.get(this.state.indexOf(s));
 		}else{
@@ -31,8 +36,8 @@ public class QTable {
 		}
 	}
 
-	public void UpdateCoef(int[] s, ActionEnum a, int reward){
-		int[] tmp=this.coef.get(this.state.indexOf(s));
+	public void UpdateCoef(List<PerceivableObject> s, ActionEnum a, int reward){
+		float[] tmp=this.coef.get(this.state.indexOf(s));
 		if (!this.StateAlreadyVisit(s)){
 			this.AddState(s);
 		}

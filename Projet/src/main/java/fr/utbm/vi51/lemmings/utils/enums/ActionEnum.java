@@ -12,7 +12,8 @@ public enum ActionEnum {
 	JUMP("jump",MoveDirection.down,-4),
 	KILL_HIMSELF("kill",-10),
 	NOTHING("nothing",-5),
-	Living("live",0);
+	Living("live",0),
+	GET_OUT("get out",10);
 	
 
 	//Att
