@@ -130,9 +130,7 @@ public class Environment {
 		if (position != null) {
 			Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 
-			if ((pos.x != position.x || pos.y != position.y) 
-					&& pos.x >= 0 && pos.x < this.m_width 
-					&& pos.y >= 0 && pos.y < this.m_height) {
+			if ((pos.x != position.x || pos.y != position.y) && isInWorldDimensions(pos)) {
 				body.setPosition(new Point(pos.x, pos.y));
 			}
 		}
@@ -146,13 +144,19 @@ public class Environment {
 	public void dig (Body body, MoveDirection direction){
 		Point position = body.getPosition();
 		Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		Point finalPosition = position;
 		
 		if (position != null & diggablePosition != null) {
 			if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 				//Digging
 				m_world[diggablePosition.x][diggablePosition.y].setEmpty();
-				body.setPosition(diggablePosition);
+				finalPosition = diggablePosition;
 			}
+			
+			if (isInWorldDimensions(finalPosition)) {
+				body.setPosition(finalPosition);
+			}
+			
 		}
 	}
 	
@@ -165,24 +169,30 @@ public class Environment {
 		Point position = body.getPosition();
 		MoveDirection direction = body.getDirection();
 		Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		Point finalPosition = position;
 		
 		if (position != null & climbablePosition != null) {
 			if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
 				//Start of the climbing
-				body.setPosition(new Point(position.x, position.y + MoveDirection.up.getYMove()));
+				finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
 				body.setIsClimbing(true);
 			} else if (body.isClimbing()) {
 				if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
 					//TODO : Destroy Lemming and its body
+					return;
 				} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
 					m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
 					//Mid steps of climbing
-					body.setPosition(new Point(position.x, position.y + MoveDirection.up.getYMove()));
+					finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
 				} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
 					//Top of the climbing
-					body.setPosition(climbablePosition);
+					finalPosition = climbablePosition;
 					body.setIsClimbing(false);
 				}
+			}
+			
+			if (isInWorldDimensions(finalPosition)) {
+				body.setPosition(finalPosition);
 			}
 		}
 	}
@@ -196,28 +206,38 @@ public class Environment {
 		Point position = body.getPosition();
 		MoveDirection direction = body.getDirection();
 		Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+		Point finalPosition = position;
 		
 		if (position != null & jumpablePosition != null) {
 			if (!body.isJumping() && 
 				m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
 				m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
 				//Start of the jump
-				body.setPosition(new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove()));
+				finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
 				body.setIsJumping(true);
 			} else if (body.isJumping()) {
 				if (position.y+MoveDirection.down.getYMove() >= m_height) {
 					//TODO : Destroy Lemming and its body
 				} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
 					//Mid steps of jump
-					body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
+					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
 				} else if (!m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
 					//End of the jump
-					body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
+					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
 					body.setIsJumping(false);
 				}
 			}
+			
+			if (isInWorldDimensions(finalPosition)) {
+				body.setPosition(finalPosition);
+			}
 		}
 		
+	}
+	
+	public boolean isInWorldDimensions(Point position) {
+		return (position.x > 0 && position.x <= m_width &&
+				position.y > 0 && position.y >= m_height);
 	}
 	
 }
