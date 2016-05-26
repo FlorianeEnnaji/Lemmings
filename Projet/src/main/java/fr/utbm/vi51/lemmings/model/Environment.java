@@ -123,7 +123,6 @@ public class Environment {
 	}
 
 	public void move(Body body, MoveDirection direction) {
-		//TODO change to ensure that lemmings can reach the given direction and manage the death and the end (the lemming is arrived)
 		Point position = body.getPosition();
 		body.setDirection(direction);
 		
@@ -131,7 +130,16 @@ public class Environment {
 			Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 
 			if ((pos.x != position.x || pos.y != position.y) && isInWorldDimensions(pos)) {
-				body.setPosition(new Point(pos.x, pos.y));
+				if (m_world[pos.x][pos.y].isEmpty()) {
+					if (!m_world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+						body.setPosition(new Point(pos.x, pos.y));
+					} else {
+						//Lemming is falling
+						//TODO : Destroy Lemming and its body
+					}
+				} else if (m_world[pos.x][pos.y].isExit()) {
+					//TODO : Destroy Lemmings and its body and count it saved
+				}
 			}
 		}
 	}
@@ -218,6 +226,7 @@ public class Environment {
 			} else if (body.isJumping()) {
 				if (position.y+MoveDirection.down.getYMove() >= m_height) {
 					//TODO : Destroy Lemming and its body
+					return;
 				} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
 					//Mid steps of jump
 					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
