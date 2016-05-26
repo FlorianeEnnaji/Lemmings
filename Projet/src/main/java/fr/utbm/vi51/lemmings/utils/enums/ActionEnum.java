@@ -11,7 +11,9 @@ public enum ActionEnum {
 	CLIMB("climb",MoveDirection.up,-3),
 	JUMP("jump",MoveDirection.down,-4),
 	KILL_HIMSELF("kill",-10),
-	NOTHING("nothing",0);
+	NOTHING("nothing",-5),
+	Living("live",0);
+	
 
 	//Att
 	private final String actionName;

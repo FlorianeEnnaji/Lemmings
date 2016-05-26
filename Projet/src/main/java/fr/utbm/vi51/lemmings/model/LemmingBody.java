@@ -1,6 +1,8 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
@@ -8,9 +10,12 @@ public class LemmingBody extends Body {
 
 	private static final long serialVersionUID = -4636419559142339321L;
 	
+	private List<PerceivableObject> perception;
+	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		// TODO Auto-generated constructor stub
+		setPerception(null);
+		
 	}
 
 	public void influence(Influence influence) {
@@ -67,5 +72,19 @@ public class LemmingBody extends Body {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public List<PerceivableObject> getPerception() {
+		Environment e = getEnvironment();
+		List<PerceivableObject> percept=e.getPerception(this);
+		setPerception(percept);
+		return perception;
+	}
+
+	public void setPerception(List<PerceivableObject> perception) {
+		assert(perception!=null);
+		this.perception = perception;
+	}
+	
+	
 
 }
