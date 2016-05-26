@@ -143,9 +143,8 @@ public class Environment {
 	 * if he can dig the pixel in his direction,
 	 * or if he is digging, carry on or moves in his direction
 	 */
-	public void dig (Body body){
+	public void dig (Body body, MoveDirection direction){
 		Point position = body.getPosition();
-		MoveDirection direction = body.getDirection();
 		Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		
 		if (position != null & diggablePosition != null) {
