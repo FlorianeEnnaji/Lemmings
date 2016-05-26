@@ -12,6 +12,8 @@ public abstract class Body extends DynamicObject {
 	private Point m_position;
 	private boolean m_isClimbing;
 	private boolean m_isJumping;
+	private boolean m_isFalling;
+	private int m_fallingHeight;
 	
 	public Body (Environment environment, MoveDirection dir, Point position){
 		this.m_environment = environment;
@@ -19,6 +21,8 @@ public abstract class Body extends DynamicObject {
 		this.m_position = position;
 		this.m_isClimbing = false;
 		this.m_isJumping = false;
+		this.m_isFalling = false;
+		this.m_fallingHeight = 0;
 	}
 	
 	public Environment getEnvironment(){
@@ -64,5 +68,26 @@ public abstract class Body extends DynamicObject {
 	
 	public void setIsClimbing(boolean climb) {
 		this.m_isClimbing = climb;
+	}
+
+	public boolean isFalling() {
+		return this.m_isFalling;
+	}
+
+	public void setIsFalling(boolean fall) {
+		this.m_isFalling = fall;
+		if (fall) {
+			this.m_fallingHeight = 1;
+		} else {
+			this.m_fallingHeight = 0;
+		}
+	}
+
+	public int getFallingHeight() {
+		return this.m_fallingHeight;
+	}
+
+	public void setFallingHeight(int i) {
+		this.m_fallingHeight = i;
 	}
 }

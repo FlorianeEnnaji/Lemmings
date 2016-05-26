@@ -132,13 +132,27 @@ public class Environment {
 			if ((pos.x != position.x || pos.y != position.y) && isInWorldDimensions(pos)) {
 				if (m_world[pos.x][pos.y].isEmpty()) {
 					if (!m_world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+						if (body.isFalling()) {
+							body.setIsFalling(false);
+							if(body.getFallingHeight() > 4) {
+								//TODO : Destroy Lemming and its body
+								return;
+							}
+						}
 						body.setPosition(new Point(pos.x, pos.y));
 					} else {
 						//Lemming is falling
-						//TODO : Destroy Lemming and its body
+						if (!body.isFalling()) {
+							body.setIsFalling(true);
+						} else if (body.getFallingHeight() < 5 && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))){
+							body.setFallingHeight(body.getFallingHeight() + 1);
+						} else {
+							//TODO : Destroy Lemming and its body
+						}
+						body.setPosition(new Point(pos.x, pos.y+MoveDirection.down.getYMove()));
 					}
 				} else if (m_world[pos.x][pos.y].isExit()) {
-					//TODO : Destroy Lemmings and its body and count it saved
+					//TODO : Destroy Lemming and its body and count it saved
 				}
 			}
 		}
