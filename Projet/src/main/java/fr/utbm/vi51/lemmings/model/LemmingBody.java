@@ -50,7 +50,7 @@ public class LemmingBody extends Body {
 	
 	public void dig (MoveDirection dir){
 		Environment e = getEnvironment();
-		e.dig(null, dir);	
+		e.dig(this, dir);	
 	}
 	
 	public void climb (){
