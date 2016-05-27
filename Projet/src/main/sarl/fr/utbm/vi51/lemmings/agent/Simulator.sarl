@@ -25,10 +25,10 @@ agent Simulator{
 			agentParameters += occurrence.parameters.get(i)
 		}
 		
-		for( b : environment.agentBodies.keySet){
+		/*for( b : environment.agentBodies.keySet){
 			var agentType = SpawnMapping.getAgentTypeForBody(b);
 			spawnInContextWithID(Lemming.class,b,defaultContext,agentParameters.toArray)
-		}
+		}*/
 		
 		
 	}
