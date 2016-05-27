@@ -14,6 +14,8 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
+		System.out.println("lol0");
+		getPerception();
 		//setPerception(null);
 		
 	}

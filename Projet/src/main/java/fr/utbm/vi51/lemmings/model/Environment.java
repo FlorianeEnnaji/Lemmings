@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.UUID;
 
 import fr.utbm.vi51.lemmings.QTable;
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
@@ -28,6 +31,9 @@ public class Environment {
 	
 	/** Qtable **/
 	private QTable m_qtable = new QTable();
+	
+	/** List of agentbodies */
+	private final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
 	/** Constructors */
 	public Environment(){
@@ -104,13 +110,18 @@ public class Environment {
 		return this.m_height;
 	}
 	
+	public Map<UUID,LemmingBody> getAgentBodies(){
+		return this.agentBodies;
+	}
+	
 	/**Create the body */
 	public void createLemming() {
 		createBody();
 	}
 	
 	private void createBody(){
-		LemmingBody body = new LemmingBody(this, null, entry);		
+		LemmingBody body = new LemmingBody(this, null, entry);
+		agentBodies.put(new UUID(1, agentBodies.size()+1), body);
 	}
 		
 	/** Return the perception of the body */

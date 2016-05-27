@@ -1,0 +1,28 @@
+package fr.utbm.vi51.lemmings.^agent
+
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Lifecycle
+import io.sarl.core.Initialize
+import fr.utbm.vi51.lemmings.model.Environment
+
+agent Simulator{
+	uses DefaultContextInteractions, Lifecycle
+
+	var waitingAgents = 0
+	
+	on Initialize{
+		var environment = (occurrence.parameters.get(0) as Environment)
+		
+		val bodies=environment.getAgentBodies()		
+		waitingAgents=bodies.size
+		
+		/*for(b : bodies){
+			spawnInContextWithID(
+				b.UUID,
+				defaultContext,
+				agentParameters.toArray)
+		}*/
+		
+	}
+	
+}
