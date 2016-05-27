@@ -340,4 +340,8 @@ public class Environment {
 				position.y > 0 && position.y >= m_height);
 	}
 	
+	public QTable getQTable() {
+		return this.m_qtable;
+	}
+	
 }

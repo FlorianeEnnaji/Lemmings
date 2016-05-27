@@ -1,9 +1,14 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class PerceivableObject {
+public class PerceivableObject implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7641509704551775448L;
 	private Point m_coord;
 	private final boolean is_diggable;
 	private final boolean is_empty;
