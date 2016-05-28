@@ -1,5 +1,4 @@
 package fr.utbm.vi51.lemmings;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +41,11 @@ public class Game {
 			
 	}
 	
+	/**
+	 * Function that saves a QTable, in order to reuse it in another instance.
+	 * 
+	 * @param the QTable we want to save
+	 * */
 	public static void saveQTableInfos(QTable qt){
 		ArrayList<List<PerceivableObject>> state = qt.getState();
 		ArrayList<float[]> coef = qt.getCoef();
@@ -72,6 +76,9 @@ public class Game {
 		
 	}
 	
+	/**
+	 * @return the QTable previously saved
+	 * */
 	public static QTable getQTableFromFile(){
 		
 		ArrayList<List<PerceivableObject>> state = new ArrayList<>();
