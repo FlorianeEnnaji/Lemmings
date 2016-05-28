@@ -11,8 +11,12 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import fr.utbm.vi51.lemmings.agent.Lemming;
 import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
+import fr.utbm.vi51.lemmings.model.LemmingBody;
+import fr.utbm.vi51.lemmings.model.SpawnMapping;
+import io.sarl.lang.core.Agent;
 
 public class Game {
 
@@ -115,6 +119,13 @@ public class Game {
 		
 	}
 	
-	
+	private static class ApplicationMapping extends SpawnMapping {
 
+		@Override
+		public Class<? extends Agent> getAgentTypeForBody(LemmingBody body) {			
+				return Lemming.class;
+		}
+	}
 }
+
+

@@ -1,7 +1,6 @@
 package fr.utbm.vi51.lemmings.agent;
 
 import fr.utbm.vi51.lemmings.model.Environment;
-import fr.utbm.vi51.lemmings.model.LemmingBody;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.DefaultContextInteractions;
@@ -22,10 +21,12 @@ import io.sarl.lang.core.Percept;
 import io.sarl.lang.core.Scope;
 import io.sarl.lang.core.Space;
 import io.sarl.lang.core.SpaceID;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Generated;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Conversions;
 
 @SarlSpecification("0.3")
 @SuppressWarnings("all")
@@ -36,9 +37,14 @@ public class Simulator extends Agent {
   public void _handle_Initialize_0(final Initialize occurrence) {
     Object _get = occurrence.parameters[0];
     Environment environment = ((Environment) _get);
-    final Map<UUID, LemmingBody> bodies = environment.getAgentBodies();
-    int _size = bodies.size();
-    this.waitingAgents = _size;
+    int _size = environment.agentBodies.size();
+    int _plus = (_size + 1);
+    this.waitingAgents = _plus;
+    List<Object> agentParameters = CollectionLiterals.<Object>newArrayList(environment);
+    for (int i = 4; (i < ((List<Object>)Conversions.doWrapArray(occurrence.parameters)).size()); i++) {
+      Object _get_1 = occurrence.parameters[i];
+      agentParameters.add(_get_1);
+    }
   }
   
   /**

@@ -33,7 +33,7 @@ public class Environment {
 	private QTable m_qtable = new QTable();
 	
 	/** List of agentbodies */
-	private final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
+	public final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
 	/** Constructors */
 	public Environment(){
