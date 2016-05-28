@@ -151,7 +151,13 @@ public class Environment {
 
 	public void move(Body body, MoveDirection direction) {
 		Point position = body.getPosition();
+		if (position == null) {
+			position = new Point(0, 0);
+		}
 		body.setDirection(direction);
+		if (direction == null) {
+			direction = MoveDirection.right;
+		}
 		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
@@ -206,34 +212,42 @@ public class Environment {
 	 * or if he is digging, carry on or moves in his direction
 	 */
 	public void dig (Body body, MoveDirection direction){
-		Point position = body.getPosition();
-		Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-		Point finalPosition = position;
-		ActionEnum action = ActionEnum.DIG_SOUTH;
-		
-		if(direction.getXMove() < 0) {
-			action = ActionEnum.DIG_WEST;
-		} else if(direction.getXMove() > 0) {
-			action = ActionEnum.DIG_EAST;
-		}
-		
-		if (position != null & diggablePosition != null) {
-			if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
-				//Digging
-				m_world[diggablePosition.x][diggablePosition.y].setEmpty();
-				finalPosition = diggablePosition;
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-				return;
+		if (body != null) {
+			Point position = body.getPosition();
+			if (position == null) {
+				position = new Point(0, 0);
+			}
+			if (direction == null) {
+				direction = MoveDirection.down;
+			}
+			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+			Point finalPosition = position;
+			ActionEnum action = ActionEnum.DIG_SOUTH;
+			
+			if(direction.getXMove() < 0) {
+				action = ActionEnum.DIG_WEST;
+			} else if(direction.getXMove() > 0) {
+				action = ActionEnum.DIG_EAST;
 			}
 			
-			if (isInWorldDimensions(finalPosition)) {
-				body.setPosition(finalPosition);
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+			if (position != null & diggablePosition != null && isInWorldDimensions(diggablePosition)) {
+				if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+					//Digging
+					m_world[diggablePosition.x][diggablePosition.y].setEmpty();
+					finalPosition = diggablePosition;
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
+				}
+				
+				if (isInWorldDimensions(finalPosition)) {
+					body.setPosition(finalPosition);
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				}
+				
 			}
-			
 		}
 	}
 	
@@ -243,44 +257,52 @@ public class Environment {
 	 * or if he is climbing, carry on or land safely
 	 */
 	public void climb (Body body){
-		Point position = body.getPosition();
-		MoveDirection direction = body.getDirection();
-		Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-		Point finalPosition = position;
-		ActionEnum action = ActionEnum.CLIMB;
-		
-		if (position != null & climbablePosition != null) {
-			if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
-				//Start of the climbing
-				finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
-				body.setIsClimbing(true);
-			} else if (body.isClimbing()) {
-				if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
-					//Kill Lemming and its body
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-					return;
-				} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
-					m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
-					//Mid steps of climbing
+		if (body != null) {
+			Point position = body.getPosition();
+			if (position == null) {
+				position = new Point(0, 0);
+			}
+			MoveDirection direction = body.getDirection();
+			if (direction == null) {
+				direction = MoveDirection.up;
+			}
+			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+			Point finalPosition = position;
+			ActionEnum action = ActionEnum.CLIMB;
+			
+			if (position != null & climbablePosition != null && isInWorldDimensions(climbablePosition)) {
+				if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
+					//Start of the climbing
 					finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
-				} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
-					//Top of the climbing
-					finalPosition = climbablePosition;
-					body.setIsClimbing(false);
+					body.setIsClimbing(true);
+				} else if (body.isClimbing()) {
+					if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
+						//Kill Lemming and its body
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+						return;
+					} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
+						m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
+						//Mid steps of climbing
+						finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
+					} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
+						//Top of the climbing
+						finalPosition = climbablePosition;
+						body.setIsClimbing(false);
+					} else {
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+						return;
+					}
 				} else {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-				return;
-			}
-			
-			if (isInWorldDimensions(finalPosition)) {
-				body.setPosition(finalPosition);
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				
+				if (isInWorldDimensions(finalPosition)) {
+					body.setPosition(finalPosition);
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				}
 			}
 		}
 	}
@@ -291,48 +313,55 @@ public class Environment {
 	 * or if he is jumping, carry on or land safely
 	 */
 	public void jump (Body body){
-		Point position = body.getPosition();
-		MoveDirection direction = body.getDirection();
-		Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-		Point finalPosition = position;
-		ActionEnum action = ActionEnum.JUMP;
-		
-		if (position != null & jumpablePosition != null) {
-			if (!body.isJumping() && 
-				m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
-				m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
-				//Start of the jump
-				finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
-				body.setIsJumping(true);
-			} else if (body.isJumping()) {
-				if (position.y+MoveDirection.down.getYMove() >= m_height) {
-					//Killing Lemming and its body
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-					return;
-				} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
-					//Mid steps of jump
-					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
-				} else if (!m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
-					//End of the jump
-					finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
-					body.setIsJumping(false);
+		if (body != null) {
+			Point position = body.getPosition();
+			if (position == null) {
+				position = new Point (0,0);
+			}
+			MoveDirection direction = body.getDirection();
+			if (direction == null) {
+				direction = MoveDirection.down;
+			}
+			Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+			Point finalPosition = position;
+			ActionEnum action = ActionEnum.JUMP;
+			
+			if (position != null & jumpablePosition != null && isInWorldDimensions(jumpablePosition)) {
+				if (!body.isJumping() && 
+					m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
+					m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
+					//Start of the jump
+					finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
+					body.setIsJumping(true);
+				} else if (body.isJumping()) {
+					if (position.y+MoveDirection.down.getYMove() >= m_height) {
+						//Killing Lemming and its body
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+						return;
+					} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
+						//Mid steps of jump
+						finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
+					} else if (!m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
+						//End of the jump
+						finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
+						body.setIsJumping(false);
+					} else {
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+						return;
+					}
 				} else {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-				return;
-			}
-			
-			if (isInWorldDimensions(finalPosition)) {
-				body.setPosition(finalPosition);
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				
+				if (isInWorldDimensions(finalPosition)) {
+					body.setPosition(finalPosition);
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+				} else {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				}
 			}
 		}
-		
 	}
 	
 	public boolean isInWorldDimensions(Point position) {

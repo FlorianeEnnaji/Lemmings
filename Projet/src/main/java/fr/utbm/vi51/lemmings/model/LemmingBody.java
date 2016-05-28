@@ -95,7 +95,7 @@ public class LemmingBody extends Body {
 			r = (int)(Math.random() * (pos.length-1)) ;
 		}while(pos[r].getDir()==null);
 		ActionInfluence act= new ActionInfluence(pos[r]);
-		influence(act);		
+		influence(act);
 	}
 	
 

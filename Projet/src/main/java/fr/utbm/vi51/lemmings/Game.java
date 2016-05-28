@@ -39,7 +39,7 @@ public class Game {
 
 		}
 		catch (Exception e) {
-			System.out.println("Wrong file path");
+			e.printStackTrace();
 		}
 		
 			
