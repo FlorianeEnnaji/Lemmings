@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.List;
 
 import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class LemmingBody extends Body {
@@ -14,8 +15,7 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		System.out.println("lol0");
-		getPerception();
+		LearningRoutine();
 		//setPerception(null);
 		
 	}
@@ -49,6 +49,7 @@ public class LemmingBody extends Body {
 				}
 			}
 		}
+		LearningRoutine();
 	}
 	
 	public void walk(MoveDirection dir){
@@ -61,9 +62,8 @@ public class LemmingBody extends Body {
 	}
 	
 	public void climb (){
-		/*Environment e = getEnvironment();
-		e.climb(this);*/
-		System.out.println("lol2");
+		Environment e = getEnvironment();
+		e.climb(this);
 	}
 	
 	public void jump (){
@@ -79,7 +79,6 @@ public class LemmingBody extends Body {
 		Environment e = getEnvironment();
 		List<PerceivableObject> percept=e.getPerception(this);
 		setPerception(percept);		
-		System.out.println("lol1");
 		return perception;
 	}
 
@@ -89,6 +88,15 @@ public class LemmingBody extends Body {
 		this.perception = perception;
 	}
 	
+	public void LearningRoutine(){
+		ActionEnum[] pos = ActionEnum.values();
+		int r;
+		do{
+			r = (int)(Math.random() * (pos.length-1)) ;
+		}while(pos[r].getDir()==null);
+		ActionInfluence act= new ActionInfluence(pos[r]);
+		influence(act);		
+	}
 	
 
 }
