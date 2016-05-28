@@ -15,6 +15,11 @@ public class QTable {
 		this.coef=new ArrayList<>();
 	}
 	
+	public QTable(ArrayList<List<PerceivableObject>> state, ArrayList<float[]> coef){
+		this.state = state;
+		this.coef = coef;
+	}
+	
 	public void AddState(List<PerceivableObject> s){
 		float[] tmp= new float[ActionEnum.values().length-3];
 		for (int i = 0; i < tmp.length; i++){
@@ -43,5 +48,13 @@ public class QTable {
 		}
 		tmp[a.ordinal()]=(tmp[a.ordinal()]+ reward)/2;
 		this.coef.set(this.state.indexOf(s), tmp);
+	}
+	
+	public ArrayList<List<PerceivableObject>> getState() {
+		return this.state;
+	}
+	
+	public ArrayList<float[]> getCoef() {
+		return this.coef;
 	}
 }
