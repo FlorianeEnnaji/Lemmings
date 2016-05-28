@@ -1,24 +1,23 @@
 package fr.utbm.vi51.lemmings;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 
-public class QTable implements Serializable {
+public class QTable {
 	
-	/**
-	 * Generated serial version ID
-	 */
-	private static final long serialVersionUID = -3950765922481257290L;
 	private ArrayList<List<PerceivableObject>> state;
 	private ArrayList<float[]> coef;
 	
 	public QTable(){
 		this.state=new ArrayList<>();
 		this.coef=new ArrayList<>();
-
+	}
+	
+	public QTable(ArrayList<List<PerceivableObject>> state, ArrayList<float[]> coef){
+		this.state = state;
+		this.coef = coef;
 	}
 	
 	public void AddState(List<PerceivableObject> s){

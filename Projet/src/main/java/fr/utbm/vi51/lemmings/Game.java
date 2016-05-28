@@ -13,10 +13,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import fr.utbm.vi51.lemmings.model.Environment;
-import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
-import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class Game {
 
@@ -26,85 +23,89 @@ public class Game {
 			BufferedImage image = ImageIO.read(file);
 			Environment env = new Environment(image);
 			env.createLemming();
-
-			ArrayList<List<PerceivableObject>> state = new ArrayList<>();
-			ArrayList<float[]> coef = new ArrayList<>();
-			ArrayList<String[]> stringCoef = new ArrayList<>();
 			
-			List<PerceivableObject> model = new ArrayList<>();
-			model.add(new PerceivableObject(new Point(1,2), false,true,false,false,false));
-			model.add(new PerceivableObject(new Point(2,2), false,true,false,false,false));
-			model.add(new PerceivableObject(new Point(3,2), false,true,false,false,false));
-			state.add(model);
-			System.out.println("Before serialization");
-			for (List<PerceivableObject> list : state) {
-				for (PerceivableObject obj : list){
-					System.out.println(obj.getX() + " " + obj.getY());
-				}
-			}
-			float[] tab = {(float) 1.1, (float) 2.2,(float)  3.3};
-			coef.add(tab);
-			tab[0] = (float) 4.4;
-			coef.add(tab);
-			for (float[] list : coef) {
-				String[] table = new String[list.length];
-				for (int i = 0; i < list.length; i++){
-					table[i] = Float.toString(list[i]);
-				}
-				stringCoef.add(table);
-			}
-			for (String[] list : stringCoef) {
-				for (int i = 0; i < list.length; i++){
-					System.out.println(list[i]);
-				}
-			}
+			/*
+			 * Uncomment following to save QTable
+			saveQTableInfos(env.getQTable());
+			*/
+			/*
+			 * Uncomment following to get QTable from a previous saving
+			QTable otherQT = getQTableFromFile();
+			*/
+			
 
-			ArrayList<List<PerceivableObject>> newState = new ArrayList<>();
-			ArrayList<String[]> newCoef = new ArrayList<>();
-
-			try {
-				FileOutputStream fos = new FileOutputStream("state.dat");
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				oos.writeObject(state);
-
-				FileInputStream fis = new FileInputStream("state.dat");
-				ObjectInputStream iis = new ObjectInputStream(fis);
-				newState = (ArrayList<List<PerceivableObject>>) iis.readObject();
-				
-				FileOutputStream fos1 = new FileOutputStream("coef.dat");
-				ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
-				oos1.writeObject(stringCoef);
-
-				FileInputStream fis1 = new FileInputStream("coef.dat");
-				ObjectInputStream iis1 = new ObjectInputStream(fis1);
-				System.out.println("hello lol");
-				System.out.println(stringCoef);
-				System.out.println(((ArrayList<String[]>) iis1.readObject()).get(0)[0]);
-				newCoef = (ArrayList<String[]>) iis1.readObject();
-				System.out.println(newCoef.get(0)[0]);
-
-			} catch (Exception e) {
-
-			}
-
-			System.out.println("After serialization");
-			for (List<PerceivableObject> list : newState) {
-				for (PerceivableObject obj : list){
-					System.out.println(obj.getX() + " " + obj.getY());
-				}
-			}
-			System.out.println(newCoef);
-			for (String[] list : newCoef) {
-				for (int i = 0; i < list.length; i++){
-					System.out.println(list[i]);
-				}
-			}
 		}
 		catch (Exception e) {
 			System.out.println("Wrong file path");
 		}
 		
 			
+	}
+	
+	public static void saveQTableInfos(QTable qt){
+		ArrayList<List<PerceivableObject>> state = qt.getState();
+		ArrayList<float[]> coef = qt.getCoef();
+		ArrayList<String[]> stringCoef = new ArrayList<>();
+		
+		for (float[] list : coef) {
+			String[] table = new String[list.length];
+			for (int i = 0; i < list.length; i++){
+				table[i] = Float.toString(list[i]);
+			}
+			stringCoef.add(table);
+		}
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("state.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(state);
+			oos.close();
+			
+			FileOutputStream fos1 = new FileOutputStream("coef.dat");
+			ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+			oos1.writeObject(stringCoef);
+			oos1.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static QTable getQTableFromFile(){
+		
+		ArrayList<List<PerceivableObject>> state = new ArrayList<>();
+		ArrayList<float[]> coef = new ArrayList<>();
+		ArrayList<String[]> stringCoef = new ArrayList<>();
+		
+		try {
+			FileInputStream fis = new FileInputStream("state.dat");
+			ObjectInputStream iis = new ObjectInputStream(fis);
+			state = (ArrayList<List<PerceivableObject>>) iis.readObject();
+			iis.close();
+
+			FileInputStream fis1 = new FileInputStream("coef.dat");
+			ObjectInputStream iis1 = new ObjectInputStream(fis1);
+			stringCoef = (ArrayList<String[]>) iis1.readObject();
+			iis1.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		for (String[] list : stringCoef) {
+			float[] table = new float[list.length];
+			for (int i = 0; i < list.length; i++){
+				System.out.print(list[i] + " ");
+				table[i] = Float.parseFloat(list[i]);
+			}
+			coef.add(table);
+		}
+		
+		QTable qt = new QTable(state, coef);
+		
+		return qt;
+		
 	}
 	
 	
