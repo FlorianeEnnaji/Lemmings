@@ -28,6 +28,7 @@ public class Environment {
 	
 	/** Entry and Exit **/
 	private Point entry;
+	private boolean isArrived=false;
 	
 	/** Qtable **/
 	private QTable m_qtable = new QTable();
@@ -109,6 +110,10 @@ public class Environment {
 	
 	public int getHeight() {
 		return this.m_height;
+	}
+	
+	public boolean isArrived(){
+		return isArrived;
 	}
 	
 	public Map<UUID,LemmingBody> getAgentBodies(){
@@ -198,6 +203,7 @@ public class Environment {
 				} else if (m_world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					isArrived=true;
 				} else {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
@@ -239,6 +245,7 @@ public class Environment {
 				} else if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
 					return;
@@ -298,6 +305,7 @@ public class Environment {
 					} else if (m_world[climbablePosition.x][climbablePosition.y].isExit()) {
 						//Top of the climbing is exit
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+						isArrived=true;
 						body.setPosition(finalPosition);
 						body.setIsClimbing(false);
 						return;
@@ -361,6 +369,7 @@ public class Environment {
 					}  else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isExit()) {
 						//End of the jump is exit
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+						isArrived=true;
 						body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
 						body.setIsJumping(false);
 						return;

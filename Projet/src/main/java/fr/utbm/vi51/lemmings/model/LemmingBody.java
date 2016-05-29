@@ -100,7 +100,8 @@ public class LemmingBody extends Body {
 	}
 	
 	public void learn(){
-		while(getPerception()!=null){
+		Environment e = getEnvironment();
+		while(!e.isArrived()){
 			ActionInfluence a = LearningRoutine();
 			System.out.println(a.getType().getName());
 			influence(a);
