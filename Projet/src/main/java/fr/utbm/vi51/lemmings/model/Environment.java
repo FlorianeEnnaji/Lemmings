@@ -236,6 +236,12 @@ public class Environment {
 					//Digging
 					m_world[diggablePosition.x][diggablePosition.y].setEmpty();
 					finalPosition = diggablePosition;
+				} else if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+					//Dig through exit
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					body.setPosition(diggablePosition);
+					body.setIsClimbing(false);
+					return;
 				} else {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
@@ -289,6 +295,12 @@ public class Environment {
 						//Top of the climbing
 						finalPosition = climbablePosition;
 						body.setIsClimbing(false);
+					} else if (m_world[climbablePosition.x][climbablePosition.y].isExit()) {
+						//Top of the climbing is exit
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+						body.setPosition(finalPosition);
+						body.setIsClimbing(false);
+						return;
 					} else {
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 						return;
@@ -346,6 +358,12 @@ public class Environment {
 						//End of the jump
 						finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
 						body.setIsJumping(false);
+					}  else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isExit()) {
+						//End of the jump is exit
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+						body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
+						body.setIsJumping(false);
+						return;
 					} else {
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 						return;
