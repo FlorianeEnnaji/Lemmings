@@ -15,8 +15,9 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		LearningRoutine();
+		//LearningRoutine();
 		//setPerception(null);
+		learn();
 		
 	}
 
@@ -88,15 +89,24 @@ public class LemmingBody extends Body {
 		this.perception = perception;
 	}
 	
-	public void LearningRoutine(){
+	private ActionInfluence LearningRoutine(){
 		ActionEnum[] pos = ActionEnum.values();
 		int r;
 		do{
 			r = (int)(Math.random() * (pos.length-1)) ;
 		}while(pos[r].getDir()==null);
 		ActionInfluence act= new ActionInfluence(pos[r]);
-		influence(act);
+		return act;
 	}
+	
+	public void learn(){
+		while(getPerception()!=null){
+			ActionInfluence a = LearningRoutine();
+			System.out.println(a.getType().getName());
+			influence(a);
+		}
+	}
+	
 	
 
 }
