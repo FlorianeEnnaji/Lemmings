@@ -208,7 +208,7 @@ public class Environment {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
@@ -237,8 +237,11 @@ public class Environment {
 				action = ActionEnum.DIG_EAST;
 			}
 			
-			if (position != null & diggablePosition != null && isInWorldDimensions(diggablePosition)) {
-				if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+			if (position != null & diggablePosition != null) {
+				if (!isInWorldDimensions(diggablePosition)) {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
+				} else if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Digging
 					m_world[diggablePosition.x][diggablePosition.y].setEmpty();
 					finalPosition = diggablePosition;
@@ -284,20 +287,27 @@ public class Environment {
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.CLIMB;
 			
-			if (position != null & climbablePosition != null && isInWorldDimensions(climbablePosition)) {
-				if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
+			if (position != null & climbablePosition != null) {
+				if (!isInWorldDimensions(climbablePosition)) {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
+				} else if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
 					//Start of the climbing
 					finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
 					body.setIsClimbing(true);
 				} else if (body.isClimbing()) {
-					if (!m_world[position.x][position.y+MoveDirection.up.getYMove()].isEmpty()) {
+					Point top = new Point(position.x, position.y+MoveDirection.up.getYMove());
+					if (!isInWorldDimensions(top)) {
+						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+						return;
+					} else if (!m_world[top.x][top.y].isEmpty()) {
 						//Kill Lemming and its body
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 						return;
 					} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
 						m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
 						//Mid steps of climbing
-						finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
+						finalPosition = top;
 					} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
 						//Top of the climbing
 						finalPosition = climbablePosition;
@@ -317,7 +327,6 @@ public class Environment {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
-				
 				if (isInWorldDimensions(finalPosition)) {
 					body.setPosition(finalPosition);
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
@@ -347,8 +356,11 @@ public class Environment {
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.JUMP;
 			
-			if (position != null & jumpablePosition != null && isInWorldDimensions(jumpablePosition)) {
-				if (!body.isJumping() && 
+			if (position != null & jumpablePosition != null) {
+				if (!isInWorldDimensions(jumpablePosition)) {
+					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					return;
+				} else if (!body.isJumping() && 
 					m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
 					m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
 					//Start of the jump
@@ -393,8 +405,8 @@ public class Environment {
 	}
 	
 	public boolean isInWorldDimensions(Point position) {
-		return (position.x > 0 && position.x <= m_width &&
-				position.y > 0 && position.y >= m_height);
+		return (position.x >= 0 && position.x < m_width &&
+				position.y >= 0 && position.y < m_height);
 	}
 	
 	public QTable getQTable() {
