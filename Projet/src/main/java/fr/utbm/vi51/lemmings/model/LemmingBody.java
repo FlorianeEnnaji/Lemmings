@@ -49,7 +49,7 @@ public class LemmingBody extends Body {
 				}
 			}
 		}
-		LearningRoutine();
+		//LearningRoutine();
 	}
 	
 	public void walk(MoveDirection dir){

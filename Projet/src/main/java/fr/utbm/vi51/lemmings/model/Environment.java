@@ -68,6 +68,7 @@ public class Environment {
 		            m_world[xPixel][yPixel] = new WorldPixel("dig", id);
 		        } else if (color==m_yellow.getRGB()) {
 		            m_world[xPixel][yPixel] = new WorldPixel("entry", id);
+		            this.entry = new Point(xPixel, yPixel);
 		        } else if (color==Color.WHITE.getRGB()) {
 		            m_world[xPixel][yPixel] = new WorldPixel("exit", id);
 		        } else if (color==m_brown.getRGB()) {
@@ -120,7 +121,7 @@ public class Environment {
 	}
 	
 	private void createBody(){
-		LemmingBody body = new LemmingBody(this, null, entry);
+		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		agentBodies.put(new UUID(1, agentBodies.size()+1), body);
 	}
 		
