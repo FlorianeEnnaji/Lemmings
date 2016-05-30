@@ -22,7 +22,7 @@ public class Game {
 
 	public static void main(String[] args) throws IOException {
 		try{
-			File file = new File("./src/img/world1.bmp");
+			File file = new File("./src/img/world2.bmp");
 			BufferedImage image = ImageIO.read(file);
 			Environment env = new Environment(image);
 			env.createLemming();

@@ -88,12 +88,12 @@ public class Environment {
 		    {
 				WorldPixel pixel = (WorldPixel) m_world[j][i];
 				
-				if (pixel.isEmpty()) {
+				if (pixel.isEntry()) {
+					System.out.print(" X");
+				} else if (pixel.isEmpty()) {
 					System.out.print(" #");
 				} else if (pixel.isDiggable()) {
 					System.out.print(" .");
-				} else if (pixel.isEntry()) {
-					System.out.print(" X");
 				} else if (pixel.isExit()){
 					System.out.print(" O");
 				} else {
@@ -164,6 +164,7 @@ public class Environment {
 		if (direction == null) {
 			direction = MoveDirection.right;
 		}
+		
 		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
@@ -361,7 +362,9 @@ public class Environment {
 					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				} else if (!body.isJumping() && 
+					isInWorldDimensions(new Point(jumpablePosition.x, jumpablePosition.y+MoveDirection.down.getYMove())) &&
 					m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
+					isInWorldDimensions(new Point(jumpablePosition.x + direction.getXMove(), jumpablePosition.y)) &&
 					m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
 					//Start of the jump
 					finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
