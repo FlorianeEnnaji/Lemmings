@@ -17,7 +17,7 @@ public class LemmingBody extends Body {
 		super(environment, direction, position);
 		//LearningRoutine();
 		//setPerception(null);
-		learn();
+		//learn();
 		
 	}
 
