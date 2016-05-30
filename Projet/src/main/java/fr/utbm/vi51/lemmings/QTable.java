@@ -42,12 +42,16 @@ public class QTable {
 	}
 
 	public void UpdateCoef(List<PerceivableObject> s, ActionEnum a, int reward){
-		float[] tmp=this.coef.get(this.state.indexOf(s));
-		if (!this.StateAlreadyVisit(s)){
-			this.AddState(s);
+		if (s != null) {
+			if (!this.StateAlreadyVisit(s)){
+				this.AddState(s);
+			}
+			System.out.println(reward);
+			float[] tmp=this.coef.get(this.state.indexOf(s));
+			tmp[a.ordinal()]=(tmp[a.ordinal()]+ reward)/2;
+			this.coef.set(this.state.indexOf(s), tmp);
+			System.out.println(this.coef.get(this.state.indexOf(s)));
 		}
-		tmp[a.ordinal()]=(tmp[a.ordinal()]+ reward)/2;
-		this.coef.set(this.state.indexOf(s), tmp);
 	}
 	
 	public ArrayList<List<PerceivableObject>> getState() {

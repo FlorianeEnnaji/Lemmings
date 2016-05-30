@@ -4,7 +4,7 @@ public enum MoveDirection {
 	up(0,-1), 
 	down(0,1), 
 	left(-1,0), 
-	right(0,1);
+	right(1,0);
 	
 	private final int x_move;
 	private final int y_move;
