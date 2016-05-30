@@ -32,6 +32,7 @@ public class WorldPixel implements EnvironmentObject{
 			case entry : 
 				m_entry = true;
 				m_climbable = false;
+				m_empty = true;
 				break;
 			case exit : 
 				m_exit = true;
