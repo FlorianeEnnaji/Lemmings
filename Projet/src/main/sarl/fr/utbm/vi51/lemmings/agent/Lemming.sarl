@@ -16,6 +16,7 @@ agent Lemming  {
 			occurrence.parameters.get(0) as UUID,
 			occurrence.parameters.get(1) as UUID)
 		setSkill(PhysicEnvironment, physicSkill)
+		print(" agent");
 				
 	}
 	

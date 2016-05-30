@@ -35,6 +35,9 @@ public class Environment {
 	/** List of agentbodies */
 	public final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
+	/** Link between agent and bodies */
+	public LinkerClass linker = new LinkerClass();
+	
 	/** Constructors */
 	public Environment(){
 		m_world = new WorldPixel[m_width][m_height];	
@@ -121,7 +124,9 @@ public class Environment {
 	
 	private void createBody(){
 		LemmingBody body = new LemmingBody(this, null, entry);
-		agentBodies.put(new UUID(1, agentBodies.size()+1), body);
+		UUID newID = new UUID(1, agentBodies.size()+1);
+		agentBodies.put(newID, body);
+		linker.createAgent(newID);
 	}
 		
 	/** Return the perception of the body */

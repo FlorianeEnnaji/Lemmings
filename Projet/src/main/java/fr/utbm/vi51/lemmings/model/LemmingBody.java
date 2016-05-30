@@ -15,7 +15,8 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		LearningRoutine();
+		System.out.print(" jsuis la ");
+		/*LearningRoutine();*/
 		//setPerception(null);
 		
 	}

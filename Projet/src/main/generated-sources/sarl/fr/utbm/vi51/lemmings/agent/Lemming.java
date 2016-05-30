@@ -22,6 +22,7 @@ import io.sarl.lang.core.Percept;
 import java.util.UUID;
 import javax.annotation.Generated;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 
 @SarlSpecification("0.3")
 @SuppressWarnings("all")
@@ -34,6 +35,7 @@ public class Lemming extends Agent {
       ((UUID) _get), 
       ((UUID) _get_1));
     this.<StandardPhysicEnvironment>setSkill(PhysicEnvironment.class, physicSkill);
+    InputOutput.<String>print(" agent");
   }
   
   @Percept
