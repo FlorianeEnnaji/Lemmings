@@ -29,13 +29,12 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 public class Lemming extends Agent {
   @Percept
   public void _handle_Initialize_0(final Initialize occurrence) {
+    InputOutput.<String>println("agent");
     Object _get = occurrence.parameters[0];
     Object _get_1 = occurrence.parameters[1];
     StandardPhysicEnvironment physicSkill = new StandardPhysicEnvironment(
       ((UUID) _get), 
       ((UUID) _get_1));
-    this.<StandardPhysicEnvironment>setSkill(PhysicEnvironment.class, physicSkill);
-    InputOutput.<String>print(" agent");
   }
   
   @Percept
