@@ -19,12 +19,13 @@ import fr.utbm.vi51.lemmings.model.SpawnMapping;
 import io.sarl.lang.core.Agent;
 
 public class Game {
+	private static Environment env;
 
 	public static void main(String[] args) throws IOException {
 		try{
 			File file = new File("./src/img/world2.bmp");
 			BufferedImage image = ImageIO.read(file);
-			Environment env = new Environment(image);
+			env = new Environment(image);
 			env.createLemming();
 			
 			/*
