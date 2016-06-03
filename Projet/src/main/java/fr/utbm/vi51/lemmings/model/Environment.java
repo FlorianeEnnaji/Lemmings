@@ -282,59 +282,95 @@ public class Environment {
 			}
 			MoveDirection direction = body.getDirection();
 			if (direction == null) {
-				direction = MoveDirection.up;
+				direction = MoveDirection.right;
 			}
-			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-			Point finalPosition = position;
 			ActionEnum action = ActionEnum.CLIMB;
+			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+			Point nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
+			Point onTop = new Point(position.x, position.y + MoveDirection.up.getYMove());
+			Point finalPosition = position;
+			int reward = 0;
 			
-			if (position != null & climbablePosition != null) {
-				if (!isInWorldDimensions(climbablePosition)) {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				} else if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
-					//Start of the climbing
-					finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
-					body.setIsClimbing(true);
-				} else if (body.isClimbing()) {
-					Point top = new Point(position.x, position.y+MoveDirection.up.getYMove());
-					if (!isInWorldDimensions(top)) {
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-						return;
-					} else if (!m_world[top.x][top.y].isEmpty()) {
-						//Kill Lemming and its body
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-						return;
-					} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
-						m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
-						//Mid steps of climbing
-						finalPosition = top;
-					} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
-						//Top of the climbing
-						finalPosition = climbablePosition;
-						body.setIsClimbing(false);
-					} else if (m_world[climbablePosition.x][climbablePosition.y].isExit()) {
-						//Top of the climbing is exit
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
-						isArrived=true;
-						body.setPosition(finalPosition);
-						body.setIsClimbing(false);
-						return;
+			boolean landed = false;
+			while(!landed) {
+				if (position != null && climbablePosition != null) {
+					if (!isInWorldDimensions(climbablePosition)) {
+						
+						//If he wants to climb outside the world
+						if (position.y - climbablePosition.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
+					} else if (!isInWorldDimensions(onTop)) {
+						
+						//If he wants to climb but is already too high
+						if (onTop.y - position.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
+					} else if (m_world[climbablePosition.x][climbablePosition.y].isClimbable() && m_world[onTop.x][onTop.y].isEmpty()) {
+						
+						//He can climb
+						reward = ActionEnum.Living.getYourReward();
+						finalPosition = onTop;
+						if (m_world[nextClimbablePosition.x][nextClimbablePosition.y].isEmpty()){
+							//He finished climbing
+							finalPosition = nextClimbablePosition;
+							landed = true;
+						} else if (m_world[nextClimbablePosition.x][nextClimbablePosition.y].isExit()){
+							//He lands on exit
+							finalPosition = nextClimbablePosition;
+							reward = ActionEnum.GET_OUT.getYourReward();
+							landed = true;
+						}
+						
+					} else if (m_world[climbablePosition.x][climbablePosition.y].isClimbable() && m_world[onTop.x][onTop.y].isExit()) {
+						
+						//He climbs through exit!
+						finalPosition = onTop;
+						reward = ActionEnum.GET_OUT.getYourReward();
+						landed = true;
+						
 					} else {
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-						return;
+						
+						//He can't climb
+						if (position.y - climbablePosition.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
 					}
+					
+					//Preparing vars for next iteration
+					onTop = new Point(finalPosition.x, finalPosition.y + MoveDirection.up.getYMove());
+					climbablePosition = new Point(finalPosition.x + direction.getXMove(), finalPosition.y + direction.getYMove());
+					nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
+					
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				}
-				if (isInWorldDimensions(finalPosition)) {
-					body.setPosition(finalPosition);
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					
+					//There is a null position
+					reward = ActionEnum.NOTHING.getYourReward();
+					landed = true;
+					
 				}
 			}
+			
+			body.setPosition(finalPosition);
+			m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+reward);
 		}
 	}
 	
