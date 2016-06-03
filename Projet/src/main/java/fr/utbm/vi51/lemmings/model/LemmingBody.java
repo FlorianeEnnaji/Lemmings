@@ -17,7 +17,9 @@ public class LemmingBody extends Body {
 		super(environment, direction, position);
 		System.out.print(" jsuis la ");
 		/*LearningRoutine();*/
+		//LearningRoutine();
 		//setPerception(null);
+		//learn();
 		
 	}
 
@@ -50,7 +52,7 @@ public class LemmingBody extends Body {
 				}
 			}
 		}
-		LearningRoutine();
+		//LearningRoutine();
 	}
 	
 	public void walk(MoveDirection dir){
@@ -89,15 +91,38 @@ public class LemmingBody extends Body {
 		this.perception = perception;
 	}
 	
-	public void LearningRoutine(){
+	private ActionInfluence LearningRoutine(){
 		ActionEnum[] pos = ActionEnum.values();
 		int r;
 		do{
 			r = (int)(Math.random() * (pos.length-1)) ;
 		}while(pos[r].getDir()==null);
 		ActionInfluence act= new ActionInfluence(pos[r]);
-		influence(act);		
+		return act;
 	}
+	
+	public void learn(){
+		Environment e = getEnvironment();
+		int samePosition = 0;
+		Point currentPos = this.getPosition();
+		while(!e.isArrived() && samePosition < 50) {
+			ActionInfluence a = LearningRoutine();
+			System.out.println(a.getType().getName());
+			influence(a);
+			if (currentPos != this.getPosition()) {
+				currentPos = this.getPosition();
+				samePosition = 0;
+			} else {
+				samePosition++;
+			}
+		}
+		if (e.isArrived()) {
+			System.out.println("ARRIVED");
+		} else {
+			System.out.println("BLOCKED");
+		}
+	}
+	
 	
 
 }

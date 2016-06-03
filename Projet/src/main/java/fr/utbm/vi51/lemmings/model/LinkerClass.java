@@ -10,7 +10,9 @@ import io.sarl.core.Initialize;
 public class LinkerClass {
 	
 	public final Map<UUID,Lemming> agentMind = new TreeMap<UUID,Lemming>();
-	
+    
+	//private janusKernel ja = Boot::startJanus(null,typeof(Lemming),args);
+
 	public LinkerClass(){
 		
 	}
