@@ -107,6 +107,7 @@ public class LemmingBody extends Body {
 			ActionInfluence a = LearningRoutine();
 			System.out.println(a.getType().getName());
 			influence(a);
+			System.out.println(this.getPosition());
 			if (currentPos != this.getPosition()) {
 				currentPos = this.getPosition();
 				samePosition = 0;

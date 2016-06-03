@@ -24,6 +24,7 @@ public class WorldPixel implements EnvironmentObject{
 		switch (type){
 			case dig : 
 				m_diggable = true;
+				m_climbable = false;
 				break;
 			case empty:
 				m_empty = true;
