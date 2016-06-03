@@ -173,33 +173,40 @@ public class Environment {
 		}
 		
 		if (position != null) {
-			if (isInWorldDimensions(pos)) {
+			if (isInWorldDimensions(pos) && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))) {
 				if (m_world[pos.x][pos.y].isEmpty()) {
 					if (!m_world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+						
 						//Lemming can walk in his direction
-						if (body.isFalling()) {
-							body.setIsFalling(false);
-							if(body.getFallingHeight() > 4) {
-								//Kill Lemming and its body
-								m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-								return;
-							}
-						}
 						body.setPosition(new Point(pos.x, pos.y));
 						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+					
 					} else {
 						//Lemming is falling
-						if (!body.isFalling()) {
-							body.setIsFalling(true);
-						} else if (body.getFallingHeight() < 5 && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))){
-							body.setFallingHeight(body.getFallingHeight() + 1);
-						} else {
-							//Destroy Lemming and its body
-							m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-							return;
+						
+						Point down = new Point (pos.x, pos.y+MoveDirection.down.getYMove());
+						
+						while(isInWorldDimensions(down) && 
+								m_world[down.x][down.y].isEmpty() && 
+								(down.y - pos.y) < 5){
+							down = new Point (down.x, down.y+MoveDirection.down.getYMove());
 						}
-						body.setPosition(new Point(pos.x, pos.y+MoveDirection.down.getYMove()));
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+						
+						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
+							//He dies
+							m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+						} else {
+							body.setPosition(down);
+							if (m_world[down.x][down.y].isExit()) {
+								//He landed on exit
+								m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								isArrived = true;
+							} else {
+								//He landed successfully
+								m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+							}
+						}
+						
 					}
 				} else if (m_world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
