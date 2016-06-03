@@ -15,9 +15,9 @@ public class LemmingBody extends Body {
 	
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-		//LearningRoutine();
-		//setPerception(null);
-		//learn();
+		LearningRoutine();
+		setPerception(null);
+		learn();
 		
 	}
 
@@ -103,10 +103,11 @@ public class LemmingBody extends Body {
 		Environment e = getEnvironment();
 		int samePosition = 0;
 		Point currentPos = this.getPosition();
-		while(!e.isArrived() && samePosition < 50) {
+		while(!e.isArrived() && samePosition < 100) {
 			ActionInfluence a = LearningRoutine();
 			System.out.println(a.getType().getName());
 			influence(a);
+			System.out.println(this.getPosition());
 			if (currentPos != this.getPosition()) {
 				currentPos = this.getPosition();
 				samePosition = 0;
@@ -117,7 +118,7 @@ public class LemmingBody extends Body {
 		if (e.isArrived()) {
 			System.out.println("ARRIVED");
 		} else {
-			System.out.println("BLOCKED");
+			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
 		}
 	}
 	
