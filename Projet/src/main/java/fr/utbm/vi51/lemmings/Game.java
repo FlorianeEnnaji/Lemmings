@@ -52,8 +52,8 @@ public class Game {
 	 * @param the QTable we want to save
 	 * */
 	public static void saveQTableInfos(QTable qt){
-		ArrayList<List<PerceivableObject>> state = qt.getState();
-		ArrayList<float[]> coef = qt.getCoef();
+		ArrayList<List<PerceivableObject>> state = qt.getStateList();
+		ArrayList<float[]> coef = qt.getCoefList();
 		ArrayList<String[]> stringCoef = new ArrayList<>();
 		
 		for (float[] list : coef) {

@@ -11,70 +11,70 @@ import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
  */
 public class QTable {
 	
-	private ArrayList<List<PerceivableObject>> state;
-	private ArrayList<float[]> coef;
+	private ArrayList<List<PerceivableObject>> stateList;
+	private ArrayList<float[]> coefList;
 	
 	/**
 	 * Default Constructor
 	 */
 	public QTable(){
-		this.state=new ArrayList<>();
-		this.coef=new ArrayList<>();
+		this.stateList=new ArrayList<>();
+		this.coefList=new ArrayList<>();
 	}
 	
 	/**
-	 * Constructor of a QTable with a given list of state and associated coefficients 
+	 * Constructor of a QTable with a given list of states and associated lists of coefficients 
 	 * 
-	 * @param state a list of different states
-	 * @param coef a list of coefficients associated to those states
+	 * @param stateList a list of different states
+	 * @param coefList all list of coefficients associated the list of states
 	 */
-	public QTable(ArrayList<List<PerceivableObject>> state, ArrayList<float[]> coef){
-		this.state = state;
-		this.coef = coef;
+	public QTable(ArrayList<List<PerceivableObject>> stateList, ArrayList<float[]> coefList){
+		this.stateList = stateList;
+		this.coefList = coefList;
 	}
 	
 	/**
-	 * Add a list of state to the current QTable
+	 * Add a state to the current QTable
 	 * 
-	 * @param s a list of states
+	 * @param s a state
 	 */
 	public void AddState(List<PerceivableObject> s){
 		float[] tmp= new float[ActionEnum.values().length-3];
 		for (int i = 0; i < tmp.length; i++){
 			tmp[i] = -5;
 		}
-		this.state.add(s);
-		this.coef.add(tmp);		
+		this.stateList.add(s);
+		this.coefList.add(tmp);		
 	}
 	
 	/**
-	 * Check if a given state already exists on the QTable
+	 * Check if a state already exists on the QTable
 	 * 
 	 * @param s a state
-	 * @return true if the current state contains the list of states, false otherwise 
+	 * @return true if the list of states contains the state in parameter, false otherwise 
 	 */
 	public boolean StateAlreadyVisit(List<PerceivableObject> s){
-		return this.state.contains(s);
+		return this.stateList.contains(s);
 	}
 	
 	/**
-	 * Get the coefficients of given states from the QTable
+	 * Get the list of coefficients of a state
 	 * 
-	 * @param s a list of PerceivableObject
-	 * @return the coefficients on the QTable for the list of PerceivableObject given 
+	 * @param s a state
+	 * @return the list of coefficients for the state
 	 */
 	public float[] getCoef(List<PerceivableObject> s){
 		if (this.StateAlreadyVisit(s)){
-			return this.coef.get(this.state.indexOf(s));
+			return this.coefList.get(this.stateList.indexOf(s));
 		}else{
 			return null;
 		}
 	}
 
 	/**
-	 * Update coefficients of the QTable
+	 * Update the list of coefficients of a state
 	 * 
-	 * @param s a list of states
+	 * @param s a state
 	 * @param a
 	 * @param reward
 	 */
@@ -84,18 +84,24 @@ public class QTable {
 				this.AddState(s);
 			}
 			System.out.println(reward);
-			float[] tmp=this.coef.get(this.state.indexOf(s));
+			float[] tmp=this.coefList.get(this.stateList.indexOf(s));
 			tmp[a.ordinal()]=(tmp[a.ordinal()]+ reward)/2;
-			this.coef.set(this.state.indexOf(s), tmp);
-			System.out.println(this.coef.get(this.state.indexOf(s)));
+			this.coefList.set(this.stateList.indexOf(s), tmp);
+			System.out.println(this.coefList.get(this.stateList.indexOf(s)));
 		}
 	}
 	
-	public ArrayList<List<PerceivableObject>> getState() {
-		return this.state;
+	/**
+	 * @return the list of states
+	 */
+	public ArrayList<List<PerceivableObject>> getStateList() {
+		return this.stateList;
 	}
 	
-	public ArrayList<float[]> getCoef() {
-		return this.coef;
+	/**
+	 * @return all lists of coefficients
+	 */
+	public ArrayList<float[]> getCoefList() {
+		return this.coefList;
 	}
 }
