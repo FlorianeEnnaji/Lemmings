@@ -129,6 +129,15 @@ public class Environment {
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		agentBodies.put(new UUID(1, agentBodies.size()+1), body);
 	}
+	
+	/**
+	 * return a list of coefficients for current state
+	 */
+	public float[] getPerceptionCoef(Body body){
+		List<PerceivableObject> list = new LinkedList<PerceivableObject>();
+		list = body.getPerception();
+		return m_qtable.getCoef(list);
+	}
 		
 	/** Return the perception of the body */
 	public List<PerceivableObject> getPerception(Body body) {
