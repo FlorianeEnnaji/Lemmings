@@ -539,4 +539,11 @@ public class Environment {
 		return this.qtable;
 	}
 	
+	/**
+	 * @param the QTable we want to give to the environment
+	 */
+	public void setQTable(QTable qt){
+		this.qtable = qt;
+	}
+	
 }

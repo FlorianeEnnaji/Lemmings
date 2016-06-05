@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -30,18 +31,28 @@ public class Game {
 	 */
 	public static void main(String[] args) throws IOException {
 		try{
-			File file = new File("./src/img/world5.bmp");
+			
+			String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
+
+			/*
+			 * Comment following if you want to play
+			 */
+			
+			launchLearning(worlds);
+
+			/*
+			 * Uncomment following if you want to play
+			 * 
+			
+			Random rand = new Random();
+			int worldNb = rand.nextInt(worlds.length);
+			
+			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
 			env = new Environment(image);
-			env.createLemming();
-			
-			/*
-			 * Uncomment following to save QTable
-			saveQTableInfos(env.getQTable());
-			*/
-			/*
-			 * Uncomment following to get QTable from a previous saving
-			QTable otherQT = getQTableFromFile();
+			QTable qt = getQTableFromFile();
+			env.setQTable(qt);
+			//TODO Find a way to play
 			*/
 
 		}
@@ -49,6 +60,36 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Function that launches a loop to test lots of moving possibilities 
+	 * for the Lemming regarding a list of world
+	 * @throws IOException 
+	 * 
+	 * @Param worlds the array of paths to world images
+	 * */
+	public static void launchLearning(String[] worlds) throws IOException {
+		File file;
+		try {
+			for (String world:worlds) {
+				file = new File(world);
+				BufferedImage image = ImageIO.read(file);
+				
+				env = new Environment(image);
+				env.createLemming();
+				env.createLemming();
+				env.createLemming();
+			}
+			//Learning is over
+			saveQTableInfos(env.getQTable());
+			
+		}		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 	/**
 	 * Function that saves a QTable, in order to reuse it in another instance.
