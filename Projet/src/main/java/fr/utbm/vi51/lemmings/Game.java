@@ -38,7 +38,7 @@ public class Game {
 			 * Comment following if you want to play
 			 */
 			
-			launchLearning(worlds);
+			launchLearning(worlds, 5);
 
 			/*
 			 * Uncomment following if you want to play
@@ -66,9 +66,10 @@ public class Game {
 	 * for the Lemming regarding a list of world
 	 * @throws IOException 
 	 * 
-	 * @Param worlds the array of paths to world images
+	 * @param worlds the array of paths to world images
+	 * @param nbLemmings the number of lemmings that will cross each world
 	 * */
-	public static void launchLearning(String[] worlds) throws IOException {
+	public static void launchLearning(String[] worlds, int nbLemmings) throws IOException {
 		File file;
 		try {
 			for (String world:worlds) {
@@ -76,9 +77,9 @@ public class Game {
 				BufferedImage image = ImageIO.read(file);
 				
 				env = new Environment(image);
-				env.createLemming();
-				env.createLemming();
-				env.createLemming();
+				for (int i = 0; i < nbLemmings; i++){
+					env.createLemming();
+				}
 			}
 			//Learning is over
 			saveQTableInfos(env.getQTable());
