@@ -30,6 +30,7 @@ public class QTable {
 	 */
 	public QTable(ArrayList<List<PerceivableObject>> stateList, ArrayList<float[]> coefList){
 		this.stateList = stateList;
+		System.out.println("\n " +stateList.get(0).get(0).isClimbable());
 		this.coefList = coefList;
 	}
 	
@@ -55,8 +56,24 @@ public class QTable {
 	 */
 	public boolean StateAlreadyVisit(List<PerceivableObject> s){
 		return this.stateList.contains(s);
+		
 	}
 	
+	/**
+	 * Test if a state belongs to the list of states of the QTable
+	 * @param s the current state
+	 * @return true if the state belongs to the states, false otherwise
+	 */
+	public boolean stateInQTable(List<PerceivableObject> s){
+		for (List<PerceivableObject> list : this.stateList){
+			if (list.equals(s)){
+				return true;
+			}
+			
+		}
+		return false;
+	}
+		
 	/**
 	 * Get the list of coefficients of a state
 	 * 
@@ -65,6 +82,18 @@ public class QTable {
 	 */
 	public float[] getCoef(List<PerceivableObject> s){
 		if (this.StateAlreadyVisit(s)){
+			return this.coefList.get(this.stateList.indexOf(s));
+		}
+		return null;
+	}
+	
+	/**
+	 * Return the list of coefficients corresponding to a state if it exists in the list of state of QTable
+	 * @param s the current state
+	 * @return the list of coefficients corresponding to the current state
+	 */
+	public float[] getCoefIfStateExist(List<PerceivableObject> s){
+		if (this.stateInQTable(s)){
 			return this.coefList.get(this.stateList.indexOf(s));
 		}
 		return null;

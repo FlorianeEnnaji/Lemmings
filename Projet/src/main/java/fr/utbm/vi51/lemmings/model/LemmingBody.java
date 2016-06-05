@@ -25,9 +25,46 @@ public class LemmingBody extends Body {
 	 */
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
+		
+		/*
+		 * Comment the 3 following lines if you want to play
+		 */
 		LearningRoutine();
 		setPerception(null);
-		learn();
+		learn();		
+	}
+
+	public LemmingBody(Environment environment, MoveDirection direction, Point position, int a) {
+		super(environment, direction, position);
+		/*
+		 * Uncomment the following line if you want to play
+		 */
+	}
+
+	/**
+	 * Game function for moving the body of lemmings
+	 */
+	public void moveLemmingBody() {
+		Environment e = getEnvironment();
+		Point currentPos = this.getPosition();
+		
+		int samePosition = 0;
+		while(!e.isArrived() && samePosition < 100) {
+			ActionEnum action = e.getBestMove(this);
+			System.out.println(action.getName());
+			System.out.println(this.getPosition());
+			if (currentPos != this.getPosition()) {
+				currentPos = this.getPosition();
+				samePosition = 0;
+			} else {
+				samePosition++;
+			}
+		}
+		if (e.isArrived()) {
+			System.out.println("ARRIVED");
+		} else {
+			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
+		}
 	}
 
 	/**
@@ -138,6 +175,7 @@ public class LemmingBody extends Body {
 		Environment e = getEnvironment();
 		int samePosition = 0;
 		Point currentPos = this.getPosition();
+	
 		while(!e.isArrived() && samePosition < 100) {
 			ActionInfluence a = LearningRoutine();
 			System.out.println(a.getType().getName());
@@ -150,6 +188,7 @@ public class LemmingBody extends Body {
 				samePosition++;
 			}
 		}
+			
 		if (e.isArrived()) {
 			System.out.println("ARRIVED");
 		} else {

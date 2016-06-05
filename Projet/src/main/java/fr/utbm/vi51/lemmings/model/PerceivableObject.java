@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class PerceivableObject implements Serializable {
 	
 	private static final long serialVersionUID = -7641509704551775448L;
+	
 	private Point coordOfObject;
 	private final boolean is_diggable;
 	private final boolean is_empty;
@@ -81,5 +82,23 @@ public class PerceivableObject implements Serializable {
 	public boolean isExit(){
 		return this.is_exit;
 	}
+	
+	/**
+	 * Override boolean equals(Object o)
+	 * @param pObject
+	 * @return true if the two PerceivableObject are the same, false otherwise
+	 */
+	public boolean equals(PerceivableObject pObject){
+	    if(this == pObject) 
+	    	return true;
+	    if(pObject == null || !(pObject instanceof PerceivableObject)) 
+	    	return false;
+	    return ( this.coordOfObject == pObject.coordOfObject
+	    		&& this.is_diggable == pObject.is_diggable
+	    		&& this.is_empty == pObject.is_empty
+	    		&& this.is_climbable == pObject.is_climbable
+	    		&& this.is_entry == pObject.is_entry
+	    		&& this.is_exit == pObject.is_exit);
+    }
 		
 }

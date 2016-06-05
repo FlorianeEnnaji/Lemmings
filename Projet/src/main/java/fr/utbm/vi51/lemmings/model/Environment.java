@@ -163,6 +163,15 @@ public class Environment {
 		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
 	}
 	
+	public void createLemmingGame() {
+		int a = 0;
+		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
+		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
+		body.moveLemmingBody();;
+		
+	}
+	
+	
 	/**
 	 * return the coefficients of a state
 	 * 
@@ -547,20 +556,25 @@ public class Environment {
 	 */
 	public ActionEnum getBestMove(Body body){
 		List<PerceivableObject> bodyState = getPerception(body);
-		float[] coefList = this.qtable.getCoef(bodyState);
+		float[] coefList = new float[ActionEnum.values().length-3];
+		coefList = this.qtable.getCoefIfStateExist(bodyState);
 		
-		int id = 0;
-		int tmpID = 0;
-		float tmpCoef = coefList[0];
-		for (float coef : coefList){
-			if (tmpCoef < coef){
-				// The current action is better
-				id = tmpID;
+		if (coefList != null) {
+			int id = 0;
+			int tmpID = 0;
+			float tmpCoef = coefList[0];
+			for (float coef : coefList){
+				if (tmpCoef < coef){
+					// The current action is better
+					id = tmpID;
+				}
+				tmpID ++;
 			}
-			tmpID ++;
+			ActionEnum action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
+			return action;
 		}
-		ActionEnum action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
-		return action;
+		return ActionEnum.WALK_EAST;
+	
 	}
 
 	/**
@@ -569,5 +583,7 @@ public class Environment {
 	public void setQTable(QTable qt){
 		this.qtable = qt;
 	}
+
+	
 	
 }

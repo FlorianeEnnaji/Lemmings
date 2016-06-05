@@ -38,11 +38,11 @@ public class Game {
 			 * Comment following if you want to play
 			 */
 			
-			launchLearning(worlds, 5);
+			launchLearning(worlds, 1);
 
 			/*
 			 * Uncomment following if you want to play
-			 * 
+			 */ 
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -53,7 +53,7 @@ public class Game {
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
 			//TODO Find a way to play
-			*/
+			env.createLemmingGame();
 
 		}
 		catch (Exception e) {
@@ -83,7 +83,6 @@ public class Game {
 			}
 			//Learning is over
 			saveQTableInfos(env.getQTable());
-			
 		}		
 		catch (Exception e) {
 			e.printStackTrace();
