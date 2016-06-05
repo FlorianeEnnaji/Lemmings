@@ -1,7 +1,6 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
-
 import java.util.List;
 
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;

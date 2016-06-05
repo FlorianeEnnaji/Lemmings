@@ -30,8 +30,8 @@ public class QTable {
 	 */
 	public QTable(ArrayList<List<PerceivableObject>> stateList, ArrayList<float[]> coefList){
 		this.stateList = stateList;
-		System.out.println("\n " +stateList.get(0).get(0).isClimbable());
 		this.coefList = coefList;
+		System.out.println(stateList.get(0).get(0).getX() + " -- " + stateList.get(0).get(0).getY());
 	}
 	
 	/**
@@ -64,14 +64,38 @@ public class QTable {
 	 * @param s the current state
 	 * @return true if the state belongs to the states, false otherwise
 	 */
-	public boolean stateInQTable(List<PerceivableObject> s){
+	public int stateInQTable(List<PerceivableObject> s){
+		boolean same = true;
+		int index = -1;
 		for (List<PerceivableObject> list : this.stateList){
-			if (list.equals(s)){
-				return true;
+			for (PerceivableObject o : list){
+				for (PerceivableObject os : s) {
+					PerceivableObject compare = os;
+					if (!(o.getX() == compare.getX() &&
+						o.getY() == compare.getY() &&
+						o.isClimbable() == compare.isClimbable() &&
+						o.isDiggable() == compare.isDiggable() &&
+						o.isEmpty() == compare.isEmpty() &&
+						o.isEntry() == compare.isEntry() &&
+						o.isExit() == compare.isExit())) {
+						/*System.out.print(o.getX() == compare.getX());
+						System.out.println(o.getY() == compare.getY());
+						System.out.println(compare.getX() + " -- " + compare.getY());*/
+						same = false;
+						break;
+					} else {
+						index = list.indexOf(o);
+					}
+				}
+			}
+			if (same) {
+				return index;
+			} else {
+				same = true;
 			}
 			
 		}
-		return false;
+		return index;
 	}
 		
 	/**
@@ -93,8 +117,10 @@ public class QTable {
 	 * @return the list of coefficients corresponding to the current state
 	 */
 	public float[] getCoefIfStateExist(List<PerceivableObject> s){
-		if (this.stateInQTable(s)){
-			return this.coefList.get(this.stateList.indexOf(s));
+		int index = this.stateInQTable(s);
+		System.out.println("In QTable ? " + index);
+		if (index != -1){
+			return this.coefList.get(index);
 		}
 		return null;
 	}

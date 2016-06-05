@@ -2,6 +2,7 @@ package fr.utbm.vi51.lemmings.model;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +180,7 @@ public class Environment {
 	 * @return the list of coefficients for the current state of a body
 	 */
 	public float[] getPerceptionCoef(Body body){
-		List<PerceivableObject> list = new LinkedList<>();
+		List<PerceivableObject> list = new ArrayList<>();
 		list = body.getPerception();
 		return this.qtable.getCoef(list);
 	}
@@ -189,7 +190,7 @@ public class Environment {
 	 * @param body 
 	 * @return the perception of the body*/
 	public List<PerceivableObject> getPerception(Body body) {
-		List<PerceivableObject> list = new LinkedList<>();
+		List<PerceivableObject> list = new ArrayList<>();
 		Point position = body.getPosition();
 		if (position!=null) {
 			/* Get all objects present in perception field */

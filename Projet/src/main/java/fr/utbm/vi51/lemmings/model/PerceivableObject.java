@@ -1,6 +1,7 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -11,11 +12,11 @@ public class PerceivableObject implements Serializable {
 	private static final long serialVersionUID = -7641509704551775448L;
 	
 	private Point coordOfObject;
-	private final boolean is_diggable;
-	private final boolean is_empty;
-	private final boolean is_climbable;
-	private final boolean is_entry;
-	private final boolean is_exit;
+	private final boolean diggable;
+	private final boolean empty;
+	private final boolean climbable;
+	private final boolean entry;
+	private final boolean exit;
 	
 	/**
 	 * Constructor
@@ -26,13 +27,18 @@ public class PerceivableObject implements Serializable {
 	 * @param entry true if the perceivable object is the entry, false otherwise
 	 * @param exit true if the perceivable object is the exit, false otherwise
 	 */
-	public PerceivableObject(Point coord, boolean dig, boolean empty, boolean climb, boolean entry, boolean exit){
-		this.coordOfObject = coord;
-		this.is_diggable = dig;
-		this.is_empty = empty;
-		this.is_climbable = climb;
-		this.is_entry = entry;
-		this.is_exit = exit;
+	@ConstructorProperties({"coordOfObject","diggable","empty","climbable","entry","exit"})
+	public PerceivableObject(Point coordOfObject, boolean diggable, boolean empty, boolean climbable, boolean entry, boolean exit){
+		this.coordOfObject = coordOfObject;
+		this.diggable = diggable;
+		this.empty = empty;
+		this.climbable = climbable;
+		this.entry = entry;
+		this.exit = exit;
+	}
+	
+	public Point getCoordOfObject() {
+		return this.coordOfObject;
 	}
 	
 	/**
@@ -53,52 +59,74 @@ public class PerceivableObject implements Serializable {
 	 * @return true if the object is diggable, false otherwise
 	 */
 	public boolean isDiggable(){
-		return this.is_diggable;
+		return this.diggable;
 	}
 	/**
 	 * @return true if the object is empty, false otherwise
 	 */
 	public boolean isEmpty(){
-		return this.is_empty;
+		return this.empty;
 	}
 	
 	/**
 	 * @return true if the object is climbable, false otherwise
 	 */
 	public boolean isClimbable(){
-		return this.is_climbable;
+		return this.climbable;
 	}
 	
 	/**
 	 * @return true if the object is the entry, false otherwise
 	 */
 	public boolean isEntry(){
-		return this.is_entry;
+		return this.entry;
 	}
 	
 	/**
 	 * @return true if the object is the exit, false otherwise
 	 */
 	public boolean isExit(){
-		return this.is_exit;
+		return this.exit;
 	}
 	
-	/**
-	 * Override boolean equals(Object o)
-	 * @param pObject
-	 * @return true if the two PerceivableObject are the same, false otherwise
-	 */
-	public boolean equals(PerceivableObject pObject){
-	    if(this == pObject) 
-	    	return true;
-	    if(pObject == null || !(pObject instanceof PerceivableObject)) 
-	    	return false;
-	    return ( this.coordOfObject == pObject.coordOfObject
-	    		&& this.is_diggable == pObject.is_diggable
-	    		&& this.is_empty == pObject.is_empty
-	    		&& this.is_climbable == pObject.is_climbable
-	    		&& this.is_entry == pObject.is_entry
-	    		&& this.is_exit == pObject.is_exit);
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((coordOfObject == null) ? 0 : coordOfObject.hashCode());
+		result = prime * result + (climbable ? 1231 : 1237);
+		result = prime * result + (diggable ? 1231 : 1237);
+		result = prime * result + (empty ? 1231 : 1237);
+		result = prime * result + (entry ? 1231 : 1237);
+		result = prime * result + (exit ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PerceivableObject other = (PerceivableObject) obj;
+		if (coordOfObject == null) {
+			if (other.coordOfObject != null)
+				return false;
+		} else if (!coordOfObject.equals(other.coordOfObject))
+			return false;
+		if (climbable != other.climbable)
+			return false;
+		if (diggable != other.diggable)
+			return false;
+		if (empty != other.empty)
+			return false;
+		if (entry != other.entry)
+			return false;
+		if (exit != other.exit)
+			return false;
+		return true;
+	}
 		
 }

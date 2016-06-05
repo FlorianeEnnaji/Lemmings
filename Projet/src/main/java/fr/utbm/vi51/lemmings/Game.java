@@ -1,5 +1,7 @@
 package fr.utbm.vi51.lemmings;
 import java.awt.image.BufferedImage;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,13 +38,13 @@ public class Game {
 
 			/*
 			 * Comment following if you want to play
-			 */
+			 *
 			
-			launchLearning(worlds, 1);
-
+			launchLearning(worlds, 1);*/
+			
 			/*
 			 * Uncomment following if you want to play
-			 */ 
+			 */
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -54,6 +56,7 @@ public class Game {
 			env.setQTable(qt);
 			//TODO Find a way to play
 			env.createLemmingGame();
+			
 
 		}
 		catch (Exception e) {
@@ -111,9 +114,9 @@ public class Game {
 		
 		try {
 			FileOutputStream fos = new FileOutputStream("state.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(state);
-			oos.close();
+		    XMLEncoder encoder=new XMLEncoder(fos);
+			encoder.writeObject(state);
+			encoder.close();
 			
 			FileOutputStream fos1 = new FileOutputStream("coef.dat");
 			ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
@@ -123,6 +126,8 @@ public class Game {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 	}
 	
@@ -134,12 +139,12 @@ public class Game {
 		ArrayList<List<PerceivableObject>> state = new ArrayList<>();
 		ArrayList<float[]> coef = new ArrayList<>();
 		ArrayList<String[]> stringCoef = new ArrayList<>();
-		
+	    
 		try {
 			FileInputStream fis = new FileInputStream("state.dat");
-			ObjectInputStream iis = new ObjectInputStream(fis);
-			state = (ArrayList<List<PerceivableObject>>) iis.readObject();
-			iis.close();
+			XMLDecoder decoder =new XMLDecoder(fis);
+			state = (ArrayList<List<PerceivableObject>>) decoder .readObject();
+			decoder .close();
 
 			FileInputStream fis1 = new FileInputStream("coef.dat");
 			ObjectInputStream iis1 = new ObjectInputStream(fis1);
@@ -153,12 +158,12 @@ public class Game {
 		for (String[] list : stringCoef) {
 			float[] table = new float[list.length];
 			for (int i = 0; i < list.length; i++){
-				System.out.print(list[i] + " ");
 				table[i] = Float.parseFloat(list[i]);
 			}
 			coef.add(table);
 		}
-		
+		System.out.println("\nOUTPUT");
+		System.out.println(state.get(0).get(0).getX() + " -- " + state.get(0).get(0).getY());
 		QTable qt = new QTable(state, coef);
 		
 		return qt;
