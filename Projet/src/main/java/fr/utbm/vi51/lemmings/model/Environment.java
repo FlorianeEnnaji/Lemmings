@@ -545,5 +545,9 @@ public class Environment {
 	public void setQTable(QTable qt){
 		this.qtable = qt;
 	}
+
+	public WorldPixel[][] getWorld() {
+		return this.world;
+	}
 	
 }

@@ -125,8 +125,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected void emit(final Event e) {
-    getSkill(io.sarl.core.DefaultContextInteractions.class).emit(e);
+  protected void emit(final Event arg0) {
+    getSkill(io.sarl.core.DefaultContextInteractions.class).emit(arg0);
   }
   
   /**
@@ -136,8 +136,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected void emit(final Event e, final Scope<Address> scope) {
-    getSkill(io.sarl.core.DefaultContextInteractions.class).emit(e, scope);
+  protected void emit(final Event arg0, final Scope<Address> arg1) {
+    getSkill(io.sarl.core.DefaultContextInteractions.class).emit(arg0, arg1);
   }
   
   /**
@@ -180,8 +180,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isDefaultContext(final AgentContext context) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultContext(context);
+  protected boolean isDefaultContext(final AgentContext arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultContext(arg0);
   }
   
   /**
@@ -191,8 +191,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isDefaultContext(final UUID contextID) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultContext(contextID);
+  protected boolean isDefaultContext(final UUID arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultContext(arg0);
   }
   
   /**
@@ -202,8 +202,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isDefaultSpace(final Space space) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(space);
+  protected boolean isDefaultSpace(final Space arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(arg0);
   }
   
   /**
@@ -213,8 +213,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isDefaultSpace(final SpaceID space) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(space);
+  protected boolean isDefaultSpace(final SpaceID arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(arg0);
   }
   
   /**
@@ -224,8 +224,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isDefaultSpace(final UUID space) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(space);
+  protected boolean isDefaultSpace(final UUID arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isDefaultSpace(arg0);
   }
   
   /**
@@ -235,8 +235,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected boolean isInDefaultSpace(final Event event) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).isInDefaultSpace(event);
+  protected boolean isInDefaultSpace(final Event arg0) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).isInDefaultSpace(arg0);
   }
   
   /**
@@ -246,8 +246,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected void receive(final UUID receiver, final Event e) {
-    getSkill(io.sarl.core.DefaultContextInteractions.class).receive(receiver, e);
+  protected void receive(final UUID arg0, final Event arg1) {
+    getSkill(io.sarl.core.DefaultContextInteractions.class).receive(arg0, arg1);
   }
   
   /**
@@ -258,8 +258,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
   @FiredEvent(AgentSpawned.class)
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(DefaultContextInteractions.class)
-  protected UUID spawn(final Class<? extends Agent> aAgent, final Object... params) {
-    return getSkill(io.sarl.core.DefaultContextInteractions.class).spawn(aAgent, params);
+  protected UUID spawn(final Class<? extends Agent> arg0, final Object... arg1) {
+    return getSkill(io.sarl.core.DefaultContextInteractions.class).spawn(arg0, arg1);
   }
   
   /**
@@ -280,8 +280,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(Behaviors.class)
-  protected Behavior registerBehavior(final Behavior attitude) {
-    return getSkill(io.sarl.core.Behaviors.class).registerBehavior(attitude);
+  protected Behavior registerBehavior(final Behavior arg0) {
+    return getSkill(io.sarl.core.Behaviors.class).registerBehavior(arg0);
   }
   
   /**
@@ -291,8 +291,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(Behaviors.class)
-  protected Behavior unregisterBehavior(final Behavior attitude) {
-    return getSkill(io.sarl.core.Behaviors.class).unregisterBehavior(attitude);
+  protected Behavior unregisterBehavior(final Behavior arg0) {
+    return getSkill(io.sarl.core.Behaviors.class).unregisterBehavior(arg0);
   }
   
   /**
@@ -302,8 +302,8 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(Behaviors.class)
-  protected void wake(final Event evt) {
-    getSkill(io.sarl.core.Behaviors.class).wake(evt);
+  protected void wake(final Event arg0) {
+    getSkill(io.sarl.core.Behaviors.class).wake(arg0);
   }
   
   @DefaultValueUse("fr.utbm.vi51.lemmings.utils.enums.ActionEnum,fr.utbm.vi51.lemmings.model.Influence*")
