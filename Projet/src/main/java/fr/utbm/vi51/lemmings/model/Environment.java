@@ -561,7 +561,13 @@ public class Environment {
 		}
 		ActionEnum action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
 		return action;
-		
+	}
+
+	/**
+	 * @param the QTable we want to give to the environment
+	 */
+	public void setQTable(QTable qt){
+		this.qtable = qt;
 	}
 	
 }
