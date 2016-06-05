@@ -539,4 +539,29 @@ public class Environment {
 		return this.qtable;
 	}
 	
+	/**
+	 * Get the best move for a state
+	 * 
+	 * @param body the current body
+	 * @return the best action considering the current state
+	 */
+	public ActionEnum getBestMove(Body body){
+		List<PerceivableObject> bodyState = getPerception(body);
+		float[] coefList = this.qtable.getCoef(bodyState);
+		
+		int id = 0;
+		int tmpID = 0;
+		float tmpCoef = coefList[0];
+		for (float coef : coefList){
+			if (tmpCoef < coef){
+				// The current action is better
+				id = tmpID;
+			}
+			tmpID ++;
+		}
+		ActionEnum action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
+		return action;
+		
+	}
+	
 }
