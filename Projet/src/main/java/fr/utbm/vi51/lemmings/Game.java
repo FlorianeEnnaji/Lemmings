@@ -18,9 +18,16 @@ import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.SpawnMapping;
 import io.sarl.lang.core.Agent;
 
+/**
+ * Game is the class in which we create the environment and launch the simulation
+ */
 public class Game {
 	private static Environment env;
 
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		try{
 			File file = new File("./src/img/world5.bmp");
@@ -36,24 +43,21 @@ public class Game {
 			 * Uncomment following to get QTable from a previous saving
 			QTable otherQT = getQTableFromFile();
 			*/
-			
 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-			
 	}
 	
 	/**
 	 * Function that saves a QTable, in order to reuse it in another instance.
 	 * 
-	 * @param the QTable we want to save
+	 * @param qt the QTable we want to save
 	 * */
 	public static void saveQTableInfos(QTable qt){
-		ArrayList<List<PerceivableObject>> state = qt.getState();
-		ArrayList<float[]> coef = qt.getCoef();
+		ArrayList<List<PerceivableObject>> state = qt.getStateList();
+		ArrayList<float[]> coef = qt.getCoefList();
 		ArrayList<String[]> stringCoef = new ArrayList<>();
 		
 		for (float[] list : coef) {
