@@ -50,7 +50,6 @@ public class Game {
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
 			
-			worldNb = 0;
 			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
 			env = new Environment(image);
