@@ -1,5 +1,8 @@
 package fr.utbm.vi51.lemmings;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,16 +36,16 @@ public class Game {
 		try{
 			
 			String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
-
+			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
-			 */
+			 *
 			
-			launchLearning(worlds, 5);
-
+			launchLearning(worlds, 3);*/
+			
 			/*
 			 * Uncomment following if you want to play
-			 * 
+			 */
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -53,7 +56,8 @@ public class Game {
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
 			//TODO Find a way to play
-			*/
+			env.createLemmingGame();
+			
 
 		}
 		catch (Exception e) {
@@ -71,6 +75,7 @@ public class Game {
 	 * */
 	public static void launchLearning(String[] worlds, int nbLemmings) throws IOException {
 		File file;
+		QTable qt = new QTable();
 		try {
 			for (String world:worlds) {
 				file = new File(world);
@@ -80,10 +85,11 @@ public class Game {
 				for (int i = 0; i < nbLemmings; i++){
 					env.createLemming();
 				}
+				qt.getStateList().addAll(env.getQTable().getStateList());
+				qt.getCoefList().addAll(env.getQTable().getCoefList());
 			}
 			//Learning is over
-			saveQTableInfos(env.getQTable());
-			
+			saveQTableInfos(qt);
 		}		
 		catch (Exception e) {
 			e.printStackTrace();
@@ -112,9 +118,9 @@ public class Game {
 		
 		try {
 			FileOutputStream fos = new FileOutputStream("state.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(state);
-			oos.close();
+		    XMLEncoder encoder=new XMLEncoder(fos);
+			encoder.writeObject(state);
+			encoder.close();
 			
 			FileOutputStream fos1 = new FileOutputStream("coef.dat");
 			ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
@@ -125,6 +131,8 @@ public class Game {
 			e.printStackTrace();
 		}
 		
+		
+		
 	}
 	
 	/**
@@ -132,15 +140,15 @@ public class Game {
 	 * */
 	public static QTable getQTableFromFile(){
 		
-		ArrayList<List<PerceivableObject>> state = new ArrayList<>();
-		ArrayList<float[]> coef = new ArrayList<>();
+		ArrayList<List<PerceivableObject>> state = new ArrayList<List<PerceivableObject>>();
+		ArrayList<float[]> coef = new ArrayList<float[]>();
 		ArrayList<String[]> stringCoef = new ArrayList<>();
-		
+	    
 		try {
 			FileInputStream fis = new FileInputStream("state.dat");
-			ObjectInputStream iis = new ObjectInputStream(fis);
-			state = (ArrayList<List<PerceivableObject>>) iis.readObject();
-			iis.close();
+			XMLDecoder decoder =new XMLDecoder(fis);
+			state = (ArrayList<List<PerceivableObject>>) decoder .readObject();
+			decoder .close();
 
 			FileInputStream fis1 = new FileInputStream("coef.dat");
 			ObjectInputStream iis1 = new ObjectInputStream(fis1);
@@ -154,12 +162,10 @@ public class Game {
 		for (String[] list : stringCoef) {
 			float[] table = new float[list.length];
 			for (int i = 0; i < list.length; i++){
-				System.out.print(list[i] + " ");
 				table[i] = Float.parseFloat(list[i]);
 			}
 			coef.add(table);
 		}
-		
 		QTable qt = new QTable(state, coef);
 		
 		return qt;
