@@ -73,7 +73,9 @@ public class QTable {
 				correspondingState = false;
 				for (PerceivableObject poToCompare : s) {
 					samePerceivableObject = false;
-					if ((po.isClimbable() == poToCompare.isClimbable() &&
+					if (( po.getX() == poToCompare.getX() &&
+						po.getY() == poToCompare.getY() &&
+						po.isClimbable() == poToCompare.isClimbable() &&
 						po.isDiggable() == poToCompare.isDiggable() &&
 						po.isEmpty() == poToCompare.isEmpty() &&
 						po.isEntry() == poToCompare.isEntry() &&
@@ -117,7 +119,7 @@ public class QTable {
 	 * @return the list of coefficients corresponding to the current state
 	 */
 	public float[] getCoefIfStateExist(List<PerceivableObject> s){
-		int index = this.stateInQTable(s);
+		int index = this.stateList.indexOf(s);
 		
 		if (index != -1){
 			System.out.println("In QTable !! Index : " + index);

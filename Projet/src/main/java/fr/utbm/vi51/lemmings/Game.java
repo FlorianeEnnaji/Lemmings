@@ -35,13 +35,13 @@ public class Game {
 	public static void main(String[] args) throws IOException {
 		try{
 			
-			//String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
-			String[] worlds = {"./src/img/world1.bmp"};
+			String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
+			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
 			 *
 			
-			launchLearning(worlds, 3); */
+			launchLearning(worlds, 3);*/
 			
 			/*
 			 * Uncomment following if you want to play
@@ -50,7 +50,7 @@ public class Game {
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
 			
-			worldNb = 0;
+			worldNb = worlds.length-1;
 			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
 			env = new Environment(image);
@@ -76,6 +76,7 @@ public class Game {
 	 * */
 	public static void launchLearning(String[] worlds, int nbLemmings) throws IOException {
 		File file;
+		QTable qt = new QTable();
 		try {
 			for (String world:worlds) {
 				file = new File(world);
@@ -85,6 +86,8 @@ public class Game {
 				for (int i = 0; i < nbLemmings; i++){
 					env.createLemming();
 				}
+				qt.getStateList().addAll(env.getQTable().getStateList());
+				qt.getCoefList().addAll(env.getQTable().getCoefList());
 			}
 			//Learning is over
 			saveQTableInfos(env.getQTable());

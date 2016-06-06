@@ -78,25 +78,25 @@ public class LemmingBody extends Body {
 		if(action!=null){
 			switch(action){
 			case WALK_EAST : 
-				walk(action.getDir());
+				walk(action.getDir(), false);
 				break;
 			case WALK_WEST :
-				walk(action.getDir());
+				walk(action.getDir(), false);
 				break;
 			case DIG_EAST : 
-				dig(action.getDir());
+				dig(action.getDir(), false);
 				break;				
 			case DIG_WEST : 
-				dig(action.getDir());
+				dig(action.getDir(), false);
 				break;
 			case DIG_SOUTH : 
-				dig(action.getDir());
+				dig(action.getDir(), false);
 				break;
 			case CLIMB : 
-				climb();
+				climb(false);
 				break;
 			case JUMP : 
-				jump();
+				jump(false);
 				break;
 			default : break;
 			}
@@ -111,25 +111,25 @@ public class LemmingBody extends Body {
 			if(influence instanceof ActionInfluence){
 				switch(((ActionInfluence) influence).getType()){
 				case WALK_EAST : 
-					walk(((ActionInfluence) influence).getType().getDir());
+					walk(((ActionInfluence) influence).getType().getDir(), true);
 					break;
 				case WALK_WEST :
-					walk(((ActionInfluence) influence).getType().getDir());
+					walk(((ActionInfluence) influence).getType().getDir(), true);
 					break;
 				case DIG_EAST : 
-					dig(((ActionInfluence) influence).getType().getDir());
+					dig(((ActionInfluence) influence).getType().getDir(), true);
 					break;				
 				case DIG_WEST : 
-					dig(((ActionInfluence) influence).getType().getDir());
+					dig(((ActionInfluence) influence).getType().getDir(), true);
 					break;
 				case DIG_SOUTH : 
-					dig(((ActionInfluence) influence).getType().getDir());
+					dig(((ActionInfluence) influence).getType().getDir(), true);
 					break;
 				case CLIMB : 
-					climb();
+					climb(true);
 					break;
 				case JUMP : 
-					jump();
+					jump(true);
 					break;
 				default : break;
 				}
@@ -141,32 +141,32 @@ public class LemmingBody extends Body {
 	/**
 	 * @param dir the direction in which the body will walk
 	 */
-	public void walk(MoveDirection dir){
-		move(dir);
+	public void walk(MoveDirection dir, boolean learningPhase){
+		move(dir, learningPhase);
 	}
 	
 	/**
 	 * @param dir dir the direction in which the body will dig
 	 */
-	public void dig (MoveDirection dir){
+	public void dig (MoveDirection dir, boolean learningPhase){
 		Environment e = getEnvironment();
-		e.dig(this, dir);	
+		e.dig(this, dir, learningPhase);	
 	}
 	
 	/**
 	 * The body climb
 	 */
-	public void climb (){
+	public void climb (boolean learningPhase){
 		Environment e = getEnvironment();
-		e.climb(this);
+		e.climb(this, learningPhase);
 	}
 	
 	/**
 	 * The body jump
 	 */
-	public void jump (){
+	public void jump (boolean learningPhase){
 		Environment e = getEnvironment();
-		e.jump(this);
+		e.jump(this, learningPhase);
 	}
 
 	/**

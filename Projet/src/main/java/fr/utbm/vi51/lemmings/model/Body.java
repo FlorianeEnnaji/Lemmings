@@ -70,10 +70,11 @@ public abstract class Body extends DynamicObject {
 	
 	/**
 	 * @param dir the direction the body wants to move to
+	 * @param learningPhase 
 	 */
-	public void move(MoveDirection dir) {
+	public void move(MoveDirection dir, boolean learningPhase) {
 		Environment e = getEnvironment();
-		e.move(this, dir);
+		e.move(this, dir, learningPhase);
 	}
 	
 	/**

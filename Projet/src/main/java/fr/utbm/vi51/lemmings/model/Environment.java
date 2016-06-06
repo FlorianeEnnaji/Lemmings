@@ -218,7 +218,7 @@ public class Environment {
 	 * @param body the body to move
 	 * @param direction the direction of the body
 	 */
-	public void move(Body body, MoveDirection direction) {
+	public void move(Body body, MoveDirection direction, boolean learningPhase) {
 		Point position = body.getPosition();
 		if (position == null) {
 			position = new Point(0, 0);
@@ -241,7 +241,8 @@ public class Environment {
 					if (!this.world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
 						
 						//Lemming can walk in his direction
-						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
+						if(learningPhase)
+							this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 						body.setPosition(new Point(pos.x, pos.y));
 					
 					} else {
@@ -256,15 +257,18 @@ public class Environment {
 						
 						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
 							//He dies
-							this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+							if(learningPhase)
+								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 						} else {
 							if (this.world[down.x][down.y].isExit()) {
 								//He landed on exit
-								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 								this.isArrived = true;
 							} else {
 								//He landed successfully
-								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 							}
 							body.setPosition(down);
 						}
@@ -272,13 +276,16 @@ public class Environment {
 					}
 				} else if (this.world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 				} else {
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 			} else {
-				this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				if(learningPhase)
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
@@ -291,7 +298,7 @@ public class Environment {
 	 * @param body the body to move
 	 * @param direction the direction of the lemmings
 	 */
-	public void dig (Body body, MoveDirection direction){
+	public void dig (Body body, MoveDirection direction, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -313,7 +320,8 @@ public class Environment {
 			
 			if (position != null & diggablePosition != null) {
 				if (!isInWorldDimensions(diggablePosition)) {
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Digging
@@ -321,21 +329,25 @@ public class Environment {
 					finalPosition = diggablePosition;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
 					return;
 				} else {
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
 				
 				if (isInWorldDimensions(finalPosition)) {
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					body.setPosition(finalPosition);
 				} else {
-					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 				
 			}
@@ -348,7 +360,7 @@ public class Environment {
 	 * 
 	 * @param body the body to move
 	 */
-	public void climb (Body body){
+	public void climb (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -442,7 +454,8 @@ public class Environment {
 					landed = true;
 				}
 			}
-			this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
+			if (learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
 		}
 	}
@@ -453,7 +466,7 @@ public class Environment {
 	 * 
 	 * @param body the body to move
 	 */
-	public void jump (Body body){
+	public void jump (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -526,7 +539,8 @@ public class Environment {
 					landed = true;
 				}
 			}
-			this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
+			if(learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
 		}
 	}
