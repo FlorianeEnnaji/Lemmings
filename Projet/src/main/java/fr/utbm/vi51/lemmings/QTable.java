@@ -40,7 +40,7 @@ public class QTable {
 	 * @param s a state
 	 */
 	public void AddState(List<PerceivableObject> s){
-		float[] tmp= new float[ActionEnum.values().length-3];
+		float[] tmp= new float[ActionEnum.values().length-4];
 		for (int i = 0; i < tmp.length; i++){
 			tmp[i] = -5;
 		}
@@ -62,37 +62,38 @@ public class QTable {
 	/**
 	 * Test if a state belongs to the list of states of the QTable
 	 * @param s the current state
-	 * @return true if the state belongs to the states, false otherwise
+	 * @return -1 if the state does not belong to the QTable state list, the index of the state in the QT state list otherwise
 	 */
 	public int stateInQTable(List<PerceivableObject> s){
-		boolean same = true;
 		int index = -1;
-		for (List<PerceivableObject> list : this.stateList){
-			for (PerceivableObject o : list){
-				for (PerceivableObject os : s) {
-					PerceivableObject compare = os;
-					if (!(o.isClimbable() == compare.isClimbable() &&
-						o.isDiggable() == compare.isDiggable() &&
-						o.isEmpty() == compare.isEmpty() &&
-						o.isEntry() == compare.isEntry() &&
-						o.isExit() == compare.isExit())) {
-						/*System.out.print(o.getX() == compare.getX());
-						System.out.println(o.getY() == compare.getY());
-						System.out.println(compare.getX() + " -- " + compare.getY());*/
-						same = false;
+		for (List<PerceivableObject> state : this.stateList){
+			boolean correspondingState = false;
+			for (PerceivableObject po : state){
+				boolean samePerceivableObject = false;
+				correspondingState = false;
+				for (PerceivableObject poToCompare : s) {
+					samePerceivableObject = false;
+					if ((po.isClimbable() == poToCompare.isClimbable() &&
+						po.isDiggable() == poToCompare.isDiggable() &&
+						po.isEmpty() == poToCompare.isEmpty() &&
+						po.isEntry() == poToCompare.isEntry() &&
+						po.isExit() == poToCompare.isExit())) {
+						samePerceivableObject = true;
+					}
+					if (samePerceivableObject){
 						break;
 					}
 				}
-				if (same) {
-					index = this.stateList.indexOf(list);
+				if (!samePerceivableObject){
+					break;
+				}else {
+					correspondingState = true;
 				}
 			}
-			if (same) {
-				return index;
-			} else {
-				same = true;
-			}
-			
+			if (correspondingState) {
+				index = this.stateList.indexOf(state); 
+				break;
+			} 	
 		}
 		return index;
 	}
@@ -117,10 +118,12 @@ public class QTable {
 	 */
 	public float[] getCoefIfStateExist(List<PerceivableObject> s){
 		int index = this.stateInQTable(s);
-		System.out.println("In QTable ? " + index);
+		
 		if (index != -1){
+			System.out.println("In QTable !! Index : " + index);
 			return this.coefList.get(index);
 		}
+		System.out.println("Not in QTable");
 		return null;
 	}
 

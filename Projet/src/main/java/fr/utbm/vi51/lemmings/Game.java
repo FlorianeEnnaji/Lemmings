@@ -35,13 +35,13 @@ public class Game {
 	public static void main(String[] args) throws IOException {
 		try{
 			
-			String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
-
+			//String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
+			String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
 			 *
 			
-			launchLearning(worlds, 3);*/
+			launchLearning(worlds, 3); */
 			
 			/*
 			 * Uncomment following if you want to play
@@ -50,6 +50,7 @@ public class Game {
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
 			
+			worldNb = 0;
 			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
 			env = new Environment(image);
@@ -137,8 +138,8 @@ public class Game {
 	 * */
 	public static QTable getQTableFromFile(){
 		
-		ArrayList<List<PerceivableObject>> state = new ArrayList<>();
-		ArrayList<float[]> coef = new ArrayList<>();
+		ArrayList<List<PerceivableObject>> state = new ArrayList<List<PerceivableObject>>();
+		ArrayList<float[]> coef = new ArrayList<float[]>();
 		ArrayList<String[]> stringCoef = new ArrayList<>();
 	    
 		try {

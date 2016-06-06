@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -558,10 +557,12 @@ public class Environment {
 	 */
 	public ActionEnum getBestMove(Body body){
 		List<PerceivableObject> bodyState = getPerception(body);
-		float[] coefList = new float[ActionEnum.values().length-3];
+		float[] coefList = new float[ActionEnum.values().length-4];
 		coefList = this.qtable.getCoefIfStateExist(bodyState);
+		
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
+		// Found the best coefficient
 		if (coefList != null) {
 			int id = 0;
 			int tmpID = 0;
