@@ -51,8 +51,8 @@ public class LemmingBody extends Body {
 		int samePosition = 0;
 		while(!e.isArrived() && samePosition < 100) {
 			ActionEnum action = e.getBestMove(this);
-			System.out.println(action.getName());
-			System.out.println(this.getPosition());
+			System.out.println(action.getName() + " TO " + this.getPosition());
+			performAction(action);
 			if (currentPos != this.getPosition()) {
 				currentPos = this.getPosition();
 				samePosition = 0;
@@ -64,6 +64,39 @@ public class LemmingBody extends Body {
 			System.out.println("ARRIVED");
 		} else {
 			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
+		}
+	}
+	
+	/**
+	 * @param action the action we want to perform
+	 * TODO Not call the same functions that update the stateList!!
+	 */
+	public void performAction(ActionEnum action) {
+		if(action!=null){
+			switch(action){
+			case WALK_EAST : 
+				walk(action.getDir());
+				break;
+			case WALK_WEST :
+				walk(action.getDir());
+				break;
+			case DIG_EAST : 
+				dig(action.getDir());
+				break;				
+			case DIG_WEST : 
+				dig(action.getDir());
+				break;
+			case DIG_SOUTH : 
+				dig(action.getDir());
+				break;
+			case CLIMB : 
+				climb();
+				break;
+			case JUMP : 
+				jump();
+				break;
+			default : break;
+			}
 		}
 	}
 

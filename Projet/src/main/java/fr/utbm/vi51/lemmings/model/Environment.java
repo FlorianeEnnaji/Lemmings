@@ -228,7 +228,7 @@ public class Environment {
 		if (direction == null) {
 			direction = MoveDirection.right;
 		}
-		
+		List<PerceivableObject> perception = this.getPerception(body);
 		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
@@ -242,8 +242,8 @@ public class Environment {
 					if (!this.world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
 						
 						//Lemming can walk in his direction
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 						body.setPosition(new Point(pos.x, pos.y));
-						this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					
 					} else {
 						//Lemming is falling
@@ -257,29 +257,29 @@ public class Environment {
 						
 						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
 							//He dies
-							this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+							this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 						} else {
-							body.setPosition(down);
 							if (this.world[down.x][down.y].isExit()) {
 								//He landed on exit
-								this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 								this.isArrived = true;
 							} else {
 								//He landed successfully
-								this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 							}
+							body.setPosition(down);
 						}
 						
 					}
 				} else if (this.world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 			} else {
-				this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
@@ -301,6 +301,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.down;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.DIG_SOUTH;
@@ -313,7 +314,7 @@ public class Environment {
 			
 			if (position != null & diggablePosition != null) {
 				if (!isInWorldDimensions(diggablePosition)) {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Digging
@@ -321,21 +322,21 @@ public class Environment {
 					finalPosition = diggablePosition;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
 					return;
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
 				
 				if (isInWorldDimensions(finalPosition)) {
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					body.setPosition(finalPosition);
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 				
 			}
@@ -358,6 +359,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.right;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			ActionEnum action = ActionEnum.CLIMB;
 			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
@@ -441,9 +443,8 @@ public class Environment {
 					landed = true;
 				}
 			}
-			
+			this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
-			this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+reward);
 		}
 	}
 	
@@ -463,6 +464,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.right;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.JUMP;
@@ -525,9 +527,8 @@ public class Environment {
 					landed = true;
 				}
 			}
-			
+			this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
-			this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+reward);
 		}
 	}
 	
@@ -559,6 +560,7 @@ public class Environment {
 		List<PerceivableObject> bodyState = getPerception(body);
 		float[] coefList = new float[ActionEnum.values().length-3];
 		coefList = this.qtable.getCoefIfStateExist(bodyState);
+		ActionEnum action = ActionEnum.WALK_EAST;
 		
 		if (coefList != null) {
 			int id = 0;
@@ -571,10 +573,9 @@ public class Environment {
 				}
 				tmpID ++;
 			}
-			ActionEnum action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
-			return action;
+			action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
 		}
-		return ActionEnum.WALK_EAST;
+		return action;
 	
 	}
 

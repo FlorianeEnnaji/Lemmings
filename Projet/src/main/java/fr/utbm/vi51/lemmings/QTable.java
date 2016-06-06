@@ -71,9 +71,7 @@ public class QTable {
 			for (PerceivableObject o : list){
 				for (PerceivableObject os : s) {
 					PerceivableObject compare = os;
-					if (!(o.getX() == compare.getX() &&
-						o.getY() == compare.getY() &&
-						o.isClimbable() == compare.isClimbable() &&
+					if (!(o.isClimbable() == compare.isClimbable() &&
 						o.isDiggable() == compare.isDiggable() &&
 						o.isEmpty() == compare.isEmpty() &&
 						o.isEntry() == compare.isEntry() &&
@@ -83,9 +81,10 @@ public class QTable {
 						System.out.println(compare.getX() + " -- " + compare.getY());*/
 						same = false;
 						break;
-					} else {
-						index = list.indexOf(o);
 					}
+				}
+				if (same) {
+					index = this.stateList.indexOf(list);
 				}
 			}
 			if (same) {

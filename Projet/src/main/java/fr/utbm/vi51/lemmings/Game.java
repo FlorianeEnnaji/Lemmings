@@ -1,4 +1,5 @@
 package fr.utbm.vi51.lemmings;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -40,7 +41,7 @@ public class Game {
 			 * Comment following if you want to play
 			 *
 			
-			launchLearning(worlds, 1);*/
+			launchLearning(worlds, 3);*/
 			
 			/*
 			 * Uncomment following if you want to play
@@ -162,8 +163,6 @@ public class Game {
 			}
 			coef.add(table);
 		}
-		System.out.println("\nOUTPUT");
-		System.out.println(state.get(0).get(0).getX() + " -- " + state.get(0).get(0).getY());
 		QTable qt = new QTable(state, coef);
 		
 		return qt;
