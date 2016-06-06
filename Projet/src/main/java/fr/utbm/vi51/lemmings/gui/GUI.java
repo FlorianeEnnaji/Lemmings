@@ -23,7 +23,7 @@ public class GUI extends JPanel implements Runnable{
 	
 	public static final int CELL_DIM = 20;
 	
-	private Environment env;
+	private Launcher launcher;
 	private Image entry;
 	private Image empty;
 	private Image dig;
@@ -31,9 +31,9 @@ public class GUI extends JPanel implements Runnable{
 	private Image climb;
 	private Image ground;
 
-	public GUI(Environment env) {
+	public GUI(Launcher launcher) {
 		super();
-		this.env = env;
+		this.launcher = launcher;
 		
 		/**TODO
 		entry = (new ImageIcon("images/entry.png")).getImage();
@@ -50,7 +50,8 @@ public class GUI extends JPanel implements Runnable{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(env != null) {
+		if(launcher != null) {
+			Environment env = launcher.getEnvironment();
 			WorldPixel[][] map = env.getWorld();
 			
 			if(map != null && env.getHeight() > 0 && env.getWidth() < 0) {

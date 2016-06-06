@@ -1,0 +1,22 @@
+package fr.utbm.vi51.lemmings.^agent
+
+import java.util.List
+import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.model.PerceivableObject
+import fr.utbm.vi51.lemmings.model.Body
+
+event PerceptionEvent {
+	val body : Body
+	val perceptions : List<PerceivableObject>
+	new (p : List<PerceivableObject>, b : Body) {
+		this.perceptions = p
+		this.body = b
+		}
+}
+
+event InfluenceEvent {	
+	val influences : List<Influence>
+	new (e : Influence*) {
+		this.influences = e
+	}
+}

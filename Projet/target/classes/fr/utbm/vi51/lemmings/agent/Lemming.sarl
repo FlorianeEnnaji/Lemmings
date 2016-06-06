@@ -1,0 +1,36 @@
+package fr.utbm.vi51.lemmings.^agent
+
+import io.sarl.core.Initialize
+import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.model.BehaviourOutput
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum
+import io.sarl.core.Lifecycle
+import fr.utbm.info.vi51.framework.^agent.StandardPhysicEnvironment
+import java.util.UUID
+
+agent Lemming  {
+	uses PhysicEnvironment,Lifecycle
+	
+	on Initialize{
+		var physicSkill = new StandardPhysicEnvironment(
+			occurrence.parameters.get(0) as UUID,
+			occurrence.parameters.get(1) as UUID)
+		setSkill(PhysicEnvironment, physicSkill)
+				
+	}
+	
+	on PerceptionEvent{
+		var b = new BehaviourOutput(ActionEnum.CLIMB)
+		emitInfluence(b)
+	}
+	
+	def emitInfluence(output : BehaviourOutput, influence : Influence*){
+		if (output !== null) {
+			influenceAction(output.getAction(),influence)
+		} else {
+			influenceAction(ActionEnum.NOTHING,influence)
+		}
+		
+	}
+	
+}

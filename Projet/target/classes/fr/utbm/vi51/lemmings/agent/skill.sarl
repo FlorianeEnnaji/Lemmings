@@ -1,0 +1,77 @@
+package fr.utbm.info.vi51.framework.^agent
+
+
+import io.sarl.core.Behaviors
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.lang.core.Address
+import io.sarl.util.OpenEventSpace
+import java.lang.reflect.Array
+import java.util.UUID
+import fr.utbm.vi51.lemmings.^agent.InfluenceEvent
+import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.model.ActionInfluence
+import fr.utbm.vi51.lemmings.model.ActionInfluence
+import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.model.KillInfluence
+import fr.utbm.vi51.lemmings.model.AddressUUIDScope
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum
+import fr.utbm.vi51.lemmings.^agent.PhysicEnvironment
+
+skill StandardPhysicEnvironment implements PhysicEnvironment {
+
+	uses DefaultContextInteractions, Behaviors
+
+	val spaceID : UUID
+	val environmentID : UUID
+	var physicSpace : OpenEventSpace
+	var myAdr : Address
+	
+	new (spaceID : UUID, environmentID : UUID) {
+		this.environmentID = environmentID
+		this.spaceID = spaceID
+	}
+
+	def install {
+		do {
+			this.physicSpace = defaultContext.getSpace(this.spaceID)
+			Thread::yield
+		} while (this.physicSpace === null)
+		this.physicSpace.register(asEventListener)
+		this.myAdr = this.physicSpace.getAddress(owner.ID)
+	}
+	
+	def uninstall() {
+		var ^event = new InfluenceEvent(new KillInfluence)
+		^event.source = this.myAdr
+		this.physicSpace.emit(^event, new AddressUUIDScope(this.environmentID))
+		this.physicSpace = null
+	}
+	
+	def emitInfluences(actionInfluence : ActionInfluence, otherInfluences : Influence*) {
+		var influences : Influence[]
+		if (otherInfluences.isEmpty) {
+			influences = Array::newInstance(typeof(Influence), 1) as Influence[]
+			influences.set(0, actionInfluence)
+		} else {
+			influences = Array::newInstance(typeof(Influence), otherInfluences.length + 1) as Influence[]
+			influences.set(0, actionInfluence)
+			System::arraycopy(otherInfluences, 0, influences, 1, otherInfluences.length)
+		}
+		var ^event = new InfluenceEvent(influences)
+		^event.source = this.myAdr
+		this.physicSpace.emit(^event, new AddressUUIDScope(this.environmentID))
+	}
+	
+	override influenceAction(action : ActionEnum = null, otherInfluences : Influence*) {
+		var mi : ActionInfluence
+		if (action === null) {
+			mi = new ActionInfluence(action)
+		} else {
+			mi = new  ActionInfluence(action)
+		}
+		emitInfluences(mi, otherInfluences)
+	}
+	
+	
+	
+}
