@@ -50,7 +50,7 @@ public class Game {
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
 			
-			worldNb = worlds.length-1;
+			worldNb = 0;
 			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
 			env = new Environment(image);
@@ -90,7 +90,7 @@ public class Game {
 				qt.getCoefList().addAll(env.getQTable().getCoefList());
 			}
 			//Learning is over
-			saveQTableInfos(env.getQTable());
+			saveQTableInfos(qt);
 		}		
 		catch (Exception e) {
 			e.printStackTrace();
