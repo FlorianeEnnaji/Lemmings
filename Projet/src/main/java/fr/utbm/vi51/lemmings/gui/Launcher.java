@@ -45,7 +45,8 @@ public class Launcher extends JFrame implements Runnable {
 		panel.setSize(100, 100);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600,630);
+		setSize(605,620);
+		setResizable(false);
 
 
 

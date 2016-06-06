@@ -39,7 +39,7 @@ public class Game {
 			 * Comment following if you want to play
 			 */
 			
-//			launchLearning(worlds, 5);
+			//launchLearning(worlds, 5);
 
 			/*
 			 * Uncomment following if you want to play

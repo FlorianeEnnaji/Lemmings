@@ -21,7 +21,7 @@ public class GUI extends JPanel implements Runnable{
 	
 	private static final long serialVersionUID = 123689456945974264L;
 	
-	public static final int CELL_DIM = 20;
+	public static final int CELL_DIM = 60;
 	
 	private Launcher launcher;
 	private Image entry;
@@ -35,14 +35,13 @@ public class GUI extends JPanel implements Runnable{
 		super();
 		this.launcher = launcher;
 		
-		/**TODO
-		entry = (new ImageIcon("images/entry.png")).getImage();
-		empty = (new ImageIcon("images/empty.png")).getImage();
-		dig = (new ImageIcon("images/dig.png")).getImage();
-		exit = (new ImageIcon("images/exit.png")).getImage();
-		climb = (new ImageIcon("images/climb.png")).getImage();	
-		ground = (new ImageIcon("images/ground.png")).getImage();
-		*/
+		entry = (new ImageIcon("./src/img/entry.png")).getImage();
+		empty = (new ImageIcon("./src/img/empty.png")).getImage();
+		dig = (new ImageIcon("./src/img/dig.png")).getImage();
+		exit = (new ImageIcon("./src/img/exit.png")).getImage();
+		climb = (new ImageIcon("./src/img/climb.png")).getImage();	
+		ground = (new ImageIcon("./src/img/ground.png")).getImage();
+
 		
 		setFocusable(true);
 	}
@@ -53,11 +52,12 @@ public class GUI extends JPanel implements Runnable{
 		if(launcher != null) {
 			Environment env = launcher.getEnvironment();
 			WorldPixel[][] map = env.getWorld();
-			
-			if(map != null && env.getHeight() > 0 && env.getWidth() < 0) {
+			if(map != null && env.getHeight() > 0 && env.getWidth() > 0) {
+				
 				for(int y = 0; y < env.getHeight() ; y++) {
 					for(int x = 0; x < env.getWidth() ; x++) {
-						WorldPixel pixel = map[y][x];
+						WorldPixel pixel = map[x][y];
+						
 						Image image = null;
 						if (pixel.isEntry()) {
 							image = entry;
@@ -79,16 +79,16 @@ public class GUI extends JPanel implements Runnable{
 				}
 			}
 		
-			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
-			if(!lemmingsBodies.isEmpty()) {
-				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
-					if(lemming != null) {
-						Image img = null;
-						img = getLemmingImage(lemming.getValue());	
-						g.drawImage(img, (int)lemming.getValue().getPosition().getX(),(int)lemming.getValue().getPosition().getX(), this);
-					}
-				}
-			}
+//			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
+//			if(!lemmingsBodies.isEmpty()) {
+//				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
+//					if(lemming != null) {
+//						Image img = null;
+//						img = getLemmingImage(lemming.getValue());	
+//						g.drawImage(img, (int)lemming.getValue().getPosition().getX(),(int)lemming.getValue().getPosition().getX(), this);
+//					}
+//				}
+//			}
 		}
 	}
 	
