@@ -53,11 +53,9 @@ public class GUI extends JPanel implements Runnable{
 			Environment env = launcher.getEnvironment();
 			WorldPixel[][] map = env.getWorld();
 			if(map != null && env.getHeight() > 0 && env.getWidth() > 0) {
-				
 				for(int y = 0; y < env.getHeight() ; y++) {
 					for(int x = 0; x < env.getWidth() ; x++) {
 						WorldPixel pixel = map[x][y];
-						
 						Image image = null;
 						if (pixel.isEntry()) {
 							image = entry;
@@ -79,16 +77,17 @@ public class GUI extends JPanel implements Runnable{
 				}
 			}
 		
-//			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
-//			if(!lemmingsBodies.isEmpty()) {
-//				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
-//					if(lemming != null) {
-//						Image img = null;
-//						img = getLemmingImage(lemming.getValue());	
-//						g.drawImage(img, (int)lemming.getValue().getPosition().getX(),(int)lemming.getValue().getPosition().getX(), this);
-//					}
-//				}
-//			}
+			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
+			//System.out.println(lemmingsBodies.isEmpty());
+			if(!lemmingsBodies.isEmpty()) {
+				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
+					if(lemming != null) {
+						Image img = (new ImageIcon("./src/img/lemming.png")).getImage();
+						img = getLemmingImage(lemming.getValue());	
+						g.drawImage(img, (int)lemming.getValue().getPosition().getX(),(int)lemming.getValue().getPosition().getX(), this);
+					}
+				}
+			}
 		}
 	}
 	
