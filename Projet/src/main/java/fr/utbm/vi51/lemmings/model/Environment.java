@@ -2,7 +2,7 @@ package fr.utbm.vi51.lemmings.model;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -163,6 +163,15 @@ public class Environment {
 		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
 	}
 	
+	public void createLemmingGame() {
+		int a = 0;
+		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
+		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
+		body.moveLemmingBody();;
+		
+	}
+	
+	
 	/**
 	 * return the coefficients of a state
 	 * 
@@ -170,7 +179,7 @@ public class Environment {
 	 * @return the list of coefficients for the current state of a body
 	 */
 	public float[] getPerceptionCoef(Body body){
-		List<PerceivableObject> list = new LinkedList<>();
+		List<PerceivableObject> list = new ArrayList<>();
 		list = body.getPerception();
 		return this.qtable.getCoef(list);
 	}
@@ -180,7 +189,7 @@ public class Environment {
 	 * @param body 
 	 * @return the perception of the body*/
 	public List<PerceivableObject> getPerception(Body body) {
-		List<PerceivableObject> list = new LinkedList<>();
+		List<PerceivableObject> list = new ArrayList<>();
 		Point position = body.getPosition();
 		if (position!=null) {
 			/* Get all objects present in perception field */
@@ -209,7 +218,7 @@ public class Environment {
 	 * @param body the body to move
 	 * @param direction the direction of the body
 	 */
-	public void move(Body body, MoveDirection direction) {
+	public void move(Body body, MoveDirection direction, boolean learningPhase) {
 		Point position = body.getPosition();
 		if (position == null) {
 			position = new Point(0, 0);
@@ -218,7 +227,7 @@ public class Environment {
 		if (direction == null) {
 			direction = MoveDirection.right;
 		}
-		
+		List<PerceivableObject> perception = this.getPerception(body);
 		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
@@ -232,8 +241,9 @@ public class Environment {
 					if (!this.world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
 						
 						//Lemming can walk in his direction
+						if(learningPhase)
+							this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 						body.setPosition(new Point(pos.x, pos.y));
-						this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					
 					} else {
 						//Lemming is falling
@@ -247,29 +257,35 @@ public class Environment {
 						
 						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
 							//He dies
-							this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+							if(learningPhase)
+								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
 						} else {
-							body.setPosition(down);
 							if (this.world[down.x][down.y].isExit()) {
 								//He landed on exit
-								this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 								this.isArrived = true;
 							} else {
 								//He landed successfully
-								this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 							}
+							body.setPosition(down);
 						}
 						
 					}
 				} else if (this.world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 			} else {
-				this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				if(learningPhase)
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
@@ -282,7 +298,7 @@ public class Environment {
 	 * @param body the body to move
 	 * @param direction the direction of the lemmings
 	 */
-	public void dig (Body body, MoveDirection direction){
+	public void dig (Body body, MoveDirection direction, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -291,6 +307,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.down;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.DIG_SOUTH;
@@ -303,7 +320,8 @@ public class Environment {
 			
 			if (position != null & diggablePosition != null) {
 				if (!isInWorldDimensions(diggablePosition)) {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Digging
@@ -311,21 +329,25 @@ public class Environment {
 					finalPosition = diggablePosition;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
 					return;
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
 				
 				if (isInWorldDimensions(finalPosition)) {
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					body.setPosition(finalPosition);
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 				} else {
-					this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 				
 			}
@@ -338,7 +360,7 @@ public class Environment {
 	 * 
 	 * @param body the body to move
 	 */
-	public void climb (Body body){
+	public void climb (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -348,6 +370,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.right;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			ActionEnum action = ActionEnum.CLIMB;
 			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
@@ -431,9 +454,9 @@ public class Environment {
 					landed = true;
 				}
 			}
-			
+			if (learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
-			this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+reward);
 		}
 	}
 	
@@ -443,7 +466,7 @@ public class Environment {
 	 * 
 	 * @param body the body to move
 	 */
-	public void jump (Body body){
+	public void jump (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -453,6 +476,7 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.right;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.JUMP;
@@ -515,9 +539,9 @@ public class Environment {
 					landed = true;
 				}
 			}
-			
+			if(learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
 			body.setPosition(finalPosition);
-			this.qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+reward);
 		}
 	}
 	
@@ -540,14 +564,49 @@ public class Environment {
 	}
 	
 	/**
+	 * Get the best move for a state
+	 * 
+	 * @param body the current body
+	 * @return the best action considering the current state
+	 */
+	public ActionEnum getBestMove(Body body){
+		List<PerceivableObject> bodyState = getPerception(body);
+		float[] coefList = new float[ActionEnum.values().length-4];
+		coefList = this.qtable.getCoefIfStateExist(bodyState);
+		
+		ActionEnum action = ActionEnum.WALK_EAST;
+		
+		// Found the best coefficient
+		if (coefList != null) {
+			int id = 0;
+			int tmpID = 0;
+			float tmpCoef = coefList[0];
+			for (float coef : coefList){
+				if (tmpCoef < coef){
+					// The current action is better
+					id = tmpID;
+				}
+				tmpID ++;
+			}
+			action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
+		}
+		return action;
+	
+	}
+
+	/**
 	 * @param the QTable we want to give to the environment
 	 */
 	public void setQTable(QTable qt){
 		this.qtable = qt;
 	}
 
+<<<<<<< HEAD
 	public WorldPixel[][] getWorld() {
 		return this.world;
 	}
+=======
+	
+>>>>>>> refs/remotes/origin/master
 	
 }

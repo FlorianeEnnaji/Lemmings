@@ -1,7 +1,6 @@
 package fr.utbm.vi51.lemmings.model;
 
 import java.awt.Point;
-
 import java.util.List;
 
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
@@ -71,10 +70,11 @@ public abstract class Body extends DynamicObject {
 	
 	/**
 	 * @param dir the direction the body wants to move to
+	 * @param learningPhase 
 	 */
-	public void move(MoveDirection dir) {
+	public void move(MoveDirection dir, boolean learningPhase) {
 		Environment e = getEnvironment();
-		e.move(this, dir);
+		e.move(this, dir, learningPhase);
 	}
 	
 	/**
