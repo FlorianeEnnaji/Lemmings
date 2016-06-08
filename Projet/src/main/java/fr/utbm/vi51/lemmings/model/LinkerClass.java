@@ -5,13 +5,15 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import fr.utbm.vi51.lemmings.agent.Lemming;
+import io.janusproject.Boot;
+import io.janusproject.kernel.Kernel;
 import io.sarl.core.Initialize;
 
 public class LinkerClass {
 	
 	public final Map<UUID,Lemming> agentMind = new TreeMap<UUID,Lemming>();
     
-	//private janusKernel ja = Boot::startJanus(null,typeof(Lemming),args);
+	private Kernel ja ;
 
 	public LinkerClass(){
 		
@@ -25,9 +27,17 @@ public class LinkerClass {
 		arg[0]=ID;
 		arg[1]=ID;
 		occurrence.parameters=arg;
-		
-		
-		agent._handle_Initialize_0(occurrence);
+		if (agentMind.isEmpty()){
+			Boot.setOffline(true);
+			try {
+				ja=Boot.startJanus((Class) null, Lemming.class,arg);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			ja.spawn(ID, Lemming.class,arg);
+		}
 		agentMind.put(ID, agent);
 	}
 

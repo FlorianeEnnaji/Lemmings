@@ -25,11 +25,7 @@ public class Game {
 	public static void main(String[] args) throws IOException {
 		try{
 			File file = new File("./src/img/world2.bmp");
-			BufferedImage image = ImageIO.read(file);
-			
-			Boot.setOffline(true);
-			Boot.startJanus((Class) null, Lemming.class);
-			
+			BufferedImage image = ImageIO.read(file);			
 			
 			env = new Environment(image);
 			env.createLemming();
