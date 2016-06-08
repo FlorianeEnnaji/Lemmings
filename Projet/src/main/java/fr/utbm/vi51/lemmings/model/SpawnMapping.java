@@ -33,12 +33,14 @@ public abstract class SpawnMapping {
 
 	/** Replies the agent type for a body.
 	 * 
+	 * @param body the body of the agent
 	 * @return the type of a agent for the given body.
 	 */
 	public abstract Class<? extends Agent> getAgentTypeForBody(LemmingBody body);	
 	
 	/** Replies the agent type for a body.
 	 * 
+	 * @param body The body of the agent
 	 * @return the type of a agent for the given body.
 	 * @see #getAgentTypeForBody(AgentBody)
 	 */

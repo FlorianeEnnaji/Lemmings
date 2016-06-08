@@ -1,8 +1,10 @@
 package fr.utbm.vi51.lemmings.utils.enums;
 
+/**
+ * Enumeration of possible actions
+ */
 public enum ActionEnum {
 	
-	//Action Enumeration
 	WALK_EAST("walk",MoveDirection.right,-1),
 	WALK_WEST("walk",MoveDirection.left,-2),
 	DIG_EAST("dig",MoveDirection.right,-2),
@@ -16,27 +18,46 @@ public enum ActionEnum {
 	GET_OUT("get out",10);
 	
 
-	//Att
 	private final String actionName;
 	private final MoveDirection direction;
 	private final int reward;
 	
-	//Constructors
+	/**
+	 * Constructor of ActionEnum
+	 * @param name the name of the action
+	 * @param dir the direction of the action
+	 * @param rew the reward of the action
+	 */
 	ActionEnum(String name, MoveDirection dir, int rew){
 		this.actionName=name;
 		this.direction=dir;
 		this.reward=rew;
 	}
 	
+	/**
+	 * Constructor of ActionEnum
+	 * @param name the name of the action
+	 * @param rew the reward of the action
+	 */
 	ActionEnum(String name,int rew){
 		this.actionName=name;
 		this.direction=null;
 		this.reward=rew;
 	}
 	
-	//get method
+	/**
+	 * @return the name of the current action
+	 */
 	public String getName(){return this.actionName;}
+	
+	/**
+	 * @return the direction of the current action
+	 */
 	public MoveDirection getDir(){return this.direction;}
+	
+	/**
+	 * @return the reward of the current action
+	 */
 	public int getYourReward(){return this.reward;}
 	
 }

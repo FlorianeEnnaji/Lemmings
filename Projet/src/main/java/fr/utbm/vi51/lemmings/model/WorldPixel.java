@@ -1,76 +1,106 @@
 package fr.utbm.vi51.lemmings.model;
+
+/**
+ * WorldPixel represent a pixel of the world
+ */
 public class WorldPixel implements EnvironmentObject{
 	
-	private int m_id;
-	private boolean m_diggable;
-	private boolean m_empty;
-	private boolean m_climbable;
-	private boolean m_entry;
-	private boolean m_exit;
+	private int idPixel;
+	private boolean diggablePixel;
+	private boolean emptyPixel;
+	private boolean climbablePixel;
+	private boolean entryPixel;
+	private boolean exitPixel;
 	
 	private enum Type{
 		dig, empty, climb, entry, exit, ground;
 	}
 	
+	/**
+	 * Constructor
+	 * @param value the Type of the pixel
+	 * @param id the identifier of the pixel
+	 */
 	public WorldPixel(String value, int id){
-		m_id = id;
-		m_diggable = false;
-		m_empty = false;
-		m_climbable = true;
-		m_entry = false;
-		m_exit = false;
+		this.idPixel = id;
+		this.diggablePixel = false;
+		this.emptyPixel = false;
+		this.climbablePixel = true;
+		this.entryPixel = false;
+		this.exitPixel = false;
 		Type type = Type.valueOf(value);
 		
 		switch (type){
 			case dig : 
-				m_diggable = true;
+				this.diggablePixel = true;
+				this.climbablePixel = false;
 				break;
 			case empty:
-				m_empty = true;
-				m_climbable = false;
+				this.emptyPixel = true;
+				this.climbablePixel = false;
 				break;
 			case entry : 
-				m_entry = true;
-				m_climbable = false;
-				m_empty = true;
+				this.entryPixel = true;
+				this.climbablePixel = false;
+				this.emptyPixel = true;
 				break;
 			case exit : 
-				m_exit = true;
-				m_climbable = false;
+				this.exitPixel = true;
+				this.climbablePixel = false;
 				break;
 			default : 
 				break;
 		}
 	}
 	
+	/**
+	 * @return the id of the current pixel
+	 */
 	public int getID() {
-		return m_id;
+		return this.idPixel;
 	}
 
+	/**
+	 * @return true if the current pixel is diggable, false otherwise
+	 */
 	public boolean isDiggable() {
-		return m_diggable;
+		return this.diggablePixel;
 	}
 
-
+	/**
+	 * @return true if the current pixel is climbable, false otherwise
+	 */
 	public boolean isClimbable() {
-		return m_climbable;
+		return this.climbablePixel;
 	}
 
+	/**
+	 * @return true if the current pixel is empty, false otherwise
+	 */
 	public boolean isEmpty() {
-		return m_empty;
+		return this.emptyPixel;
 	}
 	
+	/**
+	 * Set an empty pixel
+	 */
 	public void setEmpty(){
-		this.m_climbable = false;
-		this.m_diggable = false;
-		this.m_empty = true;
+		this.climbablePixel = false;
+		this.diggablePixel = false;
+		this.emptyPixel = true;
 	}
 
+	/**
+	 * @return true if the current pixel is the exit, false otherwise
+	 */
 	public boolean isExit() {
-		return m_exit;
+		return this.exitPixel;
 	}
 
+	/**
+	 * @return true if the current pixel is the entry, false otherwise
+	 */
 	public boolean isEntry() {
-		return m_entry;
+		return this.entryPixel;
 	}	
 }

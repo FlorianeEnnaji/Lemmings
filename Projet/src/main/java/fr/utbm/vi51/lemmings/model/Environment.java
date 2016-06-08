@@ -2,7 +2,7 @@ package fr.utbm.vi51.lemmings.model;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,53 +12,68 @@ import fr.utbm.vi51.lemmings.QTable;
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
 import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
+/**
+ * Environment is the class that contains all elements of the world 
+ */
 public class Environment {
 
-	/** Matrix of pixels */
-	private WorldPixel[][] m_world;
+	/* Matrix of pixels */
+	private WorldPixel[][] world;
 	
-	/** Height and width of the world */
-	private int m_height = 0;
-	private int m_width = 0;
+	/* Height and width of the world */
+	private int worldHeight = 0;
+	private int worldWidth = 0;
 	
-	/** Color of pixels of the world */
-	private Color m_lightBrown = new Color(205,133,63);
-	private Color m_yellow = new Color(255,218,57);
-	private Color m_brown = new Color(153,102,51);
+	/* Color of pixels of the world */
+	private Color lightBrown = new Color(205,133,63);
+	private Color yellow = new Color(255,218,57);
+	private Color brown = new Color(153,102,51);
 	
-	/** Entry and Exit **/
+	/* Entry and Exit **/
 	private Point entry;
 	private boolean isArrived=false;
 	
-	/** Qtable **/
-	private QTable m_qtable = new QTable();
+	/* QTable **/
+	private QTable qtable = new QTable();
 	
-	/** List of agentbodies */
+	/* List of agent bodies */
 	public final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
+
 	/** Link between agent and Body */
 	private LinkerClass link = new LinkerClass();
 	
-	/** Constructors */
+
+	/** 
+	 * Default Constructor
+	 */
+
 	public Environment(){
-		m_world = new WorldPixel[m_width][m_height];	
+		this.world = new WorldPixel[this.worldWidth][this.worldHeight];	
 	}
 	
+	/**
+	 * @param image the image representing the environment without the Lemmings
+	 */
 	public Environment(BufferedImage image){
 		initializeWorld(image);
 		printEnvironment();
 	}
 	
-	/** World initializing */
+	/**
+	 * World initializing
+	 * 
+	 * @param image the image representing the environment without the Lemmings
+	 */
 	private void initializeWorld (BufferedImage image){
 		int id = 0;
-		m_width = image.getWidth();
-		m_height = image.getHeight();
-		m_world = new WorldPixel[m_width][m_height];
+		this.worldWidth = image.getWidth();
+		this.worldHeight = image.getHeight();
+		this.world = new WorldPixel[this.worldWidth][this.worldHeight];
 		
-		for (int yPixel = 0; yPixel < m_height; yPixel++)
+		for (int yPixel = 0; yPixel < this.worldHeight; yPixel++)
 		{
-			for (int xPixel = 0; xPixel < m_width; xPixel++)
+			for (int xPixel = 0; xPixel < this.worldWidth; xPixel++)
 		    {
 		        int color = image.getRGB(xPixel, yPixel);
 		        /* int alpha = (color >> 24) & 0xFF;
@@ -67,29 +82,32 @@ public class Environment {
 		        int blue =  (color      ) & 0xFF;
 		        System.out.println(alpha + " " + red + " " + green + " " + blue); */
 		        if (color==Color.BLACK.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("empty", id);
-		        } else if (color==m_lightBrown.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("dig", id);
-		        } else if (color==m_yellow.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("entry", id);
+		            this.world[xPixel][yPixel] = new WorldPixel("empty", id);
+		        } else if (color==this.lightBrown.getRGB()) {
+		            this.world[xPixel][yPixel] = new WorldPixel("dig", id);
+		        } else if (color==this.yellow.getRGB()) {
+		            this.world[xPixel][yPixel] = new WorldPixel("entry", id);
 		            this.entry = new Point(xPixel, yPixel);
 		        } else if (color==Color.WHITE.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("exit", id);
-		        } else if (color==m_brown.getRGB()) {
-		            m_world[xPixel][yPixel] = new WorldPixel("ground", id);
+		            this.world[xPixel][yPixel] = new WorldPixel("exit", id);
+		        } else if (color==this.brown.getRGB()) {
+		            this.world[xPixel][yPixel] = new WorldPixel("ground", id);
 		        }
 		        id++;
 		    }
 		}
 	}
 	
+	/**
+	 * Print the environment
+	 */
 	public void printEnvironment(){
-		for (int i = 0; i < m_height; i++)
+		for (int i = 0; i < this.worldHeight; i++)
 		{
 			System.out.print(i);
-			for (int j = 0; j < m_width; j++)
+			for (int j = 0; j < this.worldWidth; j++)
 		    {
-				WorldPixel pixel = (WorldPixel) m_world[j][i];
+				WorldPixel pixel = this.world[j][i];
 				
 				if (pixel.isEntry()) {
 					System.out.print(" X");
@@ -107,46 +125,89 @@ public class Environment {
 		}
 	}
 	
+	/**
+	 * @return the width of the environment
+	 */
 	public int getWidth() {
-		return this.m_width;
+		return this.worldWidth;
 	}
 	
+	/**
+	 * @return the height of the environment
+	 */
 	public int getHeight() {
-		return this.m_height;
+		return this.worldHeight;
 	}
 	
+	/**
+	 * @return true is the Lemmings is arrived, false otherwise
+	 */
 	public boolean isArrived(){
-		return isArrived;
+		return this.isArrived;
 	}
 	
+	/**
+	 * @return bodies of an agent
+	 */
 	public Map<UUID,LemmingBody> getAgentBodies(){
 		return this.agentBodies;
 	}
 	
-	/**Create the body */
+	/**
+	 * Create the body
+	 */
 	public void createLemming() {
 		createBody();
+		//TODO fusion with createBody ?
 	}
 	
+	/**
+	 * Create the body
+	 */
 	private void createBody(){
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		agentBodies.put(ID, body);
 		link.createAgent(ID);
 	}
+	
+	public void createLemmingGame() {
+		int a = 0;
+		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
+		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
+		body.moveLemmingBody();;
 		
-	/** Return the perception of the body */
+	}
+	
+	
+	/**
+	 * return the coefficients of a state
+	 * 
+	 * @param body the agent's body 
+	 * @return the list of coefficients for the current state of a body
+	 */
+	public float[] getPerceptionCoef(Body body){
+		List<PerceivableObject> list = new ArrayList<>();
+		list = body.getPerception();
+		return this.qtable.getCoef(list);
+
+	}
+		
+	/** Return the perception of the body 
+	 * 
+	 * @param body 
+	 * @return the perception of the body*/
 	public List<PerceivableObject> getPerception(Body body) {
-		List<PerceivableObject> list = new LinkedList<PerceivableObject>();
+		List<PerceivableObject> list = new ArrayList<>();
 		Point position = body.getPosition();
 		if (position!=null) {
 			/* Get all objects present in perception field */
 			PerceivableObject perception;
 			for (int i = position.x-1;i <= position.x + 1; i++){
-				if (i >= 0 && i < m_width){
+				if (i >= 0 && i < this.worldWidth){
 					for (int j = position.y-1;j <= position.y + 1; j++){
-						if (j >= 0 && j < m_height){
-							WorldPixel pixel = m_world[i][j];
+						if (j >= 0 && j < this.worldHeight){
+							WorldPixel pixel = this.world[i][j];
 							perception = new PerceivableObject(new Point(i, j), 
 									pixel.isDiggable(), pixel.isEmpty(), 
 									pixel.isClimbable(), pixel.isEntry(), 
@@ -160,7 +221,13 @@ public class Environment {
 		return list;
 	}
 
-	public void move(Body body, MoveDirection direction) {
+	/**
+	 * Move a body to a direction
+	 * 
+	 * @param body the body to move
+	 * @param direction the direction of the body
+	 */
+	public void move(Body body, MoveDirection direction, boolean learningPhase) {
 		Point position = body.getPosition();
 		if (position == null) {
 			position = new Point(0, 0);
@@ -169,7 +236,7 @@ public class Environment {
 		if (direction == null) {
 			direction = MoveDirection.right;
 		}
-		
+		List<PerceivableObject> perception = this.getPerception(body);
 		Point pos = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 		ActionEnum action = ActionEnum.WALK_EAST;
 		
@@ -178,53 +245,69 @@ public class Environment {
 		}
 		
 		if (position != null) {
-			if (isInWorldDimensions(pos)) {
-				if (m_world[pos.x][pos.y].isEmpty()) {
-					if (!m_world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+			if (isInWorldDimensions(pos) && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))) {
+				if (this.world[pos.x][pos.y].isEmpty()) {
+					if (!this.world[pos.x][pos.y+MoveDirection.down.getYMove()].isEmpty()) {
+						
 						//Lemming can walk in his direction
-						if (body.isFalling()) {
-							body.setIsFalling(false);
-							if(body.getFallingHeight() > 4) {
-								//Kill Lemming and its body
-								m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-								return;
-							}
-						}
+						if(learningPhase)
+							this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 						body.setPosition(new Point(pos.x, pos.y));
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+					
 					} else {
 						//Lemming is falling
-						if (!body.isFalling()) {
-							body.setIsFalling(true);
-						} else if (body.getFallingHeight() < 5 && isInWorldDimensions(new Point(pos.x, pos.y+MoveDirection.down.getYMove()))){
-							body.setFallingHeight(body.getFallingHeight() + 1);
-						} else {
-							//Destroy Lemming and its body
-							m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-							return;
+						Point down = new Point (pos.x, pos.y+MoveDirection.down.getYMove());
+						
+						while(isInWorldDimensions(down) && 
+								this.world[down.x][down.y].isEmpty() && 
+								(down.y - pos.y) < 5){
+							down = new Point (down.x, down.y+MoveDirection.down.getYMove());
 						}
-						body.setPosition(new Point(pos.x, pos.y+MoveDirection.down.getYMove()));
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
+						
+						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
+							//He dies
+							if(learningPhase)
+								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+						} else {
+							if (this.world[down.x][down.y].isExit()) {
+								//He landed on exit
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								this.isArrived = true;
+							} else {
+								//He landed successfully
+								if(learningPhase)
+									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
+							}
+							body.setPosition(down);
+						}
+						
 					}
-				} else if (m_world[pos.x][pos.y].isExit()) {
+				} else if (this.world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
-					isArrived=true;
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					this.isArrived=true;
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 			} else {
-				m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+				if(learningPhase)
+					this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 			}
 		}
 	}
 	
-	/*
-	 * Function that moves the lemming and change diggable pixel
+	/**
+	 * Function that moves the lemming's body and change diggable pixel
 	 * if he can dig the pixel in his direction,
 	 * or if he is digging, carry on or moves in his direction
+	 * 
+	 * @param body the body to move
+	 * @param direction the direction of the lemmings
 	 */
-	public void dig (Body body, MoveDirection direction){
+	public void dig (Body body, MoveDirection direction, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -233,6 +316,8 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.down;
 			}
+
+			List<PerceivableObject> perception = this.getPerception(body);
 
 			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
@@ -246,41 +331,47 @@ public class Environment {
 			
 			if (position != null & diggablePosition != null) {
 				if (!isInWorldDimensions(diggablePosition)) {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
-				} else if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Digging
-					m_world[diggablePosition.x][diggablePosition.y].setEmpty();
+					this.world[diggablePosition.x][diggablePosition.y].setEmpty();
 					finalPosition = diggablePosition;
-				} else if (m_world[diggablePosition.x][diggablePosition.y].isDiggable()) {
+				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
-					isArrived=true;
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					this.isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
 					return;
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 					return;
 				}
 				
 				if (isInWorldDimensions(finalPosition)) {
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.Living.getYourReward());
 					body.setPosition(finalPosition);
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					if(learningPhase)
+						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
 				}
 				
 			}
 		}
 	}
 	
-	/*
-	 * Function that moves the lemming
-	 * if he can climb the pixel in his direction,
+	/**
+	 * Function that moves the lemmings if he can climb the pixel in his direction,
 	 * or if he is climbing, carry on or land safely
+	 * 
+	 * @param body the body to move
 	 */
-	public void climb (Body body){
+	public void climb (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -288,68 +379,105 @@ public class Environment {
 			}
 			MoveDirection direction = body.getDirection();
 			if (direction == null) {
-				direction = MoveDirection.up;
+				direction = MoveDirection.right;
 			}
-			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
-			Point finalPosition = position;
+			List<PerceivableObject> perception = this.getPerception(body);
 			ActionEnum action = ActionEnum.CLIMB;
+			Point climbablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
+			Point nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
+			Point onTop = new Point(position.x, position.y + MoveDirection.up.getYMove());
+			Point finalPosition = position;
+			int reward = 0;
 			
-			if (position != null & climbablePosition != null) {
-				if (!isInWorldDimensions(climbablePosition)) {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				} else if (!body.isClimbing() && m_world[climbablePosition.x][climbablePosition.y].isClimbable()) {
-					//Start of the climbing
-					finalPosition = new Point(position.x, position.y + MoveDirection.up.getYMove());
-					body.setIsClimbing(true);
-				} else if (body.isClimbing()) {
-					Point top = new Point(position.x, position.y+MoveDirection.up.getYMove());
-					if (!isInWorldDimensions(top)) {
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-						return;
-					} else if (!m_world[top.x][top.y].isEmpty()) {
-						//Kill Lemming and its body
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-						return;
-					} else if (m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isClimbable() ||
-						m_world[climbablePosition.x][climbablePosition.y+MoveDirection.up.getYMove()].isEmpty()) {
-						//Mid steps of climbing
-						finalPosition = top;
-					} else if (m_world[climbablePosition.x][climbablePosition.y].isEmpty()) {
-						//Top of the climbing
-						finalPosition = climbablePosition;
-						body.setIsClimbing(false);
-					} else if (m_world[climbablePosition.x][climbablePosition.y].isExit()) {
-						//Top of the climbing is exit
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
-						isArrived=true;
-						body.setPosition(finalPosition);
-						body.setIsClimbing(false);
-						return;
+			boolean landed = false;
+			while(!landed) {
+				if (position != null && climbablePosition != null) {
+					if (!isInWorldDimensions(climbablePosition)) {
+						
+						//If he wants to climb outside the world
+						if (position.y - climbablePosition.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
+					} else if (!isInWorldDimensions(onTop)) {
+						
+						//If he wants to climb but is already too high
+						if (onTop.y - position.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
+					} else if (this.world[climbablePosition.x][climbablePosition.y].isClimbable() && this.world[onTop.x][onTop.y].isEmpty()) {
+						
+						//He can climb
+						reward = ActionEnum.Living.getYourReward();
+						finalPosition = onTop;
+						if (this.world[nextClimbablePosition.x][nextClimbablePosition.y].isEmpty()){
+							//He finished climbing
+							finalPosition = nextClimbablePosition;
+							landed = true;
+						} else if (this.world[nextClimbablePosition.x][nextClimbablePosition.y].isExit()){
+							//He lands on exit
+							finalPosition = nextClimbablePosition;
+							reward = ActionEnum.GET_OUT.getYourReward();
+							landed = true;
+						}
+						
+					} else if (this.world[climbablePosition.x][climbablePosition.y].isClimbable() && this.world[onTop.x][onTop.y].isExit()) {
+						
+						//He climbs through exit!
+						finalPosition = onTop;
+						reward = ActionEnum.GET_OUT.getYourReward();
+						landed = true;
+						this.isArrived = true;
+						
 					} else {
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-						return;
+						
+						//He can't climb
+						if (position.y - climbablePosition.y < 2) {
+							//He doesn't climb
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
 					}
+					
+					//Preparing vars for next iteration
+					onTop = new Point(finalPosition.x, finalPosition.y + MoveDirection.up.getYMove());
+					climbablePosition = new Point(finalPosition.x + direction.getXMove(), finalPosition.y + direction.getYMove());
+					nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
+					
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				}
-				if (isInWorldDimensions(finalPosition)) {
-					body.setPosition(finalPosition);
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					//There is a null position
+					reward = ActionEnum.NOTHING.getYourReward();
+					landed = true;
 				}
 			}
+			if (learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
+			body.setPosition(finalPosition);
 		}
 	}
 	
-	/*
-	 * Function that moves the lemming
-	 * if he can jump in his direction
+	/**
+	 * Function that moves the lemming if he can jump in his direction 
 	 * or if he is jumping, carry on or land safely
+	 * 
+	 * @param body the body to move
 	 */
-	public void jump (Body body){
+	public void jump (Body body, boolean learningPhase){
 		if (body != null) {
 			Point position = body.getPosition();
 			if (position == null) {
@@ -357,69 +485,133 @@ public class Environment {
 			}
 			MoveDirection direction = body.getDirection();
 			if (direction == null) {
-				direction = MoveDirection.down;
+				direction = MoveDirection.right;
 			}
+			List<PerceivableObject> perception = this.getPerception(body);
 			Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.JUMP;
+			int reward = 0;
 			
-			if (position != null & jumpablePosition != null) {
-				if (!isInWorldDimensions(jumpablePosition)) {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				} else if (!body.isJumping() && 
-					isInWorldDimensions(new Point(jumpablePosition.x, jumpablePosition.y+MoveDirection.down.getYMove())) &&
-					m_world[jumpablePosition.x][jumpablePosition.y+MoveDirection.down.getYMove()].isEmpty() &&
-					isInWorldDimensions(new Point(jumpablePosition.x + direction.getXMove(), jumpablePosition.y)) &&
-					m_world[jumpablePosition.x + direction.getXMove()][jumpablePosition.y].isEmpty()) {
-					//Start of the jump
-					finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
-					body.setIsJumping(true);
-				} else if (body.isJumping()) {
-					if (position.y+MoveDirection.down.getYMove() >= m_height) {
-						//Killing Lemming and its body
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
-						return;
-					} else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
-						//Mid steps of jump
-						finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
-					} else if (!m_world[position.x][position.y+MoveDirection.down.getYMove()].isEmpty()) {
-						//End of the jump
-						finalPosition = new Point(position.x, position.y + MoveDirection.down.getYMove());
-						body.setIsJumping(false);
-					}  else if (m_world[position.x][position.y+MoveDirection.down.getYMove()].isExit()) {
-						//End of the jump is exit
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
-						isArrived=true;
-						body.setPosition(new Point(position.x, position.y + MoveDirection.down.getYMove()));
-						body.setIsJumping(false);
-						return;
+			boolean landed = false;
+			
+			while(!landed) {
+				if (position != null & jumpablePosition != null) {
+					if (!isInWorldDimensions(jumpablePosition)) {
+						
+						//If he wants to jump outside the world
+						if (position.y == jumpablePosition.y) {
+							//He starts a jump in one of his side
+							reward = ActionEnum.NOTHING.getYourReward();
+						} else {
+							//He falls so die
+							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+						}
+						landed = true;
+						
+					} else if (position.y == jumpablePosition.y) {
+						
+						//Jump is starting
+						reward = ActionEnum.Living.getYourReward();
+						Point onBottom = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.down.getYMove());
+						
+						if (isInWorldDimensions(onBottom) &&
+							this.world[jumpablePosition.x][jumpablePosition.y].isEmpty() && 
+							this.world[onBottom.x][onBottom.y].isEmpty()) {
+							finalPosition = onBottom;
+						} else {
+							//He can't jump
+							reward = ActionEnum.NOTHING.getYourReward();
+							landed = true;
+						}
+						
+					} else if (this.world[jumpablePosition.x][jumpablePosition.y].isEmpty()) {
+						//He is jumping
+						finalPosition = jumpablePosition;
+						body.setIsJumping(true);
+					} else if (this.world[jumpablePosition.x][jumpablePosition.y].isExit()) {
+						//He landed through exit
+						finalPosition = jumpablePosition;
+						reward = ActionEnum.GET_OUT.getYourReward();
+						landed = true;
+						this.isArrived = true;
 					} else {
-						m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-						return;
+						//He lands
+						finalPosition = jumpablePosition;
+						reward = ActionEnum.Living.getYourReward();
+						landed = true;
 					}
+					
+					//Preparing var for next iteration
+					jumpablePosition = new Point(finalPosition.x, finalPosition.y + MoveDirection.down.getYMove());
 				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
-					return;
-				}
-				
-				if (isInWorldDimensions(finalPosition)) {
-					body.setPosition(finalPosition);
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.Living.getYourReward());
-				} else {
-					m_qtable.UpdateCoef(this.getPerception(body), action, action.getYourReward()+ActionEnum.NOTHING.getYourReward());
+					//There is a null position
+					reward = ActionEnum.NOTHING.getYourReward();
+					landed = true;
 				}
 			}
+			if(learningPhase)
+				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
+			body.setPosition(finalPosition);
 		}
 	}
 	
+	/**
+	 * Get if a position belongs to the world
+	 * 
+	 * @param position the position to check
+	 * @return true if the position belongs to the world, false otherwise
+	 */
 	public boolean isInWorldDimensions(Point position) {
-		return (position.x >= 0 && position.x < m_width &&
-				position.y >= 0 && position.y < m_height);
+		return (position.x >= 0 && position.x < this.worldWidth &&
+				position.y >= 0 && position.y < this.worldHeight);
 	}
 	
+	/**
+	 * @return the QTable of the current environment
+	 */
 	public QTable getQTable() {
-		return this.m_qtable;
+		return this.qtable;
 	}
+	
+	/**
+	 * Get the best move for a state
+	 * 
+	 * @param body the current body
+	 * @return the best action considering the current state
+	 */
+	public ActionEnum getBestMove(Body body){
+		List<PerceivableObject> bodyState = getPerception(body);
+		float[] coefList = new float[ActionEnum.values().length-4];
+		coefList = this.qtable.getCoefIfStateExist(bodyState);
+		
+		ActionEnum action = ActionEnum.WALK_EAST;
+		
+		// Found the best coefficient
+		if (coefList != null) {
+			int id = 0;
+			int tmpID = 0;
+			float tmpCoef = coefList[0];
+			for (float coef : coefList){
+				if (tmpCoef < coef){
+					// The current action is better
+					id = tmpID;
+				}
+				tmpID ++;
+			}
+			action = ActionEnum.values()[id]; //ActionEnum.WALK_EAST for example
+		}
+		return action;
+	
+	}
+
+	/**
+	 * @param the QTable we want to give to the environment
+	 */
+	public void setQTable(QTable qt){
+		this.qtable = qt;
+	}
+
+	
 	
 }
