@@ -16,6 +16,7 @@ import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.SpawnMapping;
+import io.janusproject.Boot;
 import io.sarl.lang.core.Agent;
 
 public class Game {
@@ -25,6 +26,10 @@ public class Game {
 		try{
 			File file = new File("./src/img/world2.bmp");
 			BufferedImage image = ImageIO.read(file);
+			
+			Boot.startJanus((Class) null, Lemming.class);
+			
+			
 			env = new Environment(image);
 			env.createLemming();
 			
