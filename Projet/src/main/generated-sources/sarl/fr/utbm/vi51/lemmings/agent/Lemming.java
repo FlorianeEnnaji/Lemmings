@@ -35,6 +35,7 @@ public class Lemming extends Agent {
     StandardPhysicEnvironment physicSkill = new StandardPhysicEnvironment(
       ((UUID) _get), 
       ((UUID) _get_1));
+    this.<StandardPhysicEnvironment>setSkill(PhysicEnvironment.class, physicSkill);
   }
   
   @Percept
