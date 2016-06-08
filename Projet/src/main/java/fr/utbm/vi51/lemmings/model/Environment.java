@@ -601,12 +601,9 @@ public class Environment {
 		this.qtable = qt;
 	}
 
-<<<<<<< HEAD
+
 	public WorldPixel[][] getWorld() {
 		return this.world;
 	}
-=======
-	
->>>>>>> refs/remotes/origin/master
 	
 }

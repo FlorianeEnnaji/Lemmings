@@ -78,13 +78,13 @@ public class GUI extends JPanel implements Runnable{
 			}
 		
 			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
-			//System.out.println(lemmingsBodies.isEmpty());
+			
 			if(!lemmingsBodies.isEmpty()) {
 				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
 					if(lemming != null) {
-						Image img = (new ImageIcon("./src/img/lemming.png")).getImage();
-						img = getLemmingImage(lemming.getValue());	
-						g.drawImage(img, (int)lemming.getValue().getPosition().getX(),(int)lemming.getValue().getPosition().getX(), this);
+						//System.out.println((int)lemming.getValue().getPosition().getX());
+						Image img = (new ImageIcon("./src/img/lemming.png")).getImage();	
+						g.drawImage(img, (int)lemming.getValue().getPosition().getX()*CELL_DIM,(int)lemming.getValue().getPosition().getY()*CELL_DIM, this);
 					}
 				}
 			}

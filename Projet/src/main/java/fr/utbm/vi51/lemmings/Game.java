@@ -44,11 +44,9 @@ public class Game {
 			
 			launchLearning(worlds, 3);*/
 			
-<<<<<<< HEAD
 			//launchLearning(worlds, 5);
 
-=======
->>>>>>> refs/remotes/origin/master
+
 			/*
 			 * Uncomment following if you want to play
 			 */
@@ -62,13 +60,14 @@ public class Game {
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
 			
-			new Launcher(env);
+			
 			
 			//TODO Find a way to play
-<<<<<<< HEAD
-=======
+
 			env.createLemmingGame();
->>>>>>> refs/remotes/origin/master
+			
+			new Launcher(env);
+
 			
 
 		}
