@@ -25,6 +25,8 @@ public class LinkerClass {
 		arg[0]=ID;
 		arg[1]=ID;
 		occurrence.parameters=arg;
+		
+		
 		agent._handle_Initialize_0(occurrence);
 		agentMind.put(ID, agent);
 	}

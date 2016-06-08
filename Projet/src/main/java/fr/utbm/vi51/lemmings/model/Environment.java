@@ -233,7 +233,6 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.down;
 			}
-
 			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.DIG_SOUTH;
