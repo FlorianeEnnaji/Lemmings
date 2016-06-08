@@ -163,11 +163,11 @@ public class Environment {
 		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
 	}
 	
-	public void createLemmingGame() {
+	public LemmingBody createLemmingGame() {
 		int a = 0;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
 		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
-		body.moveLemmingBody();;
+		return body;
 		
 	}
 	

@@ -6,13 +6,17 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import fr.utbm.vi51.lemmings.agent.Lemming;
+import fr.utbm.vi51.lemmings.model.Body;
 import fr.utbm.vi51.lemmings.model.Environment;
+import fr.utbm.vi51.lemmings.model.LemmingBody;
+import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class Launcher extends JFrame implements Runnable {
 
@@ -79,7 +83,19 @@ public class Launcher extends JFrame implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		LemmingBody body = environment.createLemmingGame();
+		while (true) {
+			try {		
+				Thread.sleep(1000);
+				body.moveLemmingBody();		
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		
+		
+		
 		
 	}
 

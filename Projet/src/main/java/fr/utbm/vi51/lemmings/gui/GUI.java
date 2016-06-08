@@ -102,7 +102,7 @@ public class GUI extends JPanel implements Runnable{
 		while(true) {
 			repaint();
 			try {
-				Thread.currentThread().sleep(100);
+				Thread.currentThread().sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

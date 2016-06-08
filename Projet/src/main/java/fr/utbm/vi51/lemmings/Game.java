@@ -64,7 +64,7 @@ public class Game {
 			
 			//TODO Find a way to play
 
-			env.createLemmingGame();
+			//env.createLemmingGame();
 			
 			new Launcher(env);
 

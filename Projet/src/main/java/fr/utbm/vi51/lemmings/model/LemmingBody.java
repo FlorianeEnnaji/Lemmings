@@ -49,7 +49,7 @@ public class LemmingBody extends Body {
 		Point currentPos = this.getPosition();
 		
 		int samePosition = 0;
-		while(!e.isArrived() && samePosition < 100) {
+		//while(!e.isArrived() && samePosition < 100) {
 			ActionEnum action = e.getBestMove(this);
 			MoveDirection direction = action.getDir();
 			Point nextPosition = new Point( this.getPosition().x + direction.getXMove(), this.getPosition().y + direction.getYMove()) ;
@@ -62,7 +62,7 @@ public class LemmingBody extends Body {
 			} else {
 				samePosition++;
 			}
-		}
+		//}
 		if (e.isArrived()) {
 			System.out.println("ARRIVED");
 		} else {
