@@ -39,9 +39,15 @@ public class Environment {
 	/* List of agent bodies */
 	public final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
+
+	/** Link between agent and Body */
+	private LinkerClass link = new LinkerClass();
+	
+
 	/** 
 	 * Default Constructor
 	 */
+
 	public Environment(){
 		this.world = new WorldPixel[this.worldWidth][this.worldHeight];	
 	}
@@ -159,8 +165,10 @@ public class Environment {
 	 * Create the body
 	 */
 	private void createBody(){
-		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry);
-		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
+		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
+		UUID ID = new UUID(1, agentBodies.size()+1);
+		agentBodies.put(ID, body);
+		link.createAgent(ID);
 	}
 	
 	public void createLemmingGame() {
@@ -182,6 +190,7 @@ public class Environment {
 		List<PerceivableObject> list = new ArrayList<>();
 		list = body.getPerception();
 		return this.qtable.getCoef(list);
+
 	}
 		
 	/** Return the perception of the body 
@@ -307,7 +316,9 @@ public class Environment {
 			if (direction == null) {
 				direction = MoveDirection.down;
 			}
+
 			List<PerceivableObject> perception = this.getPerception(body);
+
 			Point diggablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.DIG_SOUTH;

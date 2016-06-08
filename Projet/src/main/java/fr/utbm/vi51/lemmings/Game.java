@@ -20,6 +20,7 @@ import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.SpawnMapping;
+import io.janusproject.Boot;
 import io.sarl.lang.core.Agent;
 
 /**
@@ -33,8 +34,7 @@ public class Game {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		try{
-			
+		try{			
 			String[] worlds = {"./src/img/world1.bmp","./src/img/world2.bmp","./src/img/world3.bmp","./src/img/world4.bmp","./src/img/world5.bmp"};
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*

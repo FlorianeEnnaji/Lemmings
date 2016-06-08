@@ -22,12 +22,14 @@ import io.sarl.lang.core.Percept;
 import java.util.UUID;
 import javax.annotation.Generated;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 
 @SarlSpecification("0.3")
 @SuppressWarnings("all")
 public class Lemming extends Agent {
   @Percept
   public void _handle_Initialize_0(final Initialize occurrence) {
+    InputOutput.<String>println("agent");
     Object _get = occurrence.parameters[0];
     Object _get_1 = occurrence.parameters[1];
     StandardPhysicEnvironment physicSkill = new StandardPhysicEnvironment(
@@ -94,8 +96,8 @@ public class Lemming extends Agent {
   @FiredEvent(AgentSpawned.class)
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(Lifecycle.class)
-  protected UUID spawnInContext(final Class<? extends Agent> agentClass, final AgentContext context, final Object... params) {
-    return getSkill(io.sarl.core.Lifecycle.class).spawnInContext(agentClass, context, params);
+  protected UUID spawnInContext(final Class<? extends Agent> arg0, final AgentContext arg1, final Object... arg2) {
+    return getSkill(io.sarl.core.Lifecycle.class).spawnInContext(arg0, arg1, arg2);
   }
   
   /**
@@ -106,8 +108,8 @@ public class Lemming extends Agent {
   @FiredEvent(AgentSpawned.class)
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(Lifecycle.class)
-  protected UUID spawnInContextWithID(final Class<? extends Agent> agentClass, final UUID agentID, final AgentContext context, final Object... params) {
-    return getSkill(io.sarl.core.Lifecycle.class).spawnInContextWithID(agentClass, agentID, context, params);
+  protected UUID spawnInContextWithID(final Class<? extends Agent> arg0, final UUID arg1, final AgentContext arg2, final Object... arg3) {
+    return getSkill(io.sarl.core.Lifecycle.class).spawnInContextWithID(arg0, arg1, arg2, arg3);
   }
   
   /**
