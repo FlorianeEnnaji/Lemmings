@@ -27,6 +27,7 @@ public class Game {
 			File file = new File("./src/img/world2.bmp");
 			BufferedImage image = ImageIO.read(file);
 			
+			Boot.setOffline(true);
 			Boot.startJanus((Class) null, Lemming.class);
 			
 			
