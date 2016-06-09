@@ -10,6 +10,7 @@ import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
 import io.janusproject.Boot;
 import io.janusproject.kernel.Kernel;
+import io.sarl.util.OpenEventSpace;
 
 
 
@@ -23,6 +24,8 @@ public class LinkerClass {
 	public final Map<UUID,Lemming> agentMind = new TreeMap<UUID,Lemming>();
 
 	private Kernel ja ;
+	
+	private OpenEventSpace space;
 
 
 	
@@ -76,6 +79,8 @@ public class LinkerClass {
 			 * this.space.emit(event, new AddressUUIDScope(ID));
 			 * (Searched in Lab Works but didn't really find how to get "space" and where to define emit..)
 			 * */
+			//space.emit(event, ID);
+			
 		}
 	}
 
