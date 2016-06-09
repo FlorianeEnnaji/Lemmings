@@ -174,8 +174,9 @@ public class Environment {
 	public void createLemmingGame() {
 		int a = 0;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
-		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
-		body.moveLemmingBody();;
+		UUID ID = new UUID(1, agentBodies.size()+1);
+		this.agentBodies.put(ID, body);
+		link.createAgent(ID);
 		
 	}
 	

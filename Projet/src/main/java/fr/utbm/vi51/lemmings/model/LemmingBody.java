@@ -46,6 +46,7 @@ public class LemmingBody extends Body {
 	 * Game function for moving the body of lemmings
 	 */
 	public void moveLemmingBody() {
+		/*
 		Environment e = getEnvironment();
 		Point currentPos = this.getPosition();
 		
@@ -68,7 +69,7 @@ public class LemmingBody extends Body {
 			System.out.println("ARRIVED");
 		} else {
 			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
-		}
+		}*/
 	}
 	
 	/**
