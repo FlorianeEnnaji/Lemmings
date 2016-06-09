@@ -46,6 +46,7 @@ public class LemmingBody extends Body {
 	 * Game function for moving the body of lemmings
 	 */
 	public void moveLemmingBody() {
+		System.out.println("Wanted to move Lemming boddy");
 		/*
 		Environment e = getEnvironment();
 		Point currentPos = this.getPosition();

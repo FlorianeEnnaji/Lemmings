@@ -59,6 +59,7 @@ public abstract class Body extends DynamicObject {
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+		getEnvironment().justMovedBody(this);
 	}
 	
 	/**

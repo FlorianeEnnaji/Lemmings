@@ -10,8 +10,6 @@ import java.util.UUID
 import fr.utbm.vi51.lemmings.^agent.InfluenceEvent
 import fr.utbm.vi51.lemmings.model.Influence
 import fr.utbm.vi51.lemmings.model.ActionInfluence
-import fr.utbm.vi51.lemmings.model.ActionInfluence
-import fr.utbm.vi51.lemmings.model.Influence
 import fr.utbm.vi51.lemmings.model.KillInfluence
 import fr.utbm.vi51.lemmings.model.AddressUUIDScope
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum

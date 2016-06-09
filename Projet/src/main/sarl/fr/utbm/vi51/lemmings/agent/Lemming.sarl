@@ -40,7 +40,7 @@ agent Lemming  {
 		}
 		var b = new BehaviourOutput(action)
 		emitInfluence(b)
-		println("PERCEIVING OMGGG")
+		println("PERCEIVING")
 	}
 	
 	def emitInfluence(output : BehaviourOutput, influence : Influence*){

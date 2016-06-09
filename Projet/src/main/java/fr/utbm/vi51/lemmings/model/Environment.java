@@ -177,7 +177,6 @@ public class Environment {
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
 		link.createAgent(ID);
-		
 	}
 	
 	
@@ -191,7 +190,6 @@ public class Environment {
 		List<PerceivableObject> list = new ArrayList<>();
 		list = body.getPerception();
 		return this.qtable.getCoef(list);
-
 	}
 		
 	/** Return the perception of the body 
@@ -604,6 +602,16 @@ public class Environment {
 		}
 		return action;
 	
+	}
+	
+	void justMovedBody(Body body){
+		UUID bodyId = null;
+		for (UUID id : agentBodies.keySet()) {
+			if (agentBodies.get(id) == body) {
+				bodyId = id;
+			}
+		}
+		link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
 	}
 
 	/**
