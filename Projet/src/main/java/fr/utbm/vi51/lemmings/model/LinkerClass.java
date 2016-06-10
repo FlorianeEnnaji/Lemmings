@@ -34,7 +34,6 @@ public class LinkerClass {
 	 */
 
 	public LinkerClass(){
-		
 	}
 	
 	/**
@@ -71,15 +70,11 @@ public class LinkerClass {
 	 * @param perception (List<Perceivable>) the agent's perception
 	 */
 	public void givePerception(UUID ID, List<PerceivableObject> perception, LemmingBody body) {
+		System.out.println("GIVING PERCEPTION, is space not null ? " + (space != null));
 		PerceptionEvent event;
 		if (ID != null) {
 			event = new PerceptionEvent(perception, body);
-			/**TODO find a way to emit this event. usually 
-			 * it's made with something like
-			 * this.space.emit(event, new AddressUUIDScope(ID));
-			 * (Searched in Lab Works but didn't really find how to get "space" and where to define emit..)
-			 * */
-			//space.emit(event, ID);
+			space.emit(event, new AddressUUIDScope(ID));
 			
 		}
 	}
