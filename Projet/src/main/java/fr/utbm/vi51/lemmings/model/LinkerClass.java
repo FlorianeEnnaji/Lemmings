@@ -11,6 +11,9 @@ import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
 import io.janusproject.Boot;
 import io.janusproject.kernel.Kernel;
 import io.sarl.util.OpenEventSpace;
+import io.sarl.core.DefaultContextInteractions;
+import io.sarl.core.Lifecycle;
+import io.sarl.core.Behaviors;
 
 
 
@@ -53,6 +56,8 @@ public class LinkerClass {
 			Boot.setOffline(true);
 			try {
 				ja=Boot.startJanus((Class) null, Lemming.class,arg);
+				//space=new OpenEventSpace();
+				//space.register(asEventListenner);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
