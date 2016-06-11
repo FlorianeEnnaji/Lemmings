@@ -18,6 +18,37 @@ import io.sarl.core.Lifecycle;
 import io.sarl.lang.core.AgentContext;
 import io.sarl.lang.core.EventListener;
 import io.sarl.core.Behaviors;
+import io.sarl.core.AgentKilled;
+import io.sarl.core.AgentSpawned;
+import io.sarl.core.Behaviors;
+import io.sarl.core.DefaultContextInteractions;
+import io.sarl.core.Destroy;
+import io.sarl.core.Initialize;
+import io.sarl.core.Lifecycle;
+import io.sarl.lang.annotation.EarlyExit;
+import io.sarl.lang.annotation.FiredEvent;
+import io.sarl.lang.annotation.ImportedCapacityFeature;
+import io.sarl.lang.annotation.SarlSpecification;
+import io.sarl.lang.core.Address;
+import io.sarl.lang.core.Agent;
+import io.sarl.lang.core.AgentContext;
+import io.sarl.lang.core.Behavior;
+import io.sarl.lang.core.BuiltinCapacitiesProvider;
+import io.sarl.lang.core.Event;
+import io.sarl.lang.core.EventListener;
+import io.sarl.lang.core.EventSpace;
+import io.sarl.lang.core.Percept;
+import io.sarl.lang.core.Scope;
+import io.sarl.lang.core.Space;
+import io.sarl.lang.core.SpaceID;
+import io.sarl.util.OpenEventSpace;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import javax.annotation.Generated;
+import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Pure;
 
 
 
@@ -26,8 +57,13 @@ import io.sarl.core.Initialize;
 /**
  * LinkerClass
  */
-public class LinkerClass {
+public class LinkerClass extends Agent {
 	
+	public LinkerClass(BuiltinCapacitiesProvider provider, UUID parentID, UUID agentID) {
+		super(provider, parentID, agentID);
+		// TODO Auto-generated constructor stub
+	}
+
 	public final Map<UUID,Lemming> agentMind = new TreeMap<UUID,Lemming>();
 
 	private Kernel ja ;
@@ -41,8 +77,6 @@ public class LinkerClass {
 	 * Default Constructor
 	 */
 
-	public LinkerClass(){
-	}
 	
 	/**
 	 * creation of an agent

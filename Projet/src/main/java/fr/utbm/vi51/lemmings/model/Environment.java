@@ -41,7 +41,7 @@ public class Environment {
 	
 
 	/** Link between agent and Body */
-	private LinkerClass link = new LinkerClass();
+	private LinkerClass link = new LinkerClass(null, new UUID(0,0), new UUID(22,22));
 	
 
 	/** 
