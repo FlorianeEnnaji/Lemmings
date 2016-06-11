@@ -24,7 +24,6 @@ public class Launcher extends JFrame implements Runnable {
 
 	private Environment environment = null;
 
-	private JPanel panel;
 	private GUI level;
 
 	private void launch(Environment env) {
@@ -43,10 +42,8 @@ public class Launcher extends JFrame implements Runnable {
 	
 	private void setGUI() {
 
-		panel = new JPanel();
 		level = new GUI(this);
 		level.setSize(600, 600);
-		panel.setSize(100, 100);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(605,620);
