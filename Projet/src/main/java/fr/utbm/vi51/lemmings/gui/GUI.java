@@ -16,6 +16,7 @@ import fr.utbm.vi51.lemmings.Game;
 import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.WorldPixel;
+import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
 
 public class GUI extends JPanel implements Runnable{
 	
@@ -30,6 +31,12 @@ public class GUI extends JPanel implements Runnable{
 	private Image exit;
 	private Image climb;
 	private Image ground;
+	private Image lemming_right;
+	private Image lemming_left;
+	private Image lemming_climbing_right;
+	private Image lemming_climbing_left;
+	private Image lemming_falling;
+	private Image lemming;
 
 	public GUI(Launcher launcher) {
 		super();
@@ -41,6 +48,11 @@ public class GUI extends JPanel implements Runnable{
 		exit = (new ImageIcon("./src/img/exit.png")).getImage();
 		climb = (new ImageIcon("./src/img/climb.png")).getImage();	
 		ground = (new ImageIcon("./src/img/ground.png")).getImage();
+		lemming_right = (new ImageIcon("./src/img/lemming_right.png")).getImage();
+		lemming_left = (new ImageIcon("./src/img/lemming_left.png")).getImage();
+		lemming_climbing_right = (new ImageIcon("./src/img/lemming_climbing_right.png")).getImage();
+		lemming_climbing_left = (new ImageIcon("./src/img/lemming_climbing_left.png")).getImage();
+		lemming_falling = (new ImageIcon("./src/img/lemming.png")).getImage();
 
 		
 		setFocusable(true);
@@ -82,8 +94,7 @@ public class GUI extends JPanel implements Runnable{
 			if(!lemmingsBodies.isEmpty()) {
 				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
 					if(lemming != null) {
-						//System.out.println((int)lemming.getValue().getPosition().getX());
-						Image img = (new ImageIcon("./src/img/lemming.png")).getImage();	
+						Image img = getLemmingImage(lemming.getValue());	
 						g.drawImage(img, (int)lemming.getValue().getPosition().getX()*CELL_DIM,(int)lemming.getValue().getPosition().getY()*CELL_DIM, this);
 					}
 				}
@@ -91,9 +102,29 @@ public class GUI extends JPanel implements Runnable{
 		}
 	}
 	
-	/**TODO*/
 	private Image getLemmingImage(LemmingBody lemmingBody) {
-		return null;
+		Image img = lemming;
+		
+		if(lemmingBody.getDirection() == MoveDirection.right) {
+			img = lemming_right;
+			if(lemmingBody.isClimbing()) {
+				img = lemming_climbing_right;
+			}
+			
+		}
+		else if(lemmingBody.getDirection() == MoveDirection.left){
+			img = lemming_left;
+			if(lemmingBody.isClimbing()) {
+				img = lemming_climbing_left;
+			}
+			
+		}
+		
+		if(lemmingBody.isFalling()) {
+			img = lemming_falling;
+		}
+
+		return img;
 	}
 
 	@Override
