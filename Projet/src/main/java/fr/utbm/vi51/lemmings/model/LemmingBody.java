@@ -25,6 +25,7 @@ public class LemmingBody extends Body {
 	 */
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
+
 		
 		/*
 		 * Comment the 3 following lines if you want to play

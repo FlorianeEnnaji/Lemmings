@@ -22,12 +22,14 @@ import io.sarl.lang.core.Percept;
 import java.util.UUID;
 import javax.annotation.Generated;
 import javax.inject.Inject;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 
 @SarlSpecification("0.3")
 @SuppressWarnings("all")
 public class Lemming extends Agent {
   @Percept
   public void _handle_Initialize_0(final Initialize occurrence) {
+    InputOutput.<String>println("agent");
     Object _get = occurrence.parameters[0];
     Object _get_1 = occurrence.parameters[1];
     StandardPhysicEnvironment physicSkill = new StandardPhysicEnvironment(
