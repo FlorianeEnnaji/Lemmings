@@ -87,8 +87,10 @@ public class Game {
 				}
 				qt.getStateList().addAll(env.getQTable().getStateList());
 				qt.getCoefList().addAll(env.getQTable().getCoefList());
+				System.out.println("ABBCCCCC --" +  qt.getStateList().size());
 			}
 			//Learning is over
+			System.out.println(qt.getStateList().size());
 			saveQTableInfos(qt);
 		}		
 		catch (Exception e) {

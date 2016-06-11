@@ -1,61 +1,14 @@
 package fr.utbm.vi51.lemmings.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import com.hazelcast.mapreduce.impl.task.DefaultContext;
-
-import fr.utbm.vi51.lemmings.agent.Lemming;
-import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
-import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
-import io.janusproject.Boot;
-import io.janusproject.kernel.Kernel;
-import io.sarl.util.OpenEventSpace;
-import io.sarl.core.DefaultContextInteractions;
-import io.sarl.core.Lifecycle;
-import io.sarl.lang.core.AgentContext;
-import io.sarl.lang.core.EventListener;
-import io.sarl.core.Behaviors;
-import io.sarl.core.AgentKilled;
-import io.sarl.core.AgentSpawned;
-import io.sarl.core.Behaviors;
-import io.sarl.core.DefaultContextInteractions;
-import io.sarl.core.Destroy;
-import io.sarl.core.Initialize;
-import io.sarl.core.Lifecycle;
-import io.sarl.lang.annotation.EarlyExit;
-import io.sarl.lang.annotation.FiredEvent;
-import io.sarl.lang.annotation.ImportedCapacityFeature;
-import io.sarl.lang.annotation.SarlSpecification;
-import io.sarl.lang.core.Address;
-import io.sarl.lang.core.Agent;
-import io.sarl.lang.core.AgentContext;
-import io.sarl.lang.core.Behavior;
-import io.sarl.lang.core.BuiltinCapacitiesProvider;
-import io.sarl.lang.core.Event;
-import io.sarl.lang.core.EventListener;
-import io.sarl.lang.core.EventSpace;
-import io.sarl.lang.core.Percept;
-import io.sarl.lang.core.Scope;
-import io.sarl.lang.core.Space;
-import io.sarl.lang.core.SpaceID;
-import io.sarl.util.OpenEventSpace;
-import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import javax.annotation.Generated;
-import javax.inject.Inject;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Pure;
-
-
-
-import io.sarl.core.Initialize;
 
 /**
  * LinkerClass
@@ -77,16 +30,21 @@ public class LinkerClass {
 	 * Default Constructor
 	 */
 	public LinkerClass(){
-		 executorService = Executors.newSingleThreadScheduledExecutor();
-		 executorService.scheduleAtFixedRate(sendPerception(), 0, 1, TimeUnit.SECONDS);
+		executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.scheduleAtFixedRate(new Runnable() {
+		       public void run() { sendPerception(); }
+	     }, 0, 1, TimeUnit.SECONDS);
 	}
 	
 	public Runnable sendPerception(){
 		for (UUID i : agentMind.keySet()) {
-			if (perceptions.get(i)!=null){
-				agentMind.get(i).perception_Event(perceptions.get(i));
-				perceptions.replace(i, null);
+			if (perceptions.get(i)!=null || perceptions.get(i).size() != 0){
+				List<PerceivableObject> clone = new ArrayList<>();
+				clone.addAll(perceptions.get(i));
+				agentMind.get(i).perception_Event(clone);
+				perceptions.replace(i, new ArrayList<>());
 			}
+			
 		}
 		return null;		
 	}

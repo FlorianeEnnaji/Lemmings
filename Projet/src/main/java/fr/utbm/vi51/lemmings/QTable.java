@@ -11,8 +11,8 @@ import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
  */
 public class QTable {
 	
-	private static ArrayList<List<PerceivableObject>> stateList;
-	private static ArrayList<float[]> coefList;
+	private ArrayList<List<PerceivableObject>> stateList;
+	private ArrayList<float[]> coefList;
 	
 	/**
 	 * Default Constructor
@@ -54,8 +54,8 @@ public class QTable {
 	 * @param s a state
 	 * @return true if the list of states contains the state in parameter, false otherwise 
 	 */
-	public static boolean StateAlreadyVisit(List<PerceivableObject> s){
-		return stateList.contains(s);
+	public boolean StateAlreadyVisit(List<PerceivableObject> s){
+		return this.stateList.contains(s);
 		
 	}
 	
@@ -106,9 +106,9 @@ public class QTable {
 	 * @param s a state
 	 * @return the list of coefficients for the state
 	 */
-	public static float[] getCoef(List<PerceivableObject> s){
+	public float[] getCoef(List<PerceivableObject> s){
 		if (StateAlreadyVisit(s)){
-			return coefList.get(stateList.indexOf(s));
+			return coefList.get(this.stateList.indexOf(s));
 		}
 		return null;
 	}

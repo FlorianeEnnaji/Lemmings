@@ -177,7 +177,7 @@ public class Environment {
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
 		link.createAgent(ID,body);
-		this.justMovedBody(body);
+		link.setPerception(ID, body.getPerception());
 	}
 	
 	
@@ -626,6 +626,7 @@ public class Environment {
 				bodyId = id;
 			}
 		}
+		link.setPerception(bodyId, body.getPerception());
 		//link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
 	}
 

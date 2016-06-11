@@ -58,6 +58,7 @@ public abstract class Body extends DynamicObject {
 	 * @param position the position to set
 	 */
 	public void setPosition(Point position) {
+		System.out.println("MOVED FROM " + this.position.x + "-" + this.position.y + " TO " + position.x + "-" + position.y);
 		this.position = position;
 		getEnvironment().justMovedBody(this);
 	}

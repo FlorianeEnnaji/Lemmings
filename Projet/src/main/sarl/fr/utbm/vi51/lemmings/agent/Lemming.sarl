@@ -23,7 +23,7 @@ agent Lemming  {
 	}
 	
 	on PerceptionEvent {
-		var action = ActionEnum.WALK_EAST;
+		/*var action = ActionEnum.WALK_EAST;
 		val rewardTable = QTable.getCoef(occurrence.perceptions)
 		if (rewardTable != null) {
 			var index = 0;
@@ -40,7 +40,7 @@ agent Lemming  {
 		}
 		var b = new BehaviourOutput(action)
 		emitInfluence(b)
-		println("PERCEIVING")
+		println("PERCEIVING")*/
 	}
 	
 	def emitInfluence(output : BehaviourOutput, influence : Influence*){
