@@ -17,6 +17,7 @@ import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
  */
 public class Environment {
 
+	boolean learning = true;
 	/* Matrix of pixels */
 	private WorldPixel[][] world;
 	
@@ -168,14 +169,22 @@ public class Environment {
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		agentBodies.put(ID, body);
-		link.createAgent(ID);
+		link.createAgent(ID,body);
 	}
 	
 	public LemmingBody createLemmingGame() {
 		int a = 0;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
+<<<<<<< HEAD
 		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
 		return body;
+=======
+		UUID ID = new UUID(1, agentBodies.size()+1);
+		this.agentBodies.put(ID, body);
+		link.createAgent(ID,body);
+		link.setPerception(ID, body.getPerception());
+		learning = false;
+>>>>>>> refs/remotes/origin/master
 		
 	}
 	
@@ -190,7 +199,6 @@ public class Environment {
 		List<PerceivableObject> list = new ArrayList<>();
 		list = body.getPerception();
 		return this.qtable.getCoef(list);
-
 	}
 		
 	/** Return the perception of the body 
@@ -218,7 +226,21 @@ public class Environment {
 				}	
 			}
 		}
+		if(findLemming(body)!=null){
+			link.setPerception(findLemming(body), list);
+		}
 		return list;
+	}
+	
+	private UUID findLemming(Body body){
+		UUID res=null;
+		for(UUID i : agentBodies.keySet()){
+			if(agentBodies.get(i)==body){
+				res = i;
+			}
+		}
+		return res;
+		
 	}
 
 	/**
@@ -603,6 +625,20 @@ public class Environment {
 		}
 		return action;
 	
+	}
+	
+	void justMovedBody(Body body){
+		if (!learning) {
+			UUID bodyId = null;
+			for (UUID id : agentBodies.keySet()) {
+				if (agentBodies.get(id) == body) {
+					bodyId = id;
+				}
+			}
+			link.setPerception(bodyId, body.getPerception());
+			//link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
+		}
+		
 	}
 
 	/**

@@ -107,8 +107,8 @@ public class QTable {
 	 * @return the list of coefficients for the state
 	 */
 	public float[] getCoef(List<PerceivableObject> s){
-		if (this.StateAlreadyVisit(s)){
-			return this.coefList.get(this.stateList.indexOf(s));
+		if (StateAlreadyVisit(s)){
+			return coefList.get(this.stateList.indexOf(s));
 		}
 		return null;
 	}

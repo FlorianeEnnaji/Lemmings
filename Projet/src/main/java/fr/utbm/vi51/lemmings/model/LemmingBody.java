@@ -42,6 +42,7 @@ public class LemmingBody extends Body {
 		 */
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Game function for moving the body of lemmings
 	 */
@@ -70,36 +71,40 @@ public class LemmingBody extends Body {
 			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
 		}
 	}
+=======
+>>>>>>> refs/remotes/origin/master
 	
 	/**
 	 * @param action the action we want to perform
-	 * TODO Not call the same functions that update the stateList!!
 	 */
-	public void performAction(ActionEnum action) {
-		if(action!=null){
-			switch(action){
-			case WALK_EAST : 
-				walk(action.getDir(), false);
-				break;
-			case WALK_WEST :
-				walk(action.getDir(), false);
-				break;
-			case DIG_EAST : 
-				dig(action.getDir(), false);
-				break;				
-			case DIG_WEST : 
-				dig(action.getDir(), false);
-				break;
-			case DIG_SOUTH : 
-				dig(action.getDir(), false);
-				break;
-			case CLIMB : 
-				climb(false);
-				break;
-			case JUMP : 
-				jump(false);
-				break;
-			default : break;
+	public void influenceGame(Influence influence) {
+		if (influence != null && (influence instanceof ActionInfluence)) {
+			ActionEnum action = ((ActionInfluence) influence).getType();
+			if(action!=null){
+				switch(action){
+				case WALK_EAST : 
+					walk(action.getDir(), false);
+					break;
+				case WALK_WEST :
+					walk(action.getDir(), false);
+					break;
+				case DIG_EAST : 
+					dig(action.getDir(), false);
+					break;				
+				case DIG_WEST : 
+					dig(action.getDir(), false);
+					break;
+				case DIG_SOUTH : 
+					dig(action.getDir(), false);
+					break;
+				case CLIMB : 
+					climb(false);
+					break;
+				case JUMP : 
+					jump(false);
+					break;
+				default : break;
+				}
 			}
 		}
 	}

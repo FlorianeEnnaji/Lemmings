@@ -40,16 +40,16 @@ public class Game {
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
-			 *
+			 */
 			
-			launchLearning(worlds, 3);*/
+			launchLearning(worlds, 3);
 			
 			//launchLearning(worlds, 5);
 
 
 			/*
 			 * Uncomment following if you want to play
-			 */
+			 *
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -63,11 +63,15 @@ public class Game {
 			
 			
 			//TODO Find a way to play
+<<<<<<< HEAD
 
 			//env.createLemmingGame();
 			
 			new Launcher(env);
 
+=======
+			env.createLemmingGame();*/
+>>>>>>> refs/remotes/origin/master
 			
 
 		}
@@ -98,8 +102,10 @@ public class Game {
 				}
 				qt.getStateList().addAll(env.getQTable().getStateList());
 				qt.getCoefList().addAll(env.getQTable().getCoefList());
+				System.out.println("ABBCCCCC --" +  qt.getStateList().size());
 			}
 			//Learning is over
+			System.out.println(qt.getStateList().size());
 			saveQTableInfos(qt);
 		}		
 		catch (Exception e) {

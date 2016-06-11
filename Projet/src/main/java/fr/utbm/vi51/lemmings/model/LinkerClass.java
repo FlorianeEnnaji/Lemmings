@@ -1,44 +1,71 @@
 package fr.utbm.vi51.lemmings.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import fr.utbm.vi51.lemmings.agent.Lemming;
-
-import io.janusproject.Boot;
-import io.janusproject.kernel.Kernel;
-
-
-
-import io.sarl.core.Initialize;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * LinkerClass
  */
 public class LinkerClass {
 	
-	public final Map<UUID,Lemming> agentMind = new TreeMap<UUID,Lemming>();
+	private final ScheduledExecutorService executorService;
 
-    
-	private Kernel ja ;
+	private final Map<UUID, LemmingAgent> agentMind = new TreeMap<UUID,LemmingAgent>();
+	private final Map<UUID, List<PerceivableObject>> perceptions = new TreeMap<UUID,List<PerceivableObject>>();
+	
+	//private Kernel ja ;	
+	//private OpenEventSpace space;
+	//private UUID spaceId;
 
 
 	
 	/**
 	 * Default Constructor
 	 */
-
 	public LinkerClass(){
-		
+		executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.scheduleAtFixedRate(new Runnable() {
+		       public void run() { sendPerception(); }
+	     }, 0, 1, TimeUnit.SECONDS);
+	}
+	
+	public Runnable sendPerception(){
+		for (UUID i : agentMind.keySet()) {
+			if (perceptions.get(i)!=null || perceptions.get(i).size() != 0){
+				List<PerceivableObject> clone = new ArrayList<>();
+				clone.addAll(perceptions.get(i));
+				agentMind.get(i).perception_Event(clone);
+				perceptions.replace(i, new ArrayList<>());
+			}
+			
+		}
+		return null;		
+	}
+	
+	public void setPerception(UUID body, List<PerceivableObject> percept){
+		if(perceptions.containsKey(body)){
+			perceptions.replace(body, percept);
+		}
 	}
 	
 	/**
 	 * creation of an agent
 	 * @param ID the id of the agent
 	 */
-	public void createAgent(UUID ID){
-		System.out.println("linker");
+	public void createAgent(UUID ID, LemmingBody body){
+		LemmingAgent agent=new LemmingAgent(ID,body);
+		agentMind.put(ID, agent);
+		perceptions.put(ID, null);
+		
+		
+		/*System.out.println("linker");
 		Lemming agent=new Lemming(null, ID, ID);
 		Initialize occurrence = new Initialize();
 
@@ -50,15 +77,37 @@ public class LinkerClass {
 			Boot.setOffline(true);
 			try {
 				ja=Boot.startJanus((Class) null, Lemming.class,arg);
+				spaceId=new UUID(0, 1);
+				 AgentContext defaultContext=getSkill(io.sarl.core.DefaultContextInteractions.class).getDefaultContext();;
+				space=defaultContext.<OpenEventSpace>getSpace(spaceId);
+				EventListener asEventListenner=getSkill(io.sarl.core.Behaviors.class).asEventListener() ;
+				space.register(asEventListenner);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else{
 			ja.spawn(ID, Lemming.class,arg);
-		}
-		agentMind.put(ID, agent);
-
+		}*/
+		
+		
 	}
+	
+	
+	
+	/**
+	 * @brief sending onPerception event to agent
+	 * @param ID (UUID)the id of the agent
+	 * @param perception (List<Perceivable>) the agent's perception
+	 */
+	/*public void givePerception(UUID ID, List<PerceivableObject> perception, LemmingBody body) {
+		System.out.println("GIVING PERCEPTION, is space not null ? " + (space != null));
+		PerceptionEvent event;
+		if (ID != null) {
+			event = new PerceptionEvent(perception, body);
+			space.emit(event, new AddressUUIDScope(ID));
+			
+		}
+	}*/
 
 }

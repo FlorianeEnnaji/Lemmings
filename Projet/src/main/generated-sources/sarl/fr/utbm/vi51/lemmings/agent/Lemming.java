@@ -1,6 +1,8 @@
 package fr.utbm.vi51.lemmings.agent;
 
+import com.google.common.base.Objects;
 import fr.utbm.info.vi51.framework.agent.StandardPhysicEnvironment;
+import fr.utbm.vi51.lemmings.QTable;
 import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
 import fr.utbm.vi51.lemmings.model.BehaviourOutput;
@@ -40,8 +42,28 @@ public class Lemming extends Agent {
   
   @Percept
   public void _handle_PerceptionEvent_1(final PerceptionEvent occurrence) {
-    BehaviourOutput b = new BehaviourOutput(ActionEnum.CLIMB);
+    ActionEnum action = ActionEnum.WALK_EAST;
+    final float[] rewardTable = QTable.getCoef(occurrence.perceptions);
+    boolean _notEquals = (!Objects.equal(rewardTable, null));
+    if (_notEquals) {
+      int index = 0;
+      int idAction = 0;
+      final double bestReward = (-100.0);
+      for (final float reward : rewardTable) {
+        {
+          if ((bestReward < reward)) {
+            idAction = index;
+          }
+          index++;
+        }
+      }
+      ActionEnum[] _values = ActionEnum.values();
+      ActionEnum _get = _values[idAction];
+      action = _get;
+    }
+    BehaviourOutput b = new BehaviourOutput(action);
     this.emitInfluence(b);
+    InputOutput.<String>println("PERCEIVING");
   }
   
   protected void emitInfluence(final BehaviourOutput output, final Influence... influence) {
