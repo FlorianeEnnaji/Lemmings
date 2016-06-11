@@ -41,7 +41,7 @@ public class LemmingAgent implements Perception_Event {
 	}
 
 	public void emitInfluence(ActionInfluence action){
-		body.performAction(action.getType());
+		body.influenceGame(action);
 		//body.influence(action);
 	}
 	

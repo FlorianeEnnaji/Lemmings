@@ -42,66 +42,38 @@ public class LemmingBody extends Body {
 		 */
 	}
 
-	/**
-	 * Game function for moving the body of lemmings
-	 */
-	public void moveLemmingBody() {
-		System.out.println("Wanted to move Lemming boddy");
-		/*
-		Environment e = getEnvironment();
-		Point currentPos = this.getPosition();
-		
-		int samePosition = 0;
-		while(!e.isArrived() && samePosition < 100) {
-			ActionEnum action = e.getBestMove(this);
-			MoveDirection direction = action.getDir();
-			Point nextPosition = new Point( this.getPosition().x + direction.getXMove(), this.getPosition().y + direction.getYMove()) ;
-			System.out.println(action.getName() + "FROM" + this.getPosition() +" TO " + nextPosition);
-			
-			performAction(action);
-			if (currentPos != this.getPosition()) {
-				currentPos = this.getPosition();
-				samePosition = 0;
-			} else {
-				samePosition++;
-			}
-		}
-		if (e.isArrived()) {
-			System.out.println("ARRIVED");
-		} else {
-			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
-		}*/
-	}
 	
 	/**
 	 * @param action the action we want to perform
-	 * TODO Not call the same functions that update the stateList!!
 	 */
-	public void performAction(ActionEnum action) {
-		if(action!=null){
-			switch(action){
-			case WALK_EAST : 
-				walk(action.getDir(), false);
-				break;
-			case WALK_WEST :
-				walk(action.getDir(), false);
-				break;
-			case DIG_EAST : 
-				dig(action.getDir(), false);
-				break;				
-			case DIG_WEST : 
-				dig(action.getDir(), false);
-				break;
-			case DIG_SOUTH : 
-				dig(action.getDir(), false);
-				break;
-			case CLIMB : 
-				climb(false);
-				break;
-			case JUMP : 
-				jump(false);
-				break;
-			default : break;
+	public void influenceGame(Influence influence) {
+		if (influence != null && (influence instanceof ActionInfluence)) {
+			ActionEnum action = ((ActionInfluence) influence).getType();
+			if(action!=null){
+				switch(action){
+				case WALK_EAST : 
+					walk(action.getDir(), false);
+					break;
+				case WALK_WEST :
+					walk(action.getDir(), false);
+					break;
+				case DIG_EAST : 
+					dig(action.getDir(), false);
+					break;				
+				case DIG_WEST : 
+					dig(action.getDir(), false);
+					break;
+				case DIG_SOUTH : 
+					dig(action.getDir(), false);
+					break;
+				case CLIMB : 
+					climb(false);
+					break;
+				case JUMP : 
+					jump(false);
+					break;
+				default : break;
+				}
 			}
 		}
 	}
