@@ -41,7 +41,7 @@ public class Environment {
 	
 
 	/** Link between agent and Body */
-	private LinkerClass link = new LinkerClass(null, new UUID(0,0), new UUID(22,22));
+	private LinkerClass link = new LinkerClass();
 	
 
 	/** 
@@ -168,7 +168,7 @@ public class Environment {
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		agentBodies.put(ID, body);
-		link.createAgent(ID);
+		link.createAgent(ID,body);
 	}
 	
 	public void createLemmingGame() {
@@ -176,7 +176,7 @@ public class Environment {
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
-		link.createAgent(ID);
+		link.createAgent(ID,body);
 		this.justMovedBody(body);
 	}
 	
@@ -218,7 +218,21 @@ public class Environment {
 				}	
 			}
 		}
+		if(findLemming(body)!=null){
+			link.setPerception(findLemming(body), list);
+		}
 		return list;
+	}
+	
+	private UUID findLemming(Body body){
+		UUID res=null;
+		for(UUID i : agentBodies.keySet()){
+			if(agentBodies.get(i)==body){
+				res = i;
+			}
+		}
+		return res;
+		
 	}
 
 	/**
@@ -612,7 +626,7 @@ public class Environment {
 				bodyId = id;
 			}
 		}
-		link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
+		//link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
 	}
 
 	/**
