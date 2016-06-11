@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import com.hazelcast.mapreduce.impl.task.DefaultContext;
+
 import fr.utbm.vi51.lemmings.agent.Lemming;
 import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
@@ -13,6 +15,8 @@ import io.janusproject.kernel.Kernel;
 import io.sarl.util.OpenEventSpace;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Lifecycle;
+import io.sarl.lang.core.AgentContext;
+import io.sarl.lang.core.EventListener;
 import io.sarl.core.Behaviors;
 
 
@@ -29,6 +33,7 @@ public class LinkerClass {
 	private Kernel ja ;
 	
 	private OpenEventSpace space;
+	private UUID spaceId;
 
 
 	
@@ -56,8 +61,11 @@ public class LinkerClass {
 			Boot.setOffline(true);
 			try {
 				ja=Boot.startJanus((Class) null, Lemming.class,arg);
-				//space=new OpenEventSpace();
-				//space.register(asEventListenner);
+				spaceId=new UUID(0, 1);
+				 AgentContext defaultContext=getSkill(io.sarl.core.DefaultContextInteractions.class).getDefaultContext();;
+				space=defaultContext.<OpenEventSpace>getSpace(spaceId);
+				EventListener asEventListenner=getSkill(io.sarl.core.Behaviors.class).asEventListener() ;
+				space.register(asEventListenner);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
