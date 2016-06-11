@@ -39,13 +39,13 @@ public class Game {
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
-			 *
+			 */
 			
-			launchLearning(worlds, 3);*/
+			launchLearning(worlds, 3);
 			
 			/*
 			 * Uncomment following if you want to play
-			 */
+			 *
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -56,7 +56,7 @@ public class Game {
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
 			//TODO Find a way to play
-			env.createLemmingGame();
+			env.createLemmingGame();*/
 			
 
 		}

@@ -17,6 +17,7 @@ import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
  */
 public class Environment {
 
+	boolean learning = true;
 	/* Matrix of pixels */
 	private WorldPixel[][] world;
 	
@@ -178,6 +179,8 @@ public class Environment {
 		this.agentBodies.put(ID, body);
 		link.createAgent(ID,body);
 		link.setPerception(ID, body.getPerception());
+		learning = false;
+		
 	}
 	
 	
@@ -620,14 +623,17 @@ public class Environment {
 	}
 	
 	void justMovedBody(Body body){
-		UUID bodyId = null;
-		for (UUID id : agentBodies.keySet()) {
-			if (agentBodies.get(id) == body) {
-				bodyId = id;
+		if (!learning) {
+			UUID bodyId = null;
+			for (UUID id : agentBodies.keySet()) {
+				if (agentBodies.get(id) == body) {
+					bodyId = id;
+				}
 			}
+			link.setPerception(bodyId, body.getPerception());
+			//link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
 		}
-		link.setPerception(bodyId, body.getPerception());
-		//link.givePerception(bodyId, body.getPerception(), (LemmingBody) body);
+		
 	}
 
 	/**
