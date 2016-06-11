@@ -1,27 +1,46 @@
 package fr.utbm.vi51.lemmings.^agent
 
 import io.sarl.core.Initialize
-import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.QTable
 import fr.utbm.vi51.lemmings.model.BehaviourOutput
+import fr.utbm.vi51.lemmings.model.Environment
 import fr.utbm.vi51.lemmings.utils.enums.ActionEnum
 import io.sarl.core.Lifecycle
 import fr.utbm.info.vi51.framework.^agent.StandardPhysicEnvironment
 import java.util.UUID
+import java.util.List
+import fr.utbm.vi51.lemmings.model.Influence
 
 agent Lemming  {
 	uses PhysicEnvironment,Lifecycle
 	
 	on Initialize{
+		println("agent")
 		var physicSkill = new StandardPhysicEnvironment(
 			occurrence.parameters.get(0) as UUID,
 			occurrence.parameters.get(1) as UUID)
-		setSkill(PhysicEnvironment, physicSkill)
-				
+		setSkill(PhysicEnvironment, physicSkill)				
 	}
 	
-	on PerceptionEvent{
-		var b = new BehaviourOutput(ActionEnum.CLIMB)
+	on PerceptionEvent {
+		/*var action = ActionEnum.WALK_EAST;
+		val rewardTable = QTable.getCoef(occurrence.perceptions)
+		if (rewardTable != null) {
+			var index = 0;
+			var idAction = 0;
+			val bestReward = -100.0;
+			for (reward : rewardTable){
+				if (bestReward < reward){
+					// The current action is better
+					idAction = index;
+				}
+				index ++;
+			}
+			action = ActionEnum.values().get(idAction) //ActionEnum.WALK_EAST for example
+		}
+		var b = new BehaviourOutput(action)
 		emitInfluence(b)
+		println("PERCEIVING")*/
 	}
 	
 	def emitInfluence(output : BehaviourOutput, influence : Influence*){

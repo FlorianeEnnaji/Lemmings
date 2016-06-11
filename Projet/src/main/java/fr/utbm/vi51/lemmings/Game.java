@@ -71,7 +71,7 @@ public class Game {
 
 =======
 			env.createLemmingGame();*/
->>>>>>> refs/remotes/origin/master
+//>>>>>>> refs/remotes/origin/master
 			
 
 		}

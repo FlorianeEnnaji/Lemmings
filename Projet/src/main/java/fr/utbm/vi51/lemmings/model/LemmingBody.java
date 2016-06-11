@@ -42,7 +42,7 @@ public class LemmingBody extends Body {
 		 */
 	}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	/**
 	 * Game function for moving the body of lemmings
 	 */
@@ -57,7 +57,7 @@ public class LemmingBody extends Body {
 			Point nextPosition = new Point( this.getPosition().x + direction.getXMove(), this.getPosition().y + direction.getYMove()) ;
 			System.out.println(action.getName() + "FROM" + this.getPosition() +" TO " + nextPosition);
 			
-			performAction(action);
+			//performAction(action);
 			if (currentPos != this.getPosition()) {
 				currentPos = this.getPosition();
 				samePosition = 0;
@@ -71,8 +71,8 @@ public class LemmingBody extends Body {
 			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
 		}
 	}
-=======
->>>>>>> refs/remotes/origin/master
+//=======
+//>>>>>>> refs/remotes/origin/master
 	
 	/**
 	 * @param action the action we want to perform
