@@ -48,6 +48,7 @@ public class LemmingBody extends Body {
 	public void influenceGame(Influence influence) {
 		if (influence != null && (influence instanceof ActionInfluence)) {
 			ActionEnum action = ((ActionInfluence) influence).getType();
+			System.out.println(action);
 			if(action!=null){
 				switch(action){
 				case WALK_EAST : 
