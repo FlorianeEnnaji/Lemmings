@@ -418,7 +418,7 @@ public class Environment {
 			Point nextClimbablePosition = new Point(climbablePosition.x, climbablePosition.y + action.getDir().getYMove());
 			Point onTop = new Point(position.x, position.y + MoveDirection.up.getYMove());
 			Point finalPosition = position;
-			int reward = 0;
+			float reward = 0;
 			
 			boolean landed = false;
 			while(!landed) {
@@ -538,7 +538,7 @@ public class Environment {
 			Point jumpablePosition = new Point(position.x + direction.getXMove(), position.y + direction.getYMove());
 			Point finalPosition = position;
 			ActionEnum action = ActionEnum.JUMP;
-			int reward = 0;
+			float reward = 0;
 			
 			boolean landed = false;
 			

@@ -143,7 +143,7 @@ public class QTable {
 	 * @param a (ActionEnum) the action the agent performed
 	 * @param reward (float) the reward gaven by the environment for this action
 	 */
-	public void UpdateCoef(List<PerceivableObject> s, ActionEnum a, int reward){
+	public void UpdateCoef(List<PerceivableObject> s, ActionEnum a, float reward){
 		if (s != null) {
 			if (!this.StateAlreadyVisit(s)){
 				this.AddState(s);
