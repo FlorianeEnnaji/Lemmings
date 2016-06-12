@@ -1,12 +1,12 @@
-package fr.utbm.vi51.lemmings.model;
+package fr.utbm.vi51.lemmings.agent;
 
 import java.util.List;
 import java.util.UUID;
 
-import fr.utbm.vi51.lemmings.QTable;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
-import fr.utbm.vi51.lemmings.model.ActionInfluence;
-import fr.utbm.vi51.lemmings.model.Environment;
+import fr.utbm.vi51.lemmings.learning.QTable;
+import fr.utbm.vi51.lemmings.model.LemmingBody;
+import fr.utbm.vi51.lemmings.model.PerceivableObject;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
 public class LemmingAgent implements Perception_Event {
 	

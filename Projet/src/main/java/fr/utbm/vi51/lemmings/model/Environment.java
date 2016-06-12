@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import fr.utbm.vi51.lemmings.QTable;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
-import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
+import fr.utbm.vi51.lemmings.learning.QTable;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 /**
  * Environment is the class that contains all elements of the world 

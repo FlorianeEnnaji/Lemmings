@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import fr.utbm.vi51.lemmings.agent.LemmingAgent;
+
 /**
  * LinkerClass
  */

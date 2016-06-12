@@ -4,9 +4,11 @@ import java.awt.Point;
 
 import java.util.List;
 
+import fr.utbm.vi51.lemmings.agent.ActionInfluence;
+import fr.utbm.vi51.lemmings.agent.Influence;
 import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
-import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 /**
  * LemmingBody
