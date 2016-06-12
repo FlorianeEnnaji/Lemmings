@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import fr.utbm.vi51.lemmings.Game;
@@ -22,9 +23,14 @@ public class GUI extends JPanel implements Runnable{
 	
 	private static final long serialVersionUID = 123689456945974264L;
 	
+	/**
+	 * Size of a cell in pixel
+	 */
 	public static final int CELL_DIM = 60;
 	
+	
 	private Launcher launcher;
+	
 	private Image entry;
 	private Image empty;
 	private Image dig;
@@ -37,7 +43,14 @@ public class GUI extends JPanel implements Runnable{
 	private Image lemming_climbing_left;
 	private Image lemming_falling;
 	private Image lemming;
-
+	
+	/**
+	*@brief GUI display all the world
+	*@param launcher (Launcher) the launcher containing the game
+	*@return void
+	*@see JPanel
+	*Constructor of the class, we set all the images for the corresponding attributes
+	*/
 	public GUI(Launcher launcher) {
 		super();
 		this.launcher = launcher;
@@ -53,17 +66,23 @@ public class GUI extends JPanel implements Runnable{
 		lemming_climbing_right = (new ImageIcon("./src/img/lemming_climbing_right.png")).getImage();
 		lemming_climbing_left = (new ImageIcon("./src/img/lemming_climbing_left.png")).getImage();
 		lemming_falling = (new ImageIcon("./src/img/lemming.png")).getImage();
-
 		
 		setFocusable(true);
 	}
 	
+	/**
+	*@brief Painting the image corresponding to the object (WorldPixel or LemmingBody
+	*@param g (Graphics)
+	*@return void
+	*/
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(launcher != null) {
 			Environment env = launcher.getEnvironment();
 			WorldPixel[][] map = env.getWorld();
+			
+			//Painting the map
 			if(map != null && env.getHeight() > 0 && env.getWidth() > 0) {
 				for(int y = 0; y < env.getHeight() ; y++) {
 					for(int x = 0; x < env.getWidth() ; x++) {
@@ -89,8 +108,8 @@ public class GUI extends JPanel implements Runnable{
 				}
 			}
 		
+			//Painting the LemmingBody according to his movement
 			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
-			//System.out.println(lemmingsBodies.isEmpty());
 			if(!lemmingsBodies.isEmpty()) {
 				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
 					if(lemming != null) {
@@ -102,6 +121,11 @@ public class GUI extends JPanel implements Runnable{
 		}
 	}
 	
+	/**
+	*@brief Getting the image corresponding to the movement of the lemming
+	*@param lemmingBody (LemmingBody) the body of the lemming
+	*@return Image
+	*/
 	private Image getLemmingImage(LemmingBody lemmingBody) {
 		Image img = lemming;
 		
@@ -110,16 +134,13 @@ public class GUI extends JPanel implements Runnable{
 			if(lemmingBody.isClimbing()) {
 				img = lemming_climbing_right;
 			}
-			
 		}
 		else if(lemmingBody.getDirection() == MoveDirection.left){
 			img = lemming_left;
 			if(lemmingBody.isClimbing()) {
 				img = lemming_climbing_left;
 			}
-			
 		}
-		
 		if(lemmingBody.isFalling()) {
 			img = lemming_falling;
 		}
@@ -129,7 +150,6 @@ public class GUI extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
-		
 		while(true) {
 			repaint();
 			try {
@@ -138,8 +158,8 @@ public class GUI extends JPanel implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
 	}
+	
 }
 
 
