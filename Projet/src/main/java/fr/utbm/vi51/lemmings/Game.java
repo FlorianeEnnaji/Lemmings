@@ -1,5 +1,4 @@
 package fr.utbm.vi51.lemmings;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -16,11 +15,11 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import fr.utbm.vi51.lemmings.agent.Lemming;
+import fr.utbm.vi51.lemmings.gui.Launcher;
 import fr.utbm.vi51.lemmings.model.Environment;
-import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
+import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.model.SpawnMapping;
-import io.janusproject.Boot;
 import io.sarl.lang.core.Agent;
 
 /**
@@ -39,13 +38,16 @@ public class Game {
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
-			 */
 			
-			launchLearning(worlds, 3);
 			
+			launchLearning(worlds, 3); */
+			
+			//launchLearning(worlds, 5);
+
+
 			/*
 			 * Uncomment following if you want to play
-			 *
+			 */
 			
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
@@ -55,8 +57,9 @@ public class Game {
 			env = new Environment(image);
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
-			//TODO Find a way to play
-			env.createLemmingGame();*/
+			
+			new Launcher(env);
+			
 			
 
 		}

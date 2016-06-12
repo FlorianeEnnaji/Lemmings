@@ -41,7 +41,6 @@ public class LemmingBody extends Body {
 		 * Uncomment the following line if you want to play
 		 */
 	}
-
 	
 	/**
 	 * @param action the action we want to perform

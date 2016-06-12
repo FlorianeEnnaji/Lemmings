@@ -1,0 +1,11 @@
+package fr.utbm.vi51.lemmings.^agent
+
+import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.utils.enums.ActionEnum
+
+capacity PhysicEnvironment {
+	
+	def influenceAction(action : ActionEnum = null, otherInfluences : Influence* )
+		
+	
+}

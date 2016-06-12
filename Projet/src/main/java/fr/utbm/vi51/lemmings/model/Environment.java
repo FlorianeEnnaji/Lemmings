@@ -177,10 +177,11 @@ public class Environment {
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
+		System.out.println(this.agentBodies);
 		link.createAgent(ID,body);
 		link.setPerception(ID, body.getPerception());
 		learning = false;
-		
+
 	}
 	
 	
@@ -643,6 +644,9 @@ public class Environment {
 		this.qtable = qt;
 	}
 
-	
+
+	public WorldPixel[][] getWorld() {
+		return this.world;
+	}
 	
 }
