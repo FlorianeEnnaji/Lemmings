@@ -1,7 +1,7 @@
 package fr.utbm.vi51.lemmings.agent;
 
-import fr.utbm.vi51.lemmings.model.Influence;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
+import fr.utbm.vi51.lemmings.agent.Influence;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
 import io.sarl.lang.annotation.DefaultValue;
 import io.sarl.lang.annotation.DefaultValueSource;
 import io.sarl.lang.annotation.DefaultValueUse;
@@ -21,7 +21,7 @@ public interface PhysicEnvironment extends Capacity {
   @SarlSourceCode(" null")
   public final static ActionEnum ___FORMAL_PARAMETER_DEFAULT_VALUE_INFLUENCEACTION_0 = null;
   
-  @DefaultValueUse("fr.utbm.vi51.lemmings.utils.enums.ActionEnum,fr.utbm.vi51.lemmings.model.Influence*")
+  @DefaultValueUse("fr.utbm.vi51.lemmings.utils.ActionEnum,fr.utbm.vi51.lemmings.agent.Influence*")
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   public abstract void influenceAction(final Influence... otherInfluences);
 }

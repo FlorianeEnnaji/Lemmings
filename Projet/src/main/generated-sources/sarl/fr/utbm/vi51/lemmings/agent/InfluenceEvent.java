@@ -1,6 +1,6 @@
 package fr.utbm.vi51.lemmings.agent;
 
-import fr.utbm.vi51.lemmings.model.Influence;
+import fr.utbm.vi51.lemmings.agent.Influence;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.core.Event;
 import java.util.List;
@@ -58,5 +58,5 @@ public class InfluenceEvent extends Event {
   }
   
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
-  private final static long serialVersionUID = 5111205413L;
+  private final static long serialVersionUID = 2920063597L;
 }

@@ -1,12 +1,12 @@
 package fr.utbm.info.vi51.framework.agent;
 
+import fr.utbm.vi51.lemmings.agent.ActionInfluence;
+import fr.utbm.vi51.lemmings.agent.Influence;
 import fr.utbm.vi51.lemmings.agent.InfluenceEvent;
+import fr.utbm.vi51.lemmings.agent.KillInfluence;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
-import fr.utbm.vi51.lemmings.model.ActionInfluence;
-import fr.utbm.vi51.lemmings.model.AddressUUIDScope;
-import fr.utbm.vi51.lemmings.model.Influence;
-import fr.utbm.vi51.lemmings.model.KillInfluence;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.AddressUUIDScope;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
@@ -306,7 +306,7 @@ public class StandardPhysicEnvironment extends Skill implements PhysicEnvironmen
     getSkill(io.sarl.core.Behaviors.class).wake(arg0);
   }
   
-  @DefaultValueUse("fr.utbm.vi51.lemmings.utils.enums.ActionEnum,fr.utbm.vi51.lemmings.model.Influence*")
+  @DefaultValueUse("fr.utbm.vi51.lemmings.utils.ActionEnum,fr.utbm.vi51.lemmings.agent.Influence*")
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @Override
   public final void influenceAction(final Influence... otherInfluences) {

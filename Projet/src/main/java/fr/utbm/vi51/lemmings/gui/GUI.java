@@ -16,7 +16,7 @@ import fr.utbm.vi51.lemmings.Game;
 import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.WorldPixel;
-import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
+import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 public class GUI extends JPanel implements Runnable{
 	

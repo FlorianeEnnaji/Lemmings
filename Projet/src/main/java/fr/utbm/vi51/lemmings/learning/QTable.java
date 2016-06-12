@@ -1,9 +1,9 @@
-package fr.utbm.vi51.lemmings;
+package fr.utbm.vi51.lemmings.learning;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
 /**
  * Define the QTable

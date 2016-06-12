@@ -1,4 +1,4 @@
-package fr.utbm.vi51.lemmings.utils.enums;
+package fr.utbm.vi51.lemmings.utils;
 
 /**
  * Enumeration of move directions
