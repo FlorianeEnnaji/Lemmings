@@ -107,22 +107,22 @@ public class GUI extends JPanel implements Runnable{
 		
 		if(lemmingBody.getDirection() == MoveDirection.right) {
 			img = lemming_right;
-			if(lemmingBody.isClimbing()) {
+			/*if(lemmingBody.isClimbing()) {
 				img = lemming_climbing_right;
-			}
+			}*/
 			
 		}
 		else if(lemmingBody.getDirection() == MoveDirection.left){
 			img = lemming_left;
-			if(lemmingBody.isClimbing()) {
+			/*if(lemmingBody.isClimbing()) {
 				img = lemming_climbing_left;
-			}
+			}*/
 			
 		}
 		
-		if(lemmingBody.isFalling()) {
+		/*if(lemmingBody.isFalling()) {
 			img = lemming_falling;
-		}
+		}*/
 
 		return img;
 	}
