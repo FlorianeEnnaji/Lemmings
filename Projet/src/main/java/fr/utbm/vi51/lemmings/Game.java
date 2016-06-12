@@ -42,11 +42,10 @@ public class Game {
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
+			 *
 			
 			
-			launchLearning(worlds, 3); */
-			
-			//launchLearning(worlds, 5);
+			launchLearning(worlds, 3);*/
 
 
 			/*
