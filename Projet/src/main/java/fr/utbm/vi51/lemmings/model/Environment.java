@@ -222,9 +222,6 @@ public class Environment {
 				}	
 			}
 		}
-		if(findLemming(body)!=null){
-			link.setPerception(findLemming(body), list);
-		}
 		return list;
 	}
 	
@@ -284,13 +281,19 @@ public class Environment {
 						
 						if (!isInWorldDimensions(down) || (down.y - pos.y) < 5) {
 							//He dies
-							if(learningPhase)
+							if(learningPhase) {
 								this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.KILL_HIMSELF.getYourReward());
+							} else {
+								System.out.println("LEMMING DIES");
+							}
 						} else {
 							if (this.world[down.x][down.y].isExit()) {
 								//He landed on exit
-								if(learningPhase)
+								if(learningPhase) {
 									this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+								} else {
+									System.out.println("LEMMING WINS");
+								}
 								this.isArrived = true;
 							} else {
 								//He landed successfully
@@ -303,8 +306,11 @@ public class Environment {
 					}
 				} else if (this.world[pos.x][pos.y].isExit()) {
 					//Lemming has arrived to exit!
-					if(learningPhase)
+					if(learningPhase) {
 						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					} else {
+							System.out.println("LEMMING WINS");
+						}
 					this.isArrived=true;
 				} else {
 					if(learningPhase)
@@ -358,8 +364,11 @@ public class Environment {
 					finalPosition = diggablePosition;
 				} else if (this.world[diggablePosition.x][diggablePosition.y].isDiggable()) {
 					//Dig through exit
-					if(learningPhase)
+					if(learningPhase) {
 						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
+					} else {
+						System.out.println("LEMMING WINS");
+					}
 					this.isArrived=true;
 					body.setPosition(diggablePosition);
 					body.setIsClimbing(false);
@@ -419,6 +428,9 @@ public class Environment {
 						} else {
 							//He falls so die
 							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+							if(!learningPhase) {
+								System.out.println("LEMMING DIES");
+							}
 						}
 						landed = true;
 						
@@ -431,6 +443,9 @@ public class Environment {
 						} else {
 							//He falls so die
 							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+							if(!learningPhase) {
+								System.out.println("LEMMING DIES");
+							}
 						}
 						landed = true;
 						
@@ -447,6 +462,9 @@ public class Environment {
 							//He lands on exit
 							finalPosition = nextClimbablePosition;
 							reward = ActionEnum.GET_OUT.getYourReward();
+							if (!learningPhase) {
+								System.out.println("LEMMING WINS");
+							}
 							landed = true;
 						}
 						
@@ -455,6 +473,9 @@ public class Environment {
 						//He climbs through exit!
 						finalPosition = onTop;
 						reward = ActionEnum.GET_OUT.getYourReward();
+						if (!learningPhase) {
+							System.out.println("LEMMING WINS");
+						}
 						landed = true;
 						this.isArrived = true;
 						
@@ -467,6 +488,9 @@ public class Environment {
 						} else {
 							//He falls so die
 							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+							if(!learningPhase) {
+								System.out.println("LEMMING DIES");
+							}
 						}
 						landed = true;
 						
@@ -524,6 +548,9 @@ public class Environment {
 						} else {
 							//He falls so die
 							reward = ActionEnum.KILL_HIMSELF.getYourReward();
+							if(!learningPhase) {
+								System.out.println("LEMMING DIES");
+							}
 						}
 						landed = true;
 						
@@ -551,11 +578,14 @@ public class Environment {
 						//He landed through exit
 						finalPosition = jumpablePosition;
 						reward = ActionEnum.GET_OUT.getYourReward();
+						if (!learningPhase) {
+							System.out.println("LEMMING WINS");
+						}
 						landed = true;
 						this.isArrived = true;
 					} else {
-						//He lands
-						finalPosition = jumpablePosition;
+						//He landed already
+						finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.up.getYMove());;
 						reward = ActionEnum.Living.getYourReward();
 						landed = true;
 					}
@@ -570,7 +600,9 @@ public class Environment {
 			}
 			if(learningPhase)
 				this.qtable.UpdateCoef(perception, action, action.getYourReward()+reward);
-			body.setPosition(finalPosition);
+			if (position != finalPosition) {
+				body.setPosition(finalPosition);
+			}
 		}
 	}
 	

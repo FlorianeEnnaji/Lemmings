@@ -20,24 +20,27 @@ public class LemmingAgent implements Perception_Event {
 
 	@Override
 	public void perception_Event(List<PerceivableObject> percept) {
-		System.out.println("AGENT GOT PERCEPTIONNNNN");
-		ActionEnum action = ActionEnum.WALK_EAST;
-		float[] rewardTable = body.getEnvironment().getQTable().getCoef(percept);
-		if (rewardTable != null) {
-			int index = 0;
-			int idAction = 0;
-			float bestReward = (float) -100.0;
-			for (float reward : rewardTable){
-				if (bestReward < reward){
-					// The current action is better
-					idAction = index;
+		if (percept.size() != 0) {
+			ActionEnum action = ActionEnum.WALK_EAST;
+			float[] rewardTable = body.getEnvironment().getQTable().getCoef(percept);
+			if (rewardTable != null) {
+				int index = 0;
+				int idAction = 0;
+				float bestReward = (float) -100.0;
+				for (float reward : rewardTable){
+					if (bestReward < reward){
+						bestReward = reward;
+						// The current action is better
+						idAction = index;
+					}
+					index ++;
 				}
-				index ++;
+				action = ActionEnum.values()[idAction]; //ActionEnum.WALK_EAST for example
 			}
-			action = ActionEnum.values()[idAction]; //ActionEnum.WALK_EAST for example
+			emitInfluence(new ActionInfluence(action));
+		} else {
+			System.out.println("AGENT GOT EMPTY PERCEPTION");
 		}
-		emitInfluence(new ActionInfluence(action));
-		
 	}
 
 	public void emitInfluence(ActionInfluence action){
