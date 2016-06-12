@@ -554,8 +554,8 @@ public class Environment {
 						landed = true;
 						this.isArrived = true;
 					} else {
-						//He lands
-						finalPosition = jumpablePosition;
+						//He landed already
+						finalPosition = new Point(jumpablePosition.x, jumpablePosition.y + MoveDirection.up.getYMove());;
 						reward = ActionEnum.Living.getYourReward();
 						landed = true;
 					}
