@@ -13,7 +13,9 @@ import java.util.concurrent.TimeUnit;
 import fr.utbm.vi51.lemmings.agent.LemmingAgent;
 
 /**
- * LinkerClass
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Links agents and their perceptions
+ * @see fr.utbm.vi51.lemmings.model.LemmingAgent
  */
 public class LinkerClass {
 	
@@ -29,7 +31,7 @@ public class LinkerClass {
 
 	
 	/**
-	 * Default Constructor
+	 * @brief Default Constructor
 	 */
 	public LinkerClass(){
 		executorService = Executors.newSingleThreadScheduledExecutor();
@@ -38,6 +40,9 @@ public class LinkerClass {
 	     }, 0, 1, TimeUnit.SECONDS);
 	}
 	
+	/**
+	 * @brief Send perception to the agent
+	 */
 	public Runnable sendPerception(){
 		for (UUID i : agentMind.keySet()) {
 			if (perceptions.get(i)!=null && perceptions.get(i).size() > 0){
@@ -51,6 +56,11 @@ public class LinkerClass {
 		return null;		
 	}
 	
+	/**
+	 * @brief Set perception from Environment
+	 * @param body (UUID) the id of the body
+	 * @param percept (List<PerceivableObject>) the body's perception
+	 */
 	public void setPerception(UUID body, List<PerceivableObject> percept){
 		if(perceptions.containsKey(body)){
 			perceptions.replace(body, percept);
@@ -58,8 +68,9 @@ public class LinkerClass {
 	}
 	
 	/**
-	 * creation of an agent
-	 * @param ID the id of the agent
+	 * @brief Creation of an agent
+	 * @param ID (UUID) the id of the agent
+	 * @param body (LemmingBody) the body corresponding to the agent
 	 */
 	public void createAgent(UUID ID, LemmingBody body){
 		LemmingAgent agent=new LemmingAgent(ID,body);
@@ -96,7 +107,7 @@ public class LinkerClass {
 	}
 	
 	
-	
+	/*
 	/**
 	 * @brief sending onPerception event to agent
 	 * @param ID (UUID)the id of the agent

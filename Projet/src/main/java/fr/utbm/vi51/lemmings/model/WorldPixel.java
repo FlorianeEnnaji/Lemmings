@@ -1,7 +1,8 @@
 package fr.utbm.vi51.lemmings.model;
 
 /**
- * WorldPixel represent a pixel of the world
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief A pixel of a world
  */
 public class WorldPixel implements EnvironmentObject{
 	
@@ -12,12 +13,13 @@ public class WorldPixel implements EnvironmentObject{
 	private boolean entryPixel;
 	private boolean exitPixel;
 	
+	/**Type of the pixel*/
 	private enum Type{
 		dig, empty, climb, entry, exit, ground;
 	}
 	
 	/**
-	 * Constructor
+	 * @brief Constructor
 	 * @param value the Type of the pixel
 	 * @param id the identifier of the pixel
 	 */
@@ -54,6 +56,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the id of the current pixel
 	 */
 	public int getID() {
@@ -61,6 +64,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 
 	/**
+	 * @brief Getter
 	 * @return true if the current pixel is diggable, false otherwise
 	 */
 	public boolean isDiggable() {
@@ -68,6 +72,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 
 	/**
+	 * @brief Getter
 	 * @return true if the current pixel is climbable, false otherwise
 	 */
 	public boolean isClimbable() {
@@ -75,6 +80,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 
 	/**
+	 * @brief Getter
 	 * @return true if the current pixel is empty, false otherwise
 	 */
 	public boolean isEmpty() {
@@ -82,7 +88,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 	
 	/**
-	 * Set an empty pixel
+	 * @brief Sets a pixel empty
 	 */
 	public void setEmpty(){
 		this.climbablePixel = false;
@@ -91,6 +97,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 
 	/**
+	 * @brief Getter
 	 * @return true if the current pixel is the exit, false otherwise
 	 */
 	public boolean isExit() {
@@ -98,6 +105,7 @@ public class WorldPixel implements EnvironmentObject{
 	}
 
 	/**
+	 * @brief Getter
 	 * @return true if the current pixel is the entry, false otherwise
 	 */
 	public boolean isEntry() {

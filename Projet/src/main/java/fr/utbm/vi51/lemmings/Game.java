@@ -24,12 +24,15 @@ import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import io.sarl.lang.core.Agent;
 
 /**
- * Game is the class in which we create the environment and launch the simulation
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Main class in which we create the environment and launch the simulation
+ * This class corresponds to our Game. There're two phases : learning and playing
  */
 public class Game {
 	private static Environment env;
 
 	/**
+	 * @brief Main function where we launch one phase or the other
 	 * @param args
 	 * @throws IOException
 	 */
@@ -69,12 +72,13 @@ public class Game {
 	}
 	
 	/**
-	 * Function that launches a loop to test lots of moving possibilities 
-	 * for the Lemming regarding a list of world
+	 * @brief Fills the QTable
 	 * @throws IOException 
+	 * @param worlds (String[]) the array of paths to world images
+	 * @param nbLemmings (int) the number of lemmings that will cross each world
 	 * 
-	 * @param worlds the array of paths to world images
-	 * @param nbLemmings the number of lemmings that will cross each world
+	 * Launches learning phase for a given number of Lemmings in all the worlds given
+	 * and stores each world's QTable into one
 	 * */
 	public static void launchLearning(String[] worlds, int nbLemmings) throws IOException {
 		File file;
@@ -104,9 +108,10 @@ public class Game {
 	
 	
 	/**
-	 * Function that saves a QTable, in order to reuse it in another instance.
+	 * @brief Saves the two component of the QTable 
 	 * 
-	 * @param qt the QTable we want to save
+	 * @param qt (QTable) the QTable we want to save
+	 * Stores coefList and stateList in .dat files in order to reuse them in another instance.
 	 * */
 	public static void saveQTableInfos(QTable qt){
 		ArrayList<List<PerceivableObject>> state = qt.getStateList();
@@ -141,7 +146,8 @@ public class Game {
 	}
 	
 	/**
-	 * @return the QTable previously saved
+	 * @brief Imports the QTable from a previous learning phase
+	 * @return qt (QTable) the QTable previously saved
 	 * */
 	public static QTable getQTableFromFile(){
 		

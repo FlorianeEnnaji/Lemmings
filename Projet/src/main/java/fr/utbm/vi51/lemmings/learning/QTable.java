@@ -6,16 +6,23 @@ import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
 /**
- * Define the QTable
- *
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Storing all the perceptions and rewards an agent makes while moving
+ * Built in the learning phase and read in the playing phase.
  */
 public class QTable {
 	
+	/**
+	 * All the perceptions the agent went through
+	 */
 	private ArrayList<List<PerceivableObject>> stateList;
+	/**
+	 * All the perceptions the rewards the agent got while performing action in their perceptions
+	 */
 	private ArrayList<float[]> coefList;
 	
 	/**
-	 * Default Constructor
+	 * @brief Default Constructor
 	 */
 	public QTable(){
 		this.stateList=new ArrayList<>();
@@ -23,10 +30,10 @@ public class QTable {
 	}
 	
 	/**
-	 * Constructor of a QTable with a given list of states and associated lists of coefficients 
+	 * @brief Constructor of a QTable with a given list of states and associated lists of coefficients 
 	 * 
-	 * @param stateList a list of different states
-	 * @param coefList all list of coefficients associated the list of states
+	 * @param stateList (ArrayList<List<PerceivableObject>>) a list of different states
+	 * @param coefList (ArrayList<float[]>) all list of coefficients associated the list of states
 	 */
 	public QTable(ArrayList<List<PerceivableObject>> stateList, ArrayList<float[]> coefList){
 		this.stateList = stateList;
@@ -35,9 +42,9 @@ public class QTable {
 	}
 	
 	/**
-	 * Add a state to the current QTable
+	 * @brief Add a state to the current QTable
 	 * 
-	 * @param s a state
+	 * @param s (List<PerceivableObject>) a state
 	 */
 	public void AddState(List<PerceivableObject> s){
 		float[] tmp= new float[ActionEnum.values().length-4];
@@ -49,9 +56,9 @@ public class QTable {
 	}
 	
 	/**
-	 * Check if a state already exists on the QTable
+	 * @brief Check if a state already exists on the QTable
 	 * 
-	 * @param s a state
+	 * @param s (List<PerceivableObject>) a state
 	 * @return true if the list of states contains the state in parameter, false otherwise 
 	 */
 	public boolean StateAlreadyVisit(List<PerceivableObject> s){
@@ -60,7 +67,7 @@ public class QTable {
 	}
 	
 	/**
-	 * Test if a state belongs to the list of states of the QTable
+	 * @brief Test if a state belongs to the list of states of the QTable
 	 * @param s the current state
 	 * @return -1 if the state does not belong to the QTable state list, the index of the state in the QT state list otherwise
 	 */
@@ -101,10 +108,10 @@ public class QTable {
 	}
 		
 	/**
-	 * Get the list of coefficients of a state
+	 * @brief Get the list of coefficients of a state
 	 * 
-	 * @param s a state
-	 * @return the list of coefficients for the state
+	 * @param s (List<PerceivableObject>) a state
+	 * @return the list of coefficients for the state (float[])
 	 */
 	public float[] getCoef(List<PerceivableObject> s){
 		if (StateAlreadyVisit(s)){
@@ -114,9 +121,9 @@ public class QTable {
 	}
 	
 	/**
-	 * Return the list of coefficients corresponding to a state if it exists in the list of state of QTable
-	 * @param s the current state
-	 * @return the list of coefficients corresponding to the current state
+	 * @brief Return the list of coefficients corresponding to a state if it exists in the list of state of QTable
+	 * @param s (List<PerceivableObject>) the current state
+	 * @return the list of coefficients corresponding to the current state (float[])
 	 */
 	public float[] getCoefIfStateExist(List<PerceivableObject> s){
 		int index = this.stateList.indexOf(s);
@@ -130,11 +137,11 @@ public class QTable {
 	}
 
 	/**
-	 * Update the list of coefficients of a state
+	 * @brief Update the list of coefficients of a state
 	 * 
-	 * @param s a state
-	 * @param a
-	 * @param reward
+	 * @param s (List<PerceivableObject>) a state
+	 * @param a (ActionEnum) the action the agent performed
+	 * @param reward (float) the reward gaven by the environment for this action
 	 */
 	public void UpdateCoef(List<PerceivableObject> s, ActionEnum a, int reward){
 		if (s != null) {
@@ -150,14 +157,16 @@ public class QTable {
 	}
 	
 	/**
-	 * @return the list of states
+	 * @brief Getter
+	 * @return stateList (ArrayList<List<PerceivableObject>>) the list of states
 	 */
 	public ArrayList<List<PerceivableObject>> getStateList() {
 		return this.stateList;
 	}
 	
 	/**
-	 * @return all lists of coefficients
+	 * @brief Getter
+	 * @return coefList (ArrayList<float[]>) all lists of coefficients
 	 */
 	public ArrayList<float[]> getCoefList() {
 		return this.coefList;

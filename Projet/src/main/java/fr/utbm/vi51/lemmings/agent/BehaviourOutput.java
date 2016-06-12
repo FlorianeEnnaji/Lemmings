@@ -5,7 +5,8 @@ import java.io.Serializable;
 import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
 /**
- * BehaviourOuptut
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Used by the agent to perform an action
  */
 public class BehaviourOutput implements Serializable {
 
@@ -14,14 +15,15 @@ public class BehaviourOutput implements Serializable {
 	private final ActionEnum action;
 	
 	/**
-	 * Constructor
-	 * @param act
+	 * @brief Constructor
+	 * @param act (ActionEnum)
 	 */
 	public BehaviourOutput(ActionEnum act) {
 		this.action = act;
 	}
 	
 	/**
+	 * @brief Constructor
 	 * @param outputToCopy the BehaviourOutput to copy
 	 */
 	public BehaviourOutput(BehaviourOutput outputToCopy) {
@@ -31,15 +33,16 @@ public class BehaviourOutput implements Serializable {
 	}
 
 	/**
-	 * @return the current action
+	 * @brief Getter
+	 * @return action (ActionEnum) the current action
 	 */
 	public ActionEnum getAction() {
 		return this.action;
 	}
 	
 	/**
-	 * Set the output to copy
-	 * @param outputToCopy the BehaviourOutput to copy
+	 * @brief setter
+	 * @param outputToCopy (BehaviourOutput) the BehaviourOutput to copy
 	 */
 	public void set(BehaviourOutput outputToCopy) {
 		if (outputToCopy!=null) {
