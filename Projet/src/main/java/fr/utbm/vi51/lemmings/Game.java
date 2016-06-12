@@ -15,11 +15,12 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import fr.utbm.vi51.lemmings.agent.Lemming;
+import fr.utbm.vi51.lemmings.agent.SpawnMapping;
 import fr.utbm.vi51.lemmings.gui.Launcher;
+import fr.utbm.vi51.lemmings.learning.QTable;
 import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
-import fr.utbm.vi51.lemmings.model.SpawnMapping;
 import io.sarl.lang.core.Agent;
 
 /**
@@ -38,11 +39,10 @@ public class Game {
 			//String[] worlds = {"./src/img/world1.bmp"};
 			/*
 			 * Comment following if you want to play
+			 *
 			
 			
-			launchLearning(worlds, 3); */
-			
-			//launchLearning(worlds, 5);
+			launchLearning(worlds, 3);*/
 
 
 			/*

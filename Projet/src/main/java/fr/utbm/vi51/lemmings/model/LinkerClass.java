@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import fr.utbm.vi51.lemmings.agent.LemmingAgent;
+
 /**
  * LinkerClass
  */
@@ -38,11 +40,11 @@ public class LinkerClass {
 	
 	public Runnable sendPerception(){
 		for (UUID i : agentMind.keySet()) {
-			if (perceptions.get(i)!=null || perceptions.get(i).size() != 0){
+			if (perceptions.get(i)!=null && perceptions.get(i).size() > 0){
 				List<PerceivableObject> clone = new ArrayList<>();
 				clone.addAll(perceptions.get(i));
-				agentMind.get(i).perception_Event(clone);
 				perceptions.replace(i, new ArrayList<>());
+				agentMind.get(i).perception_Event(clone);
 			}
 			
 		}

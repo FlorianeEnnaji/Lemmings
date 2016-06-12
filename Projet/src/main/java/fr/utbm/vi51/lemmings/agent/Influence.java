@@ -18,24 +18,55 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * This program is free software; you can redistribute it and/or modify
  */
-package fr.utbm.vi51.lemmings.model;
+package fr.utbm.vi51.lemmings.agent;
 
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Abstract implementation of an influence.
  * 
+ * @param <IO> is the type of the influencable objects.
  * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
  * @version $Name$ $Revision$ $Date$
  */
-public class KillInfluence extends Influence {
+public abstract class Influence implements Serializable {
 
-	private static final long serialVersionUID = 1389642917743740069L;
+	private static final long serialVersionUID = -3172105252469025247L;
 
+	private UUID emitter = null;
+	private final UUID influencedObject;
+	
 	/**
-	 * @param agent the identifier of the agent to kill.
+	 * @param influencedObject is the influenced object.
 	 */
-	public KillInfluence() {
-		super(null);
+	protected Influence(UUID influencedObject) {
+		this.influencedObject = influencedObject;
+	}
+	
+	/** Replies the emitter of the influence.
+	 * 
+	 * @return the emitter of the influence.
+	 */
+	public UUID getEmitter() {
+		return this.emitter;
+	}
+	
+	/** Set the emitter of the influence.
+	 * 
+	 * @param emitter is the emitter of the influence.
+	 */
+	void setEmitter(UUID emitter) {
+		assert(emitter!=null);
+		this.emitter = emitter;
+	}
+
+	/** Replies the influenced object.
+	 * 
+	 * @return the influenced object.
+	 */
+	public UUID getInfluencedObject() {
+		return this.influencedObject;
 	}
 	
 }

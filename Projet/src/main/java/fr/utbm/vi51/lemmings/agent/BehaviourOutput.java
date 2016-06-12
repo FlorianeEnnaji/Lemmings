@@ -1,8 +1,8 @@
-package fr.utbm.vi51.lemmings.model;
+package fr.utbm.vi51.lemmings.agent;
 
 import java.io.Serializable;
 
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
 /**
  * BehaviourOuptut

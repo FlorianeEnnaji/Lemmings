@@ -1,11 +1,11 @@
 package fr.utbm.vi51.lemmings.agent;
 
 import fr.utbm.info.vi51.framework.agent.StandardPhysicEnvironment;
+import fr.utbm.vi51.lemmings.agent.BehaviourOutput;
+import fr.utbm.vi51.lemmings.agent.Influence;
 import fr.utbm.vi51.lemmings.agent.PerceptionEvent;
 import fr.utbm.vi51.lemmings.agent.PhysicEnvironment;
-import fr.utbm.vi51.lemmings.model.BehaviourOutput;
-import fr.utbm.vi51.lemmings.model.Influence;
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum;
+import fr.utbm.vi51.lemmings.utils.ActionEnum;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.Destroy;
@@ -52,9 +52,9 @@ public class Lemming extends Agent {
   }
   
   /**
-   * See the capacity {@link fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.model.Influence[])}.
+   * See the capacity {@link fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.agent.Influence[])}.
    * 
-   * @see fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.model.Influence[])
+   * @see fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.agent.Influence[])
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(PhysicEnvironment.class)
@@ -63,9 +63,9 @@ public class Lemming extends Agent {
   }
   
   /**
-   * See the capacity {@link fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.utils.enums.ActionEnum,fr.utbm.vi51.lemmings.model.Influence[])}.
+   * See the capacity {@link fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.utils.ActionEnum,fr.utbm.vi51.lemmings.agent.Influence[])}.
    * 
-   * @see fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.utils.enums.ActionEnum,fr.utbm.vi51.lemmings.model.Influence[])
+   * @see fr.utbm.vi51.lemmings.agent.PhysicEnvironment#influenceAction(fr.utbm.vi51.lemmings.utils.ActionEnum,fr.utbm.vi51.lemmings.agent.Influence[])
    */
   @Generated("io.sarl.lang.jvmmodel.SARLJvmModelInferrer")
   @ImportedCapacityFeature(PhysicEnvironment.class)
