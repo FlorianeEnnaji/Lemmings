@@ -6,56 +6,55 @@ import java.util.List;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 /**
- * Body
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief The physic Body of a player
+ * @see fr.utbm.vi51.lemmings.model.DynamicObject
  */
 public abstract class Body extends DynamicObject {
 
 	private final Environment environment;
 	private MoveDirection direction;
 	private Point position;
-	private boolean isClimbing;
-	private boolean isJumping;
-	private boolean isFalling;
-	private int isFallingHeight;
 	
 	/**
-	 * Constructor
-	 * @param environment the current environment
-	 * @param dir the direction of the body
-	 * @param position the position of the body
+	 * @brief Constructor
+	 * @param environment (Environment) the current environment of the body
+	 * @param dir (MoveDirection) the direction of the body
+	 * @param position (Point) the position of the body
 	 */
 	public Body (Environment environment, MoveDirection dir, Point position){
 		this.environment = environment;
 		this.direction = dir;
 		this.position = position;
-		this.isClimbing = false;
-		this.isJumping = false;
-		this.isFalling = false;
-		this.isFallingHeight = 0;
 	}
 	
 	/**
-	 * @return the environment
+	 * @brief Getter
+	 * @return environment (Environment) the environment the body's in
 	 */
 	public Environment getEnvironment(){
 		return this.environment;
 	}
+	
 	/**
-	 * @param dir the direction to set
+	 * @brief Setter
+	 * @param dir (MoveDirection) the direction to set
 	 */
 	public void setDirection(MoveDirection dir) {
 		this.direction = dir;
 	}
 	
 	/**
-	 * @return the current direction
+	 * @brief Getter
+	 * @return direction (MoveDirection) the current direction
 	 */
 	public MoveDirection getDirection() {
 		return this.direction;
 	}
 	
 	/**
-	 * @param position the position to set
+	 * @brief Setter that also notifies the Environment the body just moved
+	 * @param position (Point) the position to set
 	 */
 	public void setPosition(Point position) {
 		System.out.println("MOVED FROM " + this.position.x + "-" + this.position.y + " TO " + position.x + "-" + position.y);
@@ -64,15 +63,17 @@ public abstract class Body extends DynamicObject {
 	}
 	
 	/**
-	 * @return the current position
+	 * @brief Getter
+	 * @return position (Point) the current position
 	 */
 	public Point getPosition() {
 		return this.position;
 	}
 	
 	/**
-	 * @param dir the direction the body wants to move to
-	 * @param learningPhase 
+	 * @brief Asks the environment to move
+	 * @param dir (MoveDirection) the direction the body wants to move to
+	 * @param learningPhase (boolean)
 	 */
 	public void move(MoveDirection dir, boolean learningPhase) {
 		Environment e = getEnvironment();
@@ -80,73 +81,12 @@ public abstract class Body extends DynamicObject {
 	}
 	
 	/**
-	 * @return the state of the current body
+	 * @brief Gets the body's perception in the environment
+	 * @return the state of the current body (List<PerceivableObject>)
 	 */
 	public List<PerceivableObject> getPerception() {
 		Environment e = getEnvironment();
 		return e.getPerception(this);
 	}
-	
-	/**
-	 * @return true if the body is jumping, false otherwise
-	 */
-	public boolean isJumping() {
-		return this.isJumping;
-	}
-	
-	/**
-	 * @param jump true if the body is jumping, false otherwise
-	 */
-	public void setIsJumping(boolean jump) {
-		this.isJumping = jump;
-	}
-	
-	/**
-	 * @return true if the body is climbing, false otherwise
-	 */
-	public boolean isClimbing() {
-		return this.isClimbing;
-	}
-	
-	/**
-	 * @param climb true if the body is climbing, false otherwise
-	 */
-	public void setIsClimbing(boolean climb) {
-		this.isClimbing = climb;
-	}
-
-	/**
-	 * @return true if the body is falling, false otherwise
-	 */
-	public boolean isFalling() {
-		return this.isFalling;
-	}
-
-	/**
-	 * @param fall true if the body is falling, false otherwise
-	 */
-	public void setIsFalling(boolean fall) {
-		this.isFalling = fall;
-		if (fall) {
-			this.isFallingHeight = 1;
-		} else {
-			this.isFallingHeight = 0;
-		}
-	}
-
-	/**
-	 * @return the number of pixel of the fall height
-	 */
-	public int getFallingHeight() {
-		return this.isFallingHeight;
-	}
-
-	/**
-	 * @param height the number of pixel of the current fall
-	 */
-	public void setFallingHeight(int height) {
-		this.isFallingHeight = height;
-	}
-	
 	
 }

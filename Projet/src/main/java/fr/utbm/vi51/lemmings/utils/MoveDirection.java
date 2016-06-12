@@ -1,7 +1,8 @@
 package fr.utbm.vi51.lemmings.utils;
 
 /**
- * Enumeration of move directions
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Enum of all move directions
  */
 public enum MoveDirection {
 	
@@ -14,7 +15,7 @@ public enum MoveDirection {
 	private final int y_move;
 	
 	/** 
-	 * Constructor
+	 * @brief Constructor
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 */
@@ -24,11 +25,13 @@ public enum MoveDirection {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the x-coordinate of the move direction
 	 */
 	public int getXMove(){return this.x_move;}
 	
 	/**
+	 * @brief Getter
 	 * @return the y-coordinate of the move direction
 	 */
 	public int getYMove(){return this.y_move;}

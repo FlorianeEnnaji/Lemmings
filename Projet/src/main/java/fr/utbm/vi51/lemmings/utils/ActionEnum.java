@@ -1,10 +1,12 @@
 package fr.utbm.vi51.lemmings.utils;
 
 /**
- * Enumeration of possible actions
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Enum of all possible actions
  */
 public enum ActionEnum {
 	
+	/**Moves the Lemming can make*/
 	WALK_EAST("walk",MoveDirection.right,-1),
 	WALK_WEST("walk",MoveDirection.left,-2),
 	DIG_EAST("dig",MoveDirection.right,-2),
@@ -12,6 +14,8 @@ public enum ActionEnum {
 	DIG_WEST("dig",MoveDirection.left,-3),
 	CLIMB("climb",MoveDirection.up,-3),
 	JUMP("jump",MoveDirection.down,-4),
+	
+	/**Condition of the Lemming if he makes a move*/
 	KILL_HIMSELF("kill",-10),
 	NOTHING("nothing",-5),
 	Living("live",0),
@@ -23,7 +27,7 @@ public enum ActionEnum {
 	private final int reward;
 	
 	/**
-	 * Constructor of ActionEnum
+	 * @brief Constructor of ActionEnum
 	 * @param name the name of the action
 	 * @param dir the direction of the action
 	 * @param rew the reward of the action
@@ -35,7 +39,7 @@ public enum ActionEnum {
 	}
 	
 	/**
-	 * Constructor of ActionEnum
+	 * @brief Constructor of ActionEnum
 	 * @param name the name of the action
 	 * @param rew the reward of the action
 	 */
@@ -46,16 +50,19 @@ public enum ActionEnum {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the name of the current action
 	 */
 	public String getName(){return this.actionName;}
 	
 	/**
+	 * @brief Getter
 	 * @return the direction of the current action
 	 */
 	public MoveDirection getDir(){return this.direction;}
 	
 	/**
+	 * @brief Getter
 	 * @return the reward of the current action
 	 */
 	public int getYourReward(){return this.reward;}

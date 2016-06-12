@@ -5,7 +5,8 @@ import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
- * PerceivableObject
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief What the body can see depending on where he is
  */
 public class PerceivableObject implements Serializable {
 	
@@ -19,7 +20,7 @@ public class PerceivableObject implements Serializable {
 	private final boolean exit;
 	
 	/**
-	 * Constructor
+	 * @brief Constructor
 	 * @param coord the coordinates of the perceivable object
 	 * @param dig true if the perceivable object is diggable, false otherwise
 	 * @param empty true if the perceivable object is empty, false otherwise
@@ -37,11 +38,16 @@ public class PerceivableObject implements Serializable {
 		this.exit = exit;
 	}
 	
+	/**
+	 * @brief Getter
+	 * @return the coordinate of the object
+	 */
 	public Point getCoordOfObject() {
 		return this.coordOfObject;
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the x-coordinate of the object
 	 */
 	public int getX(){
@@ -49,19 +55,23 @@ public class PerceivableObject implements Serializable {
 	}
 	
 	/**
-	 * @return the x-coordinate of the object
+	 * @brief Getter
+	 * @return the y-coordinate of the object
 	 */
 	public int getY(){
 		return this.coordOfObject.y;
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return true if the object is diggable, false otherwise
 	 */
 	public boolean isDiggable(){
 		return this.diggable;
 	}
+	
 	/**
+	 * @brief Getter
 	 * @return true if the object is empty, false otherwise
 	 */
 	public boolean isEmpty(){
@@ -69,6 +79,7 @@ public class PerceivableObject implements Serializable {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return true if the object is climbable, false otherwise
 	 */
 	public boolean isClimbable(){
@@ -76,6 +87,7 @@ public class PerceivableObject implements Serializable {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return true if the object is the entry, false otherwise
 	 */
 	public boolean isEntry(){
@@ -83,6 +95,7 @@ public class PerceivableObject implements Serializable {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return true if the object is the exit, false otherwise
 	 */
 	public boolean isExit(){

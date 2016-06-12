@@ -11,7 +11,9 @@ import fr.utbm.vi51.lemmings.utils.ActionEnum;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 /**
- * LemmingBody
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Represents the Lemming's body
+ * @see fr.utbm.vi51.lemmings.model.Body
  */
 public class LemmingBody extends Body {
 
@@ -20,32 +22,31 @@ public class LemmingBody extends Body {
 	private List<PerceivableObject> perception;
 	
 	/**
-	 * Constructor
+	 * @brief Constructor used to learn
 	 * @param environment the environment the body will be placed in
 	 * @param direction the direction of the body
 	 * @param position the position of the body
 	 */
 	public LemmingBody(Environment environment, MoveDirection direction, Point position) {
 		super(environment, direction, position);
-
-		
-		/*
-		 * Comment the 3 following lines if you want to play
-		 */
 		LearningRoutine();
 		setPerception(null);
 		learn();		
 	}
 
+	/**
+	 * @brief Constructor used to play
+	 * @param environment the environment the body will be placed in
+	 * @param direction the direction of the body
+	 * @param position the position of the body
+	 */
 	public LemmingBody(Environment environment, MoveDirection direction, Point position, int a) {
 		super(environment, direction, position);
-		/*
-		 * Uncomment the following line if you want to play
-		 */
 	}
 	
 	/**
-	 * @param action the action we want to perform
+	 * @brief performs an action from an influence -- playing phase
+	 * @param influence (Influence) the influence corresponding to the action we want to perform
 	 */
 	public void influenceGame(Influence influence) {
 		if (influence != null && (influence instanceof ActionInfluence)) {
@@ -80,7 +81,8 @@ public class LemmingBody extends Body {
 	}
 
 	/**
-	 * @param influence
+	 * @brief performs an action from an influence -- learning phase
+	 * @param influence (Influence) the influence corresponding to the action we want to perform
 	 */
 	public void influence(Influence influence) {
 		if(influence!=null){
@@ -111,18 +113,21 @@ public class LemmingBody extends Body {
 				}
 			}
 		}
-		//LearningRoutine();
 	}
 	
 	/**
-	 * @param dir the direction in which the body will walk
+	 * @brief Calls the environment move function
+	 * @param dir (MoveDirection) the direction in which the body will walk
+	 * @param learningPhase (boolean)
 	 */
 	public void walk(MoveDirection dir, boolean learningPhase){
 		move(dir, learningPhase);
 	}
 	
 	/**
-	 * @param dir dir the direction in which the body will dig
+	 * @brief Calls the environment dig function
+	 * @param dir (MoveDirection) the direction in which the body will dig
+	 * @param learningPhase (boolean)
 	 */
 	public void dig (MoveDirection dir, boolean learningPhase){
 		Environment e = getEnvironment();
@@ -130,7 +135,8 @@ public class LemmingBody extends Body {
 	}
 	
 	/**
-	 * The body climb
+	 * @brief Calls the environment climb function
+	 * @param learningPhase (boolean)
 	 */
 	public void climb (boolean learningPhase){
 		Environment e = getEnvironment();
@@ -138,7 +144,8 @@ public class LemmingBody extends Body {
 	}
 	
 	/**
-	 * The body jump
+	 * @brief Calls the environment jump function
+	 * @param learningPhase (boolean)
 	 */
 	public void jump (boolean learningPhase){
 		Environment e = getEnvironment();
@@ -146,12 +153,17 @@ public class LemmingBody extends Body {
 	}
 
 	/**
+	 * @brief getter
 	 * @return the serialVersionUID
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	/**
+	 * @brief Gets and sets the perception of the body
+	 * @return perception (List<PerceivableObject>)
+	 */
 	@Override
 	public List<PerceivableObject> getPerception() {
 		Environment e = getEnvironment();
@@ -161,8 +173,8 @@ public class LemmingBody extends Body {
 	}
 
 	/**
-	 * Set the perception
-	 * @param perception the perception to set
+	 * @brief Sets the perception
+	 * @param perception (List<PerceivableObject>) the perception to set
 	 */
 	public void setPerception(List<PerceivableObject> perception) {
 		assert(perception!=null);
@@ -170,6 +182,10 @@ public class LemmingBody extends Body {
 		this.perception = perception;
 	}
 	
+	/**
+	 * @brief Choose an action to perform in the perception
+	 * @return act (ActionInfuence)
+	 */
 	private ActionInfluence LearningRoutine(){
 		ActionEnum[] pos = ActionEnum.values();
 		int r;
@@ -181,7 +197,7 @@ public class LemmingBody extends Body {
 	}
 	
 	/**
-	 * Learn function
+	 * @brief Tries action in the body's perception to fill the QTable
 	 */
 	public void learn(){
 		Environment e = getEnvironment();

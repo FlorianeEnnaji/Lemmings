@@ -13,31 +13,32 @@ import fr.utbm.vi51.lemmings.utils.ActionEnum;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 /**
- * Environment is the class that contains all elements of the world 
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Contains all elements of the world
  */
 public class Environment {
 
 	boolean learning = true;
-	/* Matrix of pixels */
+	/** Matrix of pixels */
 	private WorldPixel[][] world;
 	
-	/* Height and width of the world */
+	/** Height and width of the world */
 	private int worldHeight = 0;
 	private int worldWidth = 0;
 	
-	/* Color of pixels of the world */
+	/** Color of pixels of the world */
 	private Color lightBrown = new Color(205,133,63);
 	private Color yellow = new Color(255,218,57);
 	private Color brown = new Color(153,102,51);
 	
-	/* Entry and Exit **/
+	/** Entry and Exit */
 	private Point entry;
 	private boolean isArrived=false;
 	
-	/* QTable **/
+	/** QTable */
 	private QTable qtable = new QTable();
 	
-	/* List of agent bodies */
+	/** List of agent bodies */
 	public final Map<UUID,LemmingBody> agentBodies = new TreeMap<UUID,LemmingBody>();
 	
 
@@ -46,15 +47,15 @@ public class Environment {
 	
 
 	/** 
-	 * Default Constructor
+	 * @brief Default Constructor
 	 */
-
 	public Environment(){
 		this.world = new WorldPixel[this.worldWidth][this.worldHeight];	
 	}
 	
 	/**
-	 * @param image the image representing the environment without the Lemmings
+	 * @brief Constructor containing the image of the environment
+	 * @param image (BufferedImage) the .bmp image representing the environment without the Lemmings
 	 */
 	public Environment(BufferedImage image){
 		initializeWorld(image);
@@ -62,9 +63,9 @@ public class Environment {
 	}
 	
 	/**
-	 * World initializing
+	 * @brief World initializing
 	 * 
-	 * @param image the image representing the environment without the Lemmings
+	 * @param image (BufferedImage) the .bmp image representing the environment without the Lemmings
 	 */
 	private void initializeWorld (BufferedImage image){
 		int id = 0;
@@ -77,11 +78,6 @@ public class Environment {
 			for (int xPixel = 0; xPixel < this.worldWidth; xPixel++)
 		    {
 		        int color = image.getRGB(xPixel, yPixel);
-		        /* int alpha = (color >> 24) & 0xFF;
-		        int red =   (color >> 16) & 0xFF;
-		        int green = (color >>  8) & 0xFF;
-		        int blue =  (color      ) & 0xFF;
-		        System.out.println(alpha + " " + red + " " + green + " " + blue); */
 		        if (color==Color.BLACK.getRGB()) {
 		            this.world[xPixel][yPixel] = new WorldPixel("empty", id);
 		        } else if (color==this.lightBrown.getRGB()) {
@@ -100,7 +96,7 @@ public class Environment {
 	}
 	
 	/**
-	 * Print the environment
+	 * @brief Prints the environment in the console
 	 */
 	public void printEnvironment(){
 		for (int i = 0; i < this.worldHeight; i++)
@@ -127,6 +123,7 @@ public class Environment {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the width of the environment
 	 */
 	public int getWidth() {
@@ -134,6 +131,7 @@ public class Environment {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the height of the environment
 	 */
 	public int getHeight() {
@@ -141,37 +139,34 @@ public class Environment {
 	}
 	
 	/**
-	 * @return true is the Lemmings is arrived, false otherwise
+	 * @brief Getter
+	 * @return true is the Lemming is arrived, false otherwise
 	 */
 	public boolean isArrived(){
 		return this.isArrived;
 	}
 	
 	/**
-	 * @return bodies of an agent
+	 * @brief Getter
+	 * @return bodies of all the agents
 	 */
 	public Map<UUID,LemmingBody> getAgentBodies(){
 		return this.agentBodies;
 	}
 	
 	/**
-	 * Create the body
+	 * @brief Create the lemmings for the learning phase
 	 */
 	public void createLemming() {
-		createBody();
-		//TODO fusion with createBody ?
-	}
-	
-	/**
-	 * Create the body
-	 */
-	private void createBody(){
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, entry);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		agentBodies.put(ID, body);
 		link.createAgent(ID,body);
 	}
 	
+	/**
+	 * @brief Create the lemmings for the playing phase
+	 */
 	public void createLemmingGame() {
 		int a = 0;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
@@ -186,10 +181,10 @@ public class Environment {
 	
 	
 	/**
-	 * return the coefficients of a state
+	 * @brief return the coefficients of a state
 	 * 
-	 * @param body the agent's body 
-	 * @return the list of coefficients for the current state of a body
+	 * @param body (Body) the agent's body 
+	 * @return the list of coefficients for the current state of a body (float[])
 	 */
 	public float[] getPerceptionCoef(Body body){
 		List<PerceivableObject> list = new ArrayList<>();
@@ -197,10 +192,12 @@ public class Environment {
 		return this.qtable.getCoef(list);
 	}
 		
-	/** Return the perception of the body 
+	/** 
+	 * @brief Returns the perception of the body 
 	 * 
-	 * @param body 
-	 * @return the perception of the body*/
+	 * @param body (Body)
+	 * @return the perception of the body (List<PerceivableObject>)
+	 */
 	public List<PerceivableObject> getPerception(Body body) {
 		List<PerceivableObject> list = new ArrayList<>();
 		Point position = body.getPosition();
@@ -228,6 +225,12 @@ public class Environment {
 		return list;
 	}
 	
+	/** 
+	 * @brief finds the identifier of the body 
+	 * 
+	 * @param body (Body)
+	 * @return res (UUID) the identifier of the given body
+	 */
 	private UUID findLemming(Body body){
 		UUID res=null;
 		for(UUID i : agentBodies.keySet()){
@@ -236,14 +239,14 @@ public class Environment {
 			}
 		}
 		return res;
-		
 	}
 
 	/**
-	 * Move a body to a direction
+	 * Moves a body to a direction
 	 * 
-	 * @param body the body to move
-	 * @param direction the direction of the body
+	 * @param body (Body) the body to move
+	 * @param direction (MoveDirection) the direction of the body
+	 * @param learningPhase (boolean) the phase we're in
 	 */
 	public void move(Body body, MoveDirection direction, boolean learningPhase) {
 		Point position = body.getPosition();
@@ -317,13 +320,14 @@ public class Environment {
 		}
 	}
 	
+
 	/**
-	 * Function that moves the lemming's body and change diggable pixel
-	 * if he can dig the pixel in his direction,
-	 * or if he is digging, carry on or moves in his direction
+	 * @brief Digs a pixel and moves a body to this direction
+	 * @param body (Body) the body to move
+	 * @param direction (MoveDirection) the direction of the body
+	 * @param learningPhase (boolean) the phase we're in
 	 * 
-	 * @param body the body to move
-	 * @param direction the direction of the lemmings
+	 * Moves the lemming's body and change diggable pixel's nature
 	 */
 	public void dig (Body body, MoveDirection direction, boolean learningPhase){
 		if (body != null) {
@@ -362,7 +366,6 @@ public class Environment {
 						this.qtable.UpdateCoef(perception, action, action.getYourReward()+ActionEnum.GET_OUT.getYourReward());
 					this.isArrived=true;
 					body.setPosition(diggablePosition);
-					body.setIsClimbing(false);
 					return;
 				} else {
 					if(learningPhase)
@@ -384,10 +387,11 @@ public class Environment {
 	}
 	
 	/**
-	 * Function that moves the lemmings if he can climb the pixel in his direction,
-	 * or if he is climbing, carry on or land safely
+	 * @brief Makes a body climb
+	 * @param body (Body) the body to move
+	 * @param learningPhase (boolean) the phase we're in
 	 * 
-	 * @param body the body to move
+	 * Moves the lemming if he can climb the pixel in his direction
 	 */
 	public void climb (Body body, boolean learningPhase){
 		if (body != null) {
@@ -490,10 +494,11 @@ public class Environment {
 	}
 	
 	/**
-	 * Function that moves the lemming if he can jump in his direction 
-	 * or if he is jumping, carry on or land safely
+	 * @brief Makes a body jump
+	 * @param body (Body) the body to move
+	 * @param learningPhase (boolean) the phase we're in
 	 * 
-	 * @param body the body to move
+	 * Moves the lemming if he can jump in his direction
 	 */
 	public void jump (Body body, boolean learningPhase){
 		if (body != null) {
@@ -546,7 +551,6 @@ public class Environment {
 					} else if (this.world[jumpablePosition.x][jumpablePosition.y].isEmpty()) {
 						//He is jumping
 						finalPosition = jumpablePosition;
-						body.setIsJumping(true);
 					} else if (this.world[jumpablePosition.x][jumpablePosition.y].isExit()) {
 						//He landed through exit
 						finalPosition = jumpablePosition;
@@ -575,9 +579,9 @@ public class Environment {
 	}
 	
 	/**
-	 * Get if a position belongs to the world
+	 * @brief Get if a position belongs to the world
 	 * 
-	 * @param position the position to check
+	 * @param position (Point) the position to check
 	 * @return true if the position belongs to the world, false otherwise
 	 */
 	public boolean isInWorldDimensions(Point position) {
@@ -586,6 +590,7 @@ public class Environment {
 	}
 	
 	/**
+	 * @brief Getter
 	 * @return the QTable of the current environment
 	 */
 	public QTable getQTable() {
@@ -593,10 +598,10 @@ public class Environment {
 	}
 	
 	/**
-	 * Get the best move for a state
+	 * @brief Get the best move for a state
 	 * 
-	 * @param body the current body
-	 * @return the best action considering the current state
+	 * @param body (Body) the current body
+	 * @return the best action considering the current state (ActionEnum)
 	 */
 	public ActionEnum getBestMove(Body body){
 		List<PerceivableObject> bodyState = getPerception(body);
@@ -623,6 +628,12 @@ public class Environment {
 	
 	}
 	
+	/**
+	 * @brief Notification that a body has moved
+	 * @param body (Body) the body that moved
+	 * 
+	 * Sets the perception of the agent corresponding to this body
+	 */
 	void justMovedBody(Body body){
 		if (!learning) {
 			UUID bodyId = null;
@@ -638,13 +649,17 @@ public class Environment {
 	}
 
 	/**
+	 * @brief Setter
 	 * @param the QTable we want to give to the environment
 	 */
 	public void setQTable(QTable qt){
 		this.qtable = qt;
 	}
 
-
+	/**
+	 * @brief Getter
+	 * @return the world
+	 */
 	public WorldPixel[][] getWorld() {
 		return this.world;
 	}

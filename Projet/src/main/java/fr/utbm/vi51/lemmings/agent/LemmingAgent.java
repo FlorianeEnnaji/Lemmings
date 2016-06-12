@@ -8,16 +8,33 @@ import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.PerceivableObject;
 import fr.utbm.vi51.lemmings.utils.ActionEnum;
 
+/**
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief The Lemming agent
+ * @see fr.utbm.vi51.lemmings.agent.Perception_Event
+ * 
+ * The autonomous entity that plays the game by itself
+ */
 public class LemmingAgent implements Perception_Event {
 	
 	private UUID ID;
 	private LemmingBody body;
 	
+	/**
+	 * @brief Constructor
+	 * @param i (UUID) the identifier of the agent
+	 * @param b (LemmingBody) the body of the agent
+	 */
 	public LemmingAgent(UUID i, LemmingBody b){
 		ID=i;
 		body=b;
 	}
 
+	/**
+	 * @brief Determines the action to perform regarding the perception received
+	 * @param percept (List<PerceivableObject>) the perception of the agent
+	 * @see perception_Event
+	 */
 	@Override
 	public void perception_Event(List<PerceivableObject> percept) {
 		System.out.println("AGENT GOT PERCEPTIONNNNN");
@@ -40,6 +57,10 @@ public class LemmingAgent implements Perception_Event {
 		
 	}
 
+	/**
+	 * @brief Emits the influence to perform the action
+	 * @param action (ActionInfluence) the influence of the action the agent wants to perform
+	 */
 	public void emitInfluence(ActionInfluence action){
 		body.influenceGame(action);
 		//body.influence(action);
