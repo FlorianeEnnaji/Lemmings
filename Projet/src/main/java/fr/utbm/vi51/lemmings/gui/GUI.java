@@ -90,7 +90,7 @@ public class GUI extends JPanel implements Runnable{
 			}
 		
 			Map<UUID, LemmingBody> lemmingsBodies = env.getAgentBodies();
-			
+			//System.out.println(lemmingsBodies.isEmpty());
 			if(!lemmingsBodies.isEmpty()) {
 				for ( Entry<UUID, LemmingBody> lemming : lemmingsBodies.entrySet()){ 
 					if(lemming != null) {

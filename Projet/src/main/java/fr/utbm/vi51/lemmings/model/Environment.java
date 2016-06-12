@@ -175,17 +175,13 @@ public class Environment {
 	public void createLemmingGame() {
 		int a = 0;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
-//<<<<<<< HEAD
-//		this.agentBodies.put(new UUID(1, this.agentBodies.size()+1), body);
-//		return body;
-//=======
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
+		System.out.println(this.agentBodies);
 		link.createAgent(ID,body);
 		link.setPerception(ID, body.getPerception());
 		learning = false;
-//>>>>>>> refs/remotes/origin/master
-		
+
 	}
 	
 	

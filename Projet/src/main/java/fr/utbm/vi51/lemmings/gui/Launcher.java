@@ -80,11 +80,10 @@ public class Launcher extends JFrame implements Runnable {
 	
 	@Override
 	public void run() {
-		LemmingBody body = environment.createLemmingGame();
+		environment.createLemmingGame();
 		while (true) {
 			try {		
-				Thread.sleep(1000);
-				body.moveLemmingBody();		
+				Thread.sleep(1000);		
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -41,38 +41,6 @@ public class LemmingBody extends Body {
 		 * Uncomment the following line if you want to play
 		 */
 	}
-
-//<<<<<<< HEAD
-	/**
-	 * Game function for moving the body of lemmings
-	 */
-	public void moveLemmingBody() {
-		Environment e = getEnvironment();
-		Point currentPos = this.getPosition();
-		
-		int samePosition = 0;
-		//while(!e.isArrived() && samePosition < 100) {
-			ActionEnum action = e.getBestMove(this);
-			MoveDirection direction = action.getDir();
-			Point nextPosition = new Point( this.getPosition().x + direction.getXMove(), this.getPosition().y + direction.getYMove()) ;
-			System.out.println(action.getName() + "FROM" + this.getPosition() +" TO " + nextPosition);
-			
-			//performAction(action);
-			if (currentPos != this.getPosition()) {
-				currentPos = this.getPosition();
-				samePosition = 0;
-			} else {
-				samePosition++;
-			}
-		//}
-		if (e.isArrived()) {
-			System.out.println("ARRIVED");
-		} else {
-			System.out.println("BLOCKED in " + currentPos.x + ", " + currentPos.y);
-		}
-	}
-//=======
-//>>>>>>> refs/remotes/origin/master
 	
 	/**
 	 * @param action the action we want to perform
