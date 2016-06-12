@@ -24,7 +24,7 @@ public enum ActionEnum {
 
 	private final String actionName;
 	private final MoveDirection direction;
-	private final int reward;
+	private final float reward;
 	
 	/**
 	 * @brief Constructor of ActionEnum
@@ -32,7 +32,7 @@ public enum ActionEnum {
 	 * @param dir the direction of the action
 	 * @param rew the reward of the action
 	 */
-	ActionEnum(String name, MoveDirection dir, int rew){
+	ActionEnum(String name, MoveDirection dir, float rew){
 		this.actionName=name;
 		this.direction=dir;
 		this.reward=rew;
@@ -43,7 +43,7 @@ public enum ActionEnum {
 	 * @param name the name of the action
 	 * @param rew the reward of the action
 	 */
-	ActionEnum(String name,int rew){
+	ActionEnum(String name,float rew){
 		this.actionName=name;
 		this.direction=null;
 		this.reward=rew;
@@ -65,6 +65,6 @@ public enum ActionEnum {
 	 * @brief Getter
 	 * @return the reward of the current action
 	 */
-	public int getYourReward(){return this.reward;}
+	public float getYourReward(){return this.reward;}
 	
 }
