@@ -18,6 +18,10 @@ import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
+/**
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Launcher which link the GUI with the Game
+ */
 public class Launcher extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = -1254993287812657782L;
@@ -31,7 +35,6 @@ public class Launcher extends JFrame implements Runnable {
 	/**
 	*@brief The launcher make the link between the GUI and the Game
 	*@param env (Environment) the environment of the game
-	*@return void
 	*@see JFrame
 	*Constructor of the class
 	*/

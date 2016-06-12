@@ -19,6 +19,10 @@ import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.model.WorldPixel;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
+/**
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Implementation and displaying of the environment and its lemmings
+ */
 public class GUI extends JPanel implements Runnable{
 	
 	private static final long serialVersionUID = 123689456945974264L;
@@ -47,7 +51,6 @@ public class GUI extends JPanel implements Runnable{
 	/**
 	*@brief GUI display all the world
 	*@param launcher (Launcher) the launcher containing the game
-	*@return void
 	*@see JPanel
 	*Constructor of the class, we set all the images for the corresponding attributes
 	*/
@@ -73,7 +76,6 @@ public class GUI extends JPanel implements Runnable{
 	/**
 	*@brief Painting the image corresponding to the object (WorldPixel or LemmingBody
 	*@param g (Graphics)
-	*@return void
 	*/
 	@Override
 	protected void paintComponent(Graphics g) {
