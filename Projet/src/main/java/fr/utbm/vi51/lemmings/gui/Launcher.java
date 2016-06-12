@@ -18,28 +18,51 @@ import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
 import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
+/**
+ * @author antonin.waltz@utbm.fr, floriane.ennaji@utbm.fr, lucille.gomez@utbm.fr, romain.thibaud@utbm.fr
+ * @brief Launcher which link the GUI with the Game
+ */
 public class Launcher extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = -1254993287812657782L;
-
 	private Environment environment = null;
-
+	
+	/**
+	 * The representation of the environment
+	 */
 	private GUI level;
 
-	private void launch(Environment env) {
-		this.setEnvironment(env);
-		new Thread(this).start();
-	}
-	
+	/**
+	*@brief The launcher make the link between the GUI and the Game
+	*@param env (Environment) the environment of the game
+	*@see JFrame
+	*Constructor of the class
+	*/
 	public Launcher(Environment env) {
 		super("VI51 Project - Lemmings");
 
 		setGUI();
 
 		launch(env);
+		
 		new Thread(level).start();
 	}
 	
+	/**
+	*@brief Setting the environment and start the thread
+	*@param env (Environment) the environment of the game
+	*@return void
+	*/
+	private void launch(Environment env) {
+		this.setEnvironment(env);
+		new Thread(this).start();
+	}
+	
+	/**
+	*@brief Setting the GUI
+	*@return void
+	*Setting the GUI with size, layout, etc.
+	*/
 	private void setGUI() {
 
 		level = new GUI(this);
@@ -71,13 +94,11 @@ public class Launcher extends JFrame implements Runnable {
 			}
 		});
 
-
 	}
-
 	
-	
-	
-	
+	/**
+	 * @brief Creation of the lemmings game and temporization between each step
+	 */
 	@Override
 	public void run() {
 		environment.createLemmingGame();
@@ -87,12 +108,7 @@ public class Launcher extends JFrame implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 		}
-		
-		
-		
-		
 	}
 
 	public Environment getEnvironment() {
