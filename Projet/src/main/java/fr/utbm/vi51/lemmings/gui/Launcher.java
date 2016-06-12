@@ -16,7 +16,7 @@ import fr.utbm.vi51.lemmings.agent.Lemming;
 import fr.utbm.vi51.lemmings.model.Body;
 import fr.utbm.vi51.lemmings.model.Environment;
 import fr.utbm.vi51.lemmings.model.LemmingBody;
-import fr.utbm.vi51.lemmings.utils.enums.MoveDirection;
+import fr.utbm.vi51.lemmings.utils.MoveDirection;
 
 public class Launcher extends JFrame implements Runnable {
 

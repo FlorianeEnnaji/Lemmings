@@ -1,15 +1,15 @@
 package fr.utbm.vi51.lemmings.^agent
 
 import io.sarl.core.Initialize
-import fr.utbm.vi51.lemmings.QTable
-import fr.utbm.vi51.lemmings.model.BehaviourOutput
+import fr.utbm.vi51.lemmings.learning.QTable
+import fr.utbm.vi51.lemmings.^agent.BehaviourOutput
 import fr.utbm.vi51.lemmings.model.Environment
-import fr.utbm.vi51.lemmings.utils.enums.ActionEnum
+import fr.utbm.vi51.lemmings.utils.ActionEnum
 import io.sarl.core.Lifecycle
 import fr.utbm.info.vi51.framework.^agent.StandardPhysicEnvironment
 import java.util.UUID
 import java.util.List
-import fr.utbm.vi51.lemmings.model.Influence
+import fr.utbm.vi51.lemmings.^agent.Influence
 
 agent Lemming  {
 	uses PhysicEnvironment,Lifecycle

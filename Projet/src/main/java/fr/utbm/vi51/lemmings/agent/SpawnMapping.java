@@ -18,42 +18,35 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * This program is free software; you can redistribute it and/or modify
  */
-package fr.utbm.vi51.lemmings.model;
+package fr.utbm.vi51.lemmings.agent;
 
-import io.sarl.lang.core.Address;
-import io.sarl.lang.core.Scope;
 
-import java.util.UUID;
+import fr.utbm.vi51.lemmings.model.LemmingBody;
+import io.sarl.lang.core.Agent;
 
-/** This scope is accepting the addresses that has the agent with the given identifier.
+/**
+ * Define the spawning mapping
  * 
  * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
  * @version $Name$ $Revision$ $Date$
  */
-public class AddressUUIDScope implements Scope<Address> {
-	
-	private static final long serialVersionUID = -854440717352244448L;
+public abstract class SpawnMapping {
 
-	private static final String SCOPE_ID = "uuid://"; //$NON-NLS-1$
-
-	private final UUID id;
-
-	/**
-	 * @param id - identifier to put in the scope.
+	/** Replies the agent type for a body.
+	 * 
+	 * @param body the body of the agent
+	 * @return the type of a agent for the given body.
 	 */
-	public AddressUUIDScope(UUID id) {
-	    this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return SCOPE_ID + this.id.toString();
-	}
-
-	@Override
-	public boolean matches(Address address) {
-		assert (address != null);
-		return this.id.equals(address.getUUID());
-	}
+	public abstract Class<? extends Agent> getAgentTypeForBody(LemmingBody body);	
 	
+	/** Replies the agent type for a body.
+	 * 
+	 * @param body The body of the agent
+	 * @return the type of a agent for the given body.
+	 * @see #getAgentTypeForBody(AgentBody)
+	 */
+	public final Class<? extends Agent> operator_doubleArrow(LemmingBody body) {
+		return getAgentTypeForBody(body);
+	}
+
 }

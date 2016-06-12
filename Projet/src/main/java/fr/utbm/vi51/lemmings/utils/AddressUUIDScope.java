@@ -18,34 +18,42 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * This program is free software; you can redistribute it and/or modify
  */
-package fr.utbm.vi51.lemmings.model;
+package fr.utbm.vi51.lemmings.utils;
 
+import io.sarl.lang.core.Address;
+import io.sarl.lang.core.Scope;
 
-import io.sarl.lang.core.Agent;
+import java.util.UUID;
 
-/**
- * Define the spawning mapping
+/** This scope is accepting the addresses that has the agent with the given identifier.
  * 
  * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
  * @version $Name$ $Revision$ $Date$
  */
-public abstract class SpawnMapping {
-
-	/** Replies the agent type for a body.
-	 * 
-	 * @param body the body of the agent
-	 * @return the type of a agent for the given body.
-	 */
-	public abstract Class<? extends Agent> getAgentTypeForBody(LemmingBody body);	
+public class AddressUUIDScope implements Scope<Address> {
 	
-	/** Replies the agent type for a body.
-	 * 
-	 * @param body The body of the agent
-	 * @return the type of a agent for the given body.
-	 * @see #getAgentTypeForBody(AgentBody)
+	private static final long serialVersionUID = -854440717352244448L;
+
+	private static final String SCOPE_ID = "uuid://"; //$NON-NLS-1$
+
+	private final UUID id;
+
+	/**
+	 * @param id - identifier to put in the scope.
 	 */
-	public final Class<? extends Agent> operator_doubleArrow(LemmingBody body) {
-		return getAgentTypeForBody(body);
+	public AddressUUIDScope(UUID id) {
+	    this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return SCOPE_ID + this.id.toString();
+	}
+
+	@Override
+	public boolean matches(Address address) {
+		assert (address != null);
+		return this.id.equals(address.getUUID());
+	}
+	
 }
