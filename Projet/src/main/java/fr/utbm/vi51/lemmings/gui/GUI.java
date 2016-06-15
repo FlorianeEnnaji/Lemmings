@@ -155,12 +155,10 @@ public class GUI extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-			repaint();
-			try {
-				Thread.currentThread().sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
+			
+				repaint();
+				//Thread.currentThread().sleep(5000);
 		}
 	}
 	

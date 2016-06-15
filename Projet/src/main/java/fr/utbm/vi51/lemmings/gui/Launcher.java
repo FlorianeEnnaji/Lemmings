@@ -31,6 +31,7 @@ public class Launcher extends JFrame implements Runnable {
 	 * The representation of the environment
 	 */
 	private GUI level;
+	
 
 	/**
 	*@brief The launcher make the link between the GUI and the Game
@@ -40,7 +41,6 @@ public class Launcher extends JFrame implements Runnable {
 	*/
 	public Launcher(Environment env) {
 		super("VI51 Project - Lemmings");
-
 		setGUI();
 
 		launch(env);

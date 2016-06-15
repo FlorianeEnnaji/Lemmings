@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import fr.utbm.vi51.lemmings.learning.QTable;
 import fr.utbm.vi51.lemmings.utils.ActionEnum;
@@ -21,6 +24,9 @@ public class Environment {
 	boolean learning = true;
 	/** Matrix of pixels */
 	private WorldPixel[][] world;
+	private final ScheduledExecutorService executorService;
+	
+	private int nb_lemm;
 	
 	/** Height and width of the world */
 	private int worldHeight = 0;
@@ -49,17 +55,27 @@ public class Environment {
 	/** 
 	 * @brief Default Constructor
 	 */
-	public Environment(){
-		this.world = new WorldPixel[this.worldWidth][this.worldHeight];	
+	public Environment(int nb_lemm){
+		this.nb_lemm = nb_lemm;
+		this.world = new WorldPixel[this.worldWidth][this.worldHeight];
+		executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.scheduleAtFixedRate(new Runnable() {
+		       public void run() { createLemmingGame(); }
+	     }, 0, 1, TimeUnit.SECONDS);
 	}
 	
 	/**
 	 * @brief Constructor containing the image of the environment
 	 * @param image (BufferedImage) the .bmp image representing the environment without the Lemmings
 	 */
-	public Environment(BufferedImage image){
+	public Environment(BufferedImage image, int nb_lem ){
+		this.nb_lemm = nb_lem;
 		initializeWorld(image);
 		printEnvironment();
+		executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.scheduleAtFixedRate(new Runnable() {
+		       public void run() { if(nb_lemm>=0){createLemmingGame();} }
+	     }, 0, 1, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -168,7 +184,7 @@ public class Environment {
 	 * @brief Create the lemmings for the playing phase
 	 */
 	public void createLemmingGame() {
-		int a = 0;
+		int a = 1;
 		LemmingBody body = new LemmingBody(this, MoveDirection.right, this.entry, a);
 		UUID ID = new UUID(1, agentBodies.size()+1);
 		this.agentBodies.put(ID, body);
@@ -176,6 +192,7 @@ public class Environment {
 		link.createAgent(ID,body);
 		link.setPerception(ID, body.getPerception());
 		learning = false;
+		this.nb_lemm--;
 
 	}
 	

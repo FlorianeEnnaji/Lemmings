@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
@@ -51,13 +52,14 @@ public class Game {
 			/*
 			 * Uncomment following if you want to play
 			 */
-			
+			Scanner sc = new Scanner(System.in);
+			int nb_lemmings = sc.nextInt();
 			Random rand = new Random();
 			int worldNb = rand.nextInt(worlds.length);
 			
 			File file = new File(worlds[worldNb]);
 			BufferedImage image = ImageIO.read(file);
-			env = new Environment(image);
+			env = new Environment(image, nb_lemmings);
 			QTable qt = getQTableFromFile();
 			env.setQTable(qt);
 			
@@ -88,7 +90,7 @@ public class Game {
 				file = new File(world);
 				BufferedImage image = ImageIO.read(file);
 				
-				env = new Environment(image);
+				env = new Environment(image,nbLemmings);
 				for (int i = 0; i < nbLemmings; i++){
 					env.createLemming();
 				}
